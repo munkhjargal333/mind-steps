@@ -1,16 +1,9 @@
 // ════════════════════════════════════════════════════════════════════════════════
-// app/(dashboard)/emotions/page.tsx
-// Page file - routing logic ONLY
-// All rendering logic lives in features/emotions/views/EmotionsView.tsx
+// providers/index.ts
+// Barrel export for all global providers
 // ════════════════════════════════════════════════════════════════════════════════
 
-import { Suspense } from "react"
-import { EmotionsView, EmotionsSkeleton } from "@/features/emotions"
-
-export default function Page() {
-  return (
-    <Suspense fallback={<EmotionsSkeleton />}>
-      <EmotionsView />
-    </Suspense>
-  )
-}
+export { AuthProvider, useAuth } from './AuthProvider';
+export { ThemeProvider, useTheme } from './ThemeProvider';
+export { TierProvider, useThoughtContext } from './TierProvider';
+export { ToastProvider, useToast } from './ToastProvider';

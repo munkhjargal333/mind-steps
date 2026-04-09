@@ -1,16 +1,7 @@
 // ════════════════════════════════════════════════════════════════════════════════
-// app/(dashboard)/emotions/page.tsx
-// Page file - routing logic ONLY
-// All rendering logic lives in features/emotions/views/EmotionsView.tsx
+// components/layout/index.ts
+// Barrel export for layout components
 // ════════════════════════════════════════════════════════════════════════════════
 
-import { Suspense } from "react"
-import { EmotionsView, EmotionsSkeleton } from "@/features/emotions"
-
-export default function Page() {
-  return (
-    <Suspense fallback={<EmotionsSkeleton />}>
-      <EmotionsView />
-    </Suspense>
-  )
-}
+export { DashboardLayout } from './DashboardLayout';
+export { MainHeader } from './MainHeader';

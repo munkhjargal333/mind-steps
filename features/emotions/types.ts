@@ -1,16 +1,17 @@
 // ════════════════════════════════════════════════════════════════════════════════
-// app/(dashboard)/emotions/page.tsx
-// Page file - routing logic ONLY
-// All rendering logic lives in features/emotions/views/EmotionsView.tsx
+// features/emotions/types.ts
+// Type definitions for the emotions feature
 // ════════════════════════════════════════════════════════════════════════════════
 
-import { Suspense } from "react"
-import { EmotionsView, EmotionsSkeleton } from "@/features/emotions"
+export interface EmotionStat {
+  emotion: string;
+  score_sum: number;
+  count: number;
+  percentage: number;
+}
 
-export default function Page() {
-  return (
-    <Suspense fallback={<EmotionsSkeleton />}>
-      <EmotionsView />
-    </Suspense>
-  )
+export interface EmotionsFeatureState {
+  stats: EmotionStat[];
+  loading: boolean;
+  error: string | null;
 }

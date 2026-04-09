@@ -1,16 +1,8 @@
 // ════════════════════════════════════════════════════════════════════════════════
-// app/(dashboard)/emotions/page.tsx
-// Page file - routing logic ONLY
-// All rendering logic lives in features/emotions/views/EmotionsView.tsx
+// features/emotions/components/index.ts
+// Public API for emotions feature components
 // ════════════════════════════════════════════════════════════════════════════════
 
-import { Suspense } from "react"
-import { EmotionsView, EmotionsSkeleton } from "@/features/emotions"
-
-export default function Page() {
-  return (
-    <Suspense fallback={<EmotionsSkeleton />}>
-      <EmotionsView />
-    </Suspense>
-  )
-}
+export { EmotionBar } from './EmotionBar';
+export { EmotionStatsList } from './EmotionStatsList';
+export { EmotionsSkeleton } from './EmotionsSkeleton';
