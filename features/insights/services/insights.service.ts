@@ -7,7 +7,7 @@
 export {
   listDeepInsights,
   getSeedInsight,
-} from '@/lib/services/journal.service';
+} from '@/features/entries/services/entries.service';
 
 export type {
   DeepInsight,

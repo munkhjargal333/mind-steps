@@ -8,13 +8,13 @@
 
 import { Suspense } from 'react';
 import { Search, Trash2, BookOpen } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { Input } from '@/shared/ui/input';
+import { Button } from '@/shared/ui/button';
 import { ActionBadge } from '@/components/atoms/ActionBadge';
 import { useEntries } from '@/features/entries/hooks/useEntries';
 import { useThoughtContext } from '@/contexts/TierContext';
-import { cn } from '@/lib/utils';
-import { relativeTimeMn } from '@/lib/utils/date';
+import { cn } from '@/shared/utils/utils';
+import { relativeTimeMn } from '@/shared/utils/date';
 
 export default function EntriesPage() {
   return (

@@ -3,7 +3,7 @@
 // Journal feature API calls — pure functions, NO React
 // ════════════════════════════════════════════════════════════════════════════════
 
-import { apiClient } from '@/shared/lib/api-client';
+import { apiClient } from '@/shared/utils/api-client';
 import type { SeedInsight, JournalEntry, PaginatedEntries } from '@/types';
 
 // ─── Request / Response types ──────────────────────────────────────────────────

@@ -13,7 +13,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useThoughtContext } from '@/contexts/TierContext'
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/utils/utils'
 import { Check, X, ArrowLeft, Loader2, QrCode, RefreshCw, ShieldCheck, Info } from 'lucide-react'
 
 const PLANS = [

@@ -7,12 +7,12 @@
 
 import { use, useState } from 'react';
 import { useEntry } from '@/features/entries/hooks/useEntries';
-import { getSeedInsight } from '@/lib/services/journal.service';
+import { getSeedInsight } from '@/features/entries/services/entries.service';
 import { DashboardLayout } from '@/components/templates/DashboardLayout';
 import { InsightCard } from '@/components/molecules/InsightCard';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { formatDatetimeMn } from '@/lib/utils/date';
+import { Button } from '@/shared/ui/button';
+import { cn } from '@/shared/utils/utils';
+import { formatDatetimeMn } from '@/shared/utils/date';
 import { useThoughtContext } from '@/contexts/TierContext';
 import {
   ArrowLeft, Loader2, AlertCircle, Lock, FileText, Eye, RefreshCw,

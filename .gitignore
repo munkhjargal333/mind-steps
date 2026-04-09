@@ -2,20 +2,13 @@
 # Dependencies
 node_modules/
 
-# Build artifacts
+# Build outputs
 dist/
 build/
-target/
+.next/
+out/
 
-# Python cache
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Virtual environments
-venv/
-.venv/
+# Environment variables
 .env
 .env.local
 .env.*
@@ -25,7 +18,6 @@ venv/
 .idea/
 *.swp
 *.swo
-*.tmp
 
 # Logs
 *.log
@@ -35,10 +27,21 @@ coverage/
 htmlcov/
 .coverage
 
-# TypeScript/JavaScript build
-*.tsbuildinfo
-out/
-lib/
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg-info/
+.eggs/
+
+# Temporary files
+*.tmp
+*~
+.DS_Store
+Thumbs.db
 
 # Testing
 .mypy_cache/
@@ -46,31 +49,12 @@ lib/
 .nyc_output/
 coverage/
 
-# OS generated files
+# Runtime
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System
 .DS_Store
 Thumbs.db
-
-# Compression
-*.zip
-*.gz
-*.tar
-*.tgz
-*.bz2
-*.xz
-*.7z
-*.rar
-*.zst
-*.lz4
-*.lzh
-*.cab
-*.arj
-*.rpm
-*.deb
-*.Z
-*.lz
-*.lzo
-*.tar.gz
-*.tar.bz2
-*.tar.xz
-*.tar.zst
 ```
