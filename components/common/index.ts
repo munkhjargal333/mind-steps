@@ -1,16 +1,10 @@
 // ════════════════════════════════════════════════════════════════════════════════
-// app/(dashboard)/emotions/page.tsx
-// Page file - routing logic ONLY
-// All rendering logic lives in features/emotions/views/EmotionsView.tsx
+// components/common/index.ts
+// Barrel export for shared domain-agnostic components
 // ════════════════════════════════════════════════════════════════════════════════
 
-import { Suspense } from "react"
-import { EmotionsView, EmotionsSkeleton } from "@/features/emotions"
-
-export default function Page() {
-  return (
-    <Suspense fallback={<EmotionsSkeleton />}>
-      <EmotionsView />
-    </Suspense>
-  )
-}
+export { TierPill } from './TierPill';
+export { ThemeToggle } from './ThemeToggle';
+export { ActionBadge } from './ActionBadge';
+export { PageHeader } from './PageHeader';
+export { ProgressBar } from './ProgressBar';
