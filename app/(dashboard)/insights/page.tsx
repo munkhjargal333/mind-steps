@@ -8,11 +8,11 @@
 
 import { Suspense } from 'react';
 import { Sparkles, Lock } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/shared/ui/button';
 import { useRouter } from 'next/navigation';
 import { useInsights } from '@/features/insights/hooks/useInsights';
 import { useThoughtContext } from '@/contexts/TierContext';
-import { relativeTimeMn } from '@/lib/utils/date';
+import { relativeTimeMn } from '@/shared/utils/date';
 
 export default function InsightsPage() {
   return (

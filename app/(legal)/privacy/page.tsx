@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { ArrowLeft, Database, Lock, Share2, EyeOff, Sunrise } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/shared/ui/button';
 
 export default function PrivacyPage() {
   const sections = [

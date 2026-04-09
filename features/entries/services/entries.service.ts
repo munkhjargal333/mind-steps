@@ -9,7 +9,7 @@ export {
   getEntry,
   deleteEntry,
   createEntry,
-} from '@/lib/services/journal.service';
+} from '@/features/entries/services/entries.service';
 
 export type {
   JournalEntry,

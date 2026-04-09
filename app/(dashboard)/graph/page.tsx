@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { getValueGraph } from '@/lib/services/journal.service';
+import { getValueGraph } from '@/features/entries/services/entries.service';
 import { type GraphData} from '@/types'
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { Button } from '@/shared/ui/button';
+import { cn } from '@/shared/utils/utils';
 import {
   Network, Loader2, AlertCircle, RefreshCw,
   X, Heart, Repeat2, Hash, Layers,
