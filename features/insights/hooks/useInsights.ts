@@ -1,13 +1,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // features/insights/hooks/useInsights.ts
 // Maslow-aligned deep insights data hook
+// Uses feature-local service instead of lib/services
 // ─────────────────────────────────────────────────────────────────────────────
 
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { DeepInsight } from '@/types';
-import { listDeepInsights } from '@/lib/services/journal.service';
+import type { DeepInsight } from '../types';
+import { listDeepInsights } from '../services/insights.service';
 
 export function useInsights(token: string | null) {
   const [insights, setInsights] = useState<DeepInsight[]>([]);

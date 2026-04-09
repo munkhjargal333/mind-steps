@@ -1,18 +1,18 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // features/entries/hooks/useEntries.ts
 // Feature hook for journal entries list + single entry.
-// Delegates ALL API calls to journal.service.ts
+// Uses feature-local service instead of lib/services
 // ─────────────────────────────────────────────────────────────────────────────
 
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
-import type { JournalEntry, PaginatedEntries } from '@/types';
+import type { JournalEntry, PaginatedEntries } from '../types';
 import {
   listEntries,
   getEntry,
   deleteEntry,
-} from '@/lib/services/journal.service';
+} from '../services/entries.service';
 
 // ─── useEntries (paginated list) ──────────────────────────────────────────────
 
