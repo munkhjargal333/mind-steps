@@ -1,0 +1,382 @@
+@import "tailwindcss";
+
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* ── Typography ──────────────────────────────────────────────── */
+  --font-sans: var(--font-jakarta);
+  --font-mono: var(--font-geist-mono);
+
+  /* ── Radius scale ────────────────────────────────────────────── */
+  --radius-sm:  calc(var(--radius) - 4px);
+  --radius-md:  calc(var(--radius) - 2px);
+  --radius-lg:  var(--radius);
+  --radius-xl:  calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+
+  /* ── Base surface & text ─────────────────────────────────────── */
+  --color-background:         var(--background);
+  --color-foreground:         var(--foreground);
+
+  /* ── Card / Popover ──────────────────────────────────────────── */
+  --color-card:               var(--card);
+  --color-card-foreground:    var(--card-foreground);
+  --color-popover:            var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  /* ── Elevated surfaces ───────────────────────────────────────── */
+  --color-surface:            var(--surface);
+  --color-surface-2:          var(--surface-2);
+
+  /* ── Brand primary (orange) ──────────────────────────────────── */
+  --color-primary:            var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  /* ── Accent (violet — Pro tier) ──────────────────────────────── */
+  --color-accent:             var(--accent);
+  --color-accent-foreground:  var(--accent-foreground);
+
+  /* ── Secondary ───────────────────────────────────────────────── */
+  --color-secondary:            var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  /* ── Muted ───────────────────────────────────────────────────── */
+  --color-muted:            var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  /* ── Semantic status ─────────────────────────────────────────── */
+  --color-destructive:            var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success:                var(--success);
+  --color-success-foreground:     var(--success-foreground);
+
+  /* ── Borders, inputs, focus ring ─────────────────────────────── */
+  --color-border:  var(--border);
+  --color-input:   var(--input);
+  --color-ring:    var(--ring);
+
+  /* ── Overlay (modal backdrops) ───────────────────────────────── */
+  --color-overlay: var(--overlay);
+
+  /* ── Sidebar ─────────────────────────────────────────────────── */
+  --color-sidebar:                    var(--sidebar);
+  --color-sidebar-foreground:         var(--sidebar-foreground);
+  --color-sidebar-primary:            var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent:             var(--sidebar-accent);
+  --color-sidebar-accent-foreground:  var(--sidebar-accent-foreground);
+  --color-sidebar-border:             var(--sidebar-border);
+  --color-sidebar-ring:               var(--sidebar-ring);
+
+  /* ── Charts ──────────────────────────────────────────────────── */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* ══════════════════════════════════════════════════════════════
+     DOMAIN-SPECIFIC TOKENS
+     Action colours (8 journal action types)
+     Insight colours (3 seed insight types + summary)
+     Tier colours (demo / free / pro)
+     ══════════════════════════════════════════════════════════════ */
+
+  /* ── Action colours ──────────────────────────────────────────── */
+  --color-action-stress:      var(--action-stress);
+  --color-action-loneliness:  var(--action-loneliness);
+  --color-action-self-doubt:  var(--action-self-doubt);
+  --color-action-fear:        var(--action-fear);
+  --color-action-purpose:     var(--action-purpose);
+  --color-action-values:      var(--action-values);
+  --color-action-gratitude:   var(--action-gratitude);
+  --color-action-joy:         var(--action-joy);
+
+  /* ── Insight colours ─────────────────────────────────────────── */
+  --color-insight-mirror:     var(--insight-mirror);
+  --color-insight-reframe:    var(--insight-reframe);
+  --color-insight-relief:     var(--insight-relief);
+  --color-insight-summary:    var(--insight-summary);
+
+  /* ── Tier colours ────────────────────────────────────────────── */
+  --color-tier-demo:          var(--tier-demo);
+  --color-tier-free:          var(--tier-free);
+  --color-tier-pro:           var(--tier-pro);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   LIGHT MODE TOKENS
+   ══════════════════════════════════════════════════════════════════ */
+:root {
+  --radius: 0.625rem;
+
+  /* Base */
+  --background:  oklch(0.98 0.003 80);    /* warm off-white */
+  --foreground:  oklch(0.13 0.02 60);     /* near-black, warm */
+
+  /* Surfaces — layered depth */
+  --surface:   oklch(1 0 0);             /* pure white — cards, modals */
+  --surface-2: oklch(0.96 0.004 80);     /* slightly recessed panels */
+
+  /* Card / Popover (shadcn aliases) */
+  --card:              oklch(1 0 0);
+  --card-foreground:   oklch(0.13 0.02 60);
+  --popover:           oklch(1 0 0);
+  --popover-foreground: oklch(0.13 0.02 60);
+
+  /* Primary — orange brand */
+  --primary:            oklch(0.62 0.19 38);   /* orange-600 */
+  --primary-foreground: oklch(1 0 0);
+
+  /* Accent — violet (Pro tier) */
+  --accent:            oklch(0.54 0.22 293);   /* violet-600 */
+  --accent-foreground: oklch(1 0 0);
+
+  /* Secondary */
+  --secondary:            oklch(0.95 0.005 80);
+  --secondary-foreground: oklch(0.13 0.02 60);
+
+  /* Muted */
+  --muted:            oklch(0.94 0.005 80);
+  --muted-foreground: oklch(0.52 0.02 80);
+
+  /* Status */
+  --destructive:            oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(1 0 0);
+  --success:                oklch(0.59 0.16 145);
+  --success-foreground:     oklch(1 0 0);
+
+  /* Borders & inputs */
+  --border: oklch(0.88 0.008 80);
+  --input:  oklch(0.88 0.008 80);
+  --ring:   oklch(0.62 0.19 38);         /* matches primary */
+
+  /* Overlay */
+  --overlay: oklch(0 0 0);
+
+  /* Sidebar */
+  --sidebar:                    oklch(0.96 0.004 80);
+  --sidebar-foreground:         oklch(0.13 0.02 60);
+  --sidebar-primary:            oklch(0.62 0.19 38);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent:             oklch(0.92 0.006 80);
+  --sidebar-accent-foreground:  oklch(0.13 0.02 60);
+  --sidebar-border:             oklch(0.88 0.008 80);
+  --sidebar-ring:               oklch(0.62 0.19 38);
+
+  /* Charts */
+  --chart-1: oklch(0.62 0.19 38);
+  --chart-2: oklch(0.6  0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+
+  /* ── Action colours (light) ──────────────────────────────────── */
+  --action-stress:      oklch(0.62 0.19 38);     /* orange-600  → same as primary */
+  --action-loneliness:  oklch(0.65 0.15 230);    /* sky-600 */
+  --action-self-doubt:  oklch(0.73 0.16 70);     /* amber-600 */
+  --action-fear:        oklch(0.49 0.20 275);    /* indigo-600 */
+  --action-purpose:     oklch(0.54 0.22 293);    /* violet-600 → same as accent */
+  --action-values:      oklch(0.60 0.12 175);    /* teal-600 */
+  --action-gratitude:   oklch(0.59 0.20 10);     /* rose-500 */
+  --action-joy:         oklch(0.72 0.16 85);     /* yellow-600 */
+
+  /* ── Insight colours (light) ─────────────────────────────────── */
+  --insight-mirror:     oklch(0.60 0.15 250);    /* blue-400 */
+  --insight-reframe:    oklch(0.54 0.22 293);    /* violet-400 → accent */
+  --insight-relief:     oklch(0.65 0.16 160);    /* emerald-400 → success */
+  --insight-summary:    oklch(0.73 0.16 70);     /* amber-400 */
+
+  /* ── Tier colours (light) ────────────────────────────────────── */
+  --tier-demo:          oklch(0.60 0.15 250);    /* blue */
+  --tier-free:          oklch(0.62 0.19 38);     /* orange → primary */
+  --tier-pro:           oklch(0.54 0.22 293);    /* violet → accent */
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   DARK MODE TOKENS  — same variable names, different values
+   ══════════════════════════════════════════════════════════════════ */
+.dark {
+  /* Base */
+  --background: oklch(0.10 0.015 260);   /* near-black, cool */
+  --foreground: oklch(0.96 0.004 80);    /* warm white */
+
+  /* Surfaces */
+  --surface:   oklch(0.15 0.018 260);    /* elevated card */
+  --surface-2: oklch(0.19 0.020 260);    /* double-elevated */
+
+  /* Card / Popover */
+  --card:              oklch(0.15 0.018 260);
+  --card-foreground:   oklch(0.96 0.004 80);
+  --popover:           oklch(0.15 0.018 260);
+  --popover-foreground: oklch(0.96 0.004 80);
+
+  /* Primary — slightly lighter orange for dark backgrounds */
+  --primary:            oklch(0.72 0.18 42);   /* orange-400 */
+  --primary-foreground: oklch(0.10 0.015 260);
+
+  /* Accent — lighter violet for dark backgrounds */
+  --accent:            oklch(0.68 0.18 293);   /* violet-400 */
+  --accent-foreground: oklch(0.10 0.015 260);
+
+  /* Secondary */
+  --secondary:            oklch(0.20 0.022 260);
+  --secondary-foreground: oklch(0.96 0.004 80);
+
+  /* Muted */
+  --muted:            oklch(0.20 0.022 260);
+  --muted-foreground: oklch(0.60 0.018 260);
+
+  /* Status */
+  --destructive:            oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.10 0.015 260);
+  --success:                oklch(0.70 0.16 145);
+  --success-foreground:     oklch(0.10 0.015 260);
+
+  /* Borders & inputs */
+  --border: oklch(1 0 0 / 10%);
+  --input:  oklch(1 0 0 / 15%);
+  --ring:   oklch(0.72 0.18 42);         /* matches dark primary */
+
+  /* Overlay */
+  --overlay: oklch(0 0 0);
+
+  /* Sidebar */
+  --sidebar:                    oklch(0.15 0.018 260);
+  --sidebar-foreground:         oklch(0.96 0.004 80);
+  --sidebar-primary:            oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0.002 247.839);
+  --sidebar-accent:             oklch(0.20 0.022 260);
+  --sidebar-accent-foreground:  oklch(0.96 0.004 80);
+  --sidebar-border:             oklch(1 0 0 / 10%);
+  --sidebar-ring:               oklch(0.72 0.18 42);
+
+  /* Charts */
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17  162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+
+  /* ── Action colours (dark) ───────────────────────────────────── */
+  --action-stress:      oklch(0.72 0.18 42);     /* orange-400 → primary dark */
+  --action-loneliness:  oklch(0.72 0.14 230);    /* sky-400 */
+  --action-self-doubt:  oklch(0.78 0.14 70);     /* amber-400 */
+  --action-fear:        oklch(0.62 0.18 275);    /* indigo-400 */
+  --action-purpose:     oklch(0.68 0.18 293);    /* violet-400 → accent dark */
+  --action-values:      oklch(0.68 0.10 175);    /* teal-400 */
+  --action-gratitude:   oklch(0.68 0.18 10);     /* rose-400 */
+  --action-joy:         oklch(0.78 0.14 85);     /* yellow-400 */
+
+  /* ── Insight colours (dark) ──────────────────────────────────── */
+  --insight-mirror:     oklch(0.68 0.14 250);    /* blue-400 */
+  --insight-reframe:    oklch(0.68 0.18 293);    /* violet-400 → accent dark */
+  --insight-relief:     oklch(0.70 0.16 160);    /* emerald-400 → success dark */
+  --insight-summary:    oklch(0.78 0.14 70);     /* amber-400 */
+
+  /* ── Tier colours (dark) ─────────────────────────────────────── */
+  --tier-demo:          oklch(0.68 0.14 250);    /* blue-400 */
+  --tier-free:          oklch(0.72 0.18 42);     /* orange-400 → primary dark */
+  --tier-pro:           oklch(0.68 0.18 293);    /* violet-400 → accent dark */
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   BASE LAYER
+   ══════════════════════════════════════════════════════════════════ */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    box-sizing: border-box;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    /* Prevent layout shift from scrollbar appearing/disappearing */
+    overflow-y: scroll;
+  }
+
+  /* Smooth theme color transitions — layout props excluded to avoid jank */
+  *, *::before, *::after {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+    transition-duration: 150ms;
+    transition-timing-function: ease;
+  }
+
+  /* Suppress transitions during initial theme class injection */
+  .no-transitions *,
+  .no-transitions *::before,
+  .no-transitions *::after {
+    transition: none !important;
+  }
+
+  /* Consistent selection color */
+  ::selection {
+    background-color: color-mix(in oklch, var(--primary) 25%, transparent);
+    color: var(--foreground);
+  }
+
+  /* Focus ring consistency */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   UTILITIES
+   ══════════════════════════════════════════════════════════════════ */
+@layer utilities {
+  /* Glass surface — adapts automatically to dark/light */
+  .glass {
+    backdrop-filter: blur(12px) saturate(1.5);
+    background-color: color-mix(in oklch, var(--surface) 80%, transparent);
+    border: 1px solid color-mix(in oklch, var(--border) 60%, transparent);
+  }
+
+  /* Gradient text using brand tokens */
+  .text-gradient {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Thin scrollbar */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar       { width: 4px; }
+  .scrollbar-thin::-webkit-scrollbar-track  { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb  {
+    background-color: var(--border);
+    border-radius: 2px;
+  }
+
+  /* ── Action-tinted utilities ─────────────────────────────────── */
+  .bg-action-tint  { background-color: color-mix(in oklch, var(--action-stress) 8%, transparent); }
+  .text-action      { color: var(--action-stress); }
+  .ring-action-tint { --tw-ring-color: color-mix(in oklch, var(--action-stress) 20%, transparent); }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   ANIMATIONS
+   ══════════════════════════════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.fade-up   { animation: fadeUp  0.4s ease both; }
+.fade-in   { animation: fadeIn  0.3s ease both; }
