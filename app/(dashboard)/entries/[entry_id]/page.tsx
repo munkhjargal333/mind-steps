@@ -3,7 +3,7 @@
 import { use, useState, useEffect } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useEntry } from '@/lib/hooks/useEntries';
-import { DashboardLayout } from '@/components/shared/DashboardLayout';
+import { DashboardLayout } from '@/components/layout/DashboardLayout';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { formatDatetimeMn } from '@/lib/utils/date';
