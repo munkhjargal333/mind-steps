@@ -1,5 +1,5 @@
 // Re-export all constants from domain-specific files
-export { Tier } from './tier.constants';
+export { Tier, PLANS, type Plan } from './tier.constants';
 export type { Tier as TierType } from './tier.constants';
 
 export {
