@@ -1,0 +1,163 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   Design Tokens — CSS Custom Properties
+   Centralized design system tokens for consistent UI across the application
+   ───────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* ── Spacing Scale ─────────────────────────────────────────────────────── */
+  --space-0: 0;
+  --space-1: 0.25rem;   /* 4px */
+  --space-2: 0.5rem;    /* 8px */
+  --space-3: 0.75rem;   /* 12px */
+  --space-4: 1rem;      /* 16px */
+  --space-5: 1.25rem;   /* 20px */
+  --space-6: 1.5rem;    /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+
+  /* ── Border Radius ────────────────────────────────────────────────────── */
+  --radius-none: 0;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --radius-full: 9999px;
+
+  /* ── Font Sizes ───────────────────────────────────────────────────────── */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+
+  /* ── Font Weights ─────────────────────────────────────────────────────── */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* ── Line Heights ─────────────────────────────────────────────────────── */
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  /* ── Letter Spacing ───────────────────────────────────────────────────── */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+
+  /* ── Transition Timing ────────────────────────────────────────────────── */
+  --transition-fast: 150ms;
+  --transition-normal: 200ms;
+  --transition-slow: 300ms;
+  --transition-duration: var(--transition-normal);
+
+  /* ── Shadow Scale ─────────────────────────────────────────────────────── */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+
+  /* ── Action Colors (for stress, loneliness, etc.) ─────────────────────── */
+  /* Stress - Orange */
+  --color-stress: oklch(0.65 0.22 38);
+  --color-stress-bg: oklch(0.97 0.04 38);
+  --color-stress-ring: oklch(0.85 0.1 38);
+
+  /* Loneliness - Sky Blue */
+  --color-loneliness: oklch(0.7 0.15 230);
+  --color-loneliness-bg: oklch(0.97 0.03 230);
+  --color-loneliness-ring: oklch(0.85 0.08 230);
+
+  /* Self Doubt - Amber */
+  --color-self-doubt: oklch(0.7 0.18 45);
+  --color-self-doubt-bg: oklch(0.97 0.04 45);
+  --color-self-doubt-ring: oklch(0.85 0.1 45);
+
+  /* Fear - Indigo */
+  --color-fear: oklch(0.55 0.2 270);
+  --color-fear-bg: oklch(0.97 0.03 270);
+  --color-fear-ring: oklch(0.85 0.08 270);
+
+  /* Purpose - Violet */
+  --color-purpose: oklch(0.6 0.2 290);
+  --color-purpose-bg: oklch(0.97 0.03 290);
+  --color-purpose-ring: oklch(0.85 0.08 290);
+
+  /* Values - Teal */
+  --color-values: oklch(0.65 0.18 180);
+  --color-values-bg: oklch(0.97 0.03 180);
+  --color-values-ring: oklch(0.85 0.08 180);
+
+  /* Gratitude - Rose */
+  --color-gratitude: oklch(0.65 0.2 350);
+  --color-gratitude-bg: oklch(0.97 0.03 350);
+  --color-gratitude-ring: oklch(0.85 0.08 350);
+
+  /* Joy - Yellow */
+  --color-joy: oklch(0.75 0.18 75);
+  --color-joy-bg: oklch(0.97 0.04 75);
+  --color-joy-ring: oklch(0.85 0.1 75);
+}
+
+/* Dark mode adjustments for action colors */
+.dark {
+  --color-stress-bg: oklch(0.2 0.08 38 / 0.2);
+  --color-loneliness-bg: oklch(0.2 0.06 230 / 0.2);
+  --color-self-doubt-bg: oklch(0.2 0.08 45 / 0.2);
+  --color-fear-bg: oklch(0.2 0.06 270 / 0.2);
+  --color-purpose-bg: oklch(0.2 0.06 290 / 0.2);
+  --color-values-bg: oklch(0.2 0.06 180 / 0.2);
+  --color-gratitude-bg: oklch(0.2 0.06 350 / 0.2);
+  --color-joy-bg: oklch(0.2 0.08 75 / 0.2);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Component-Specific Tokens
+   ───────────────────────────────────────────────────────────────────────────── */
+
+/* Card Component Tokens */
+:root {
+  --card-padding: var(--space-4);
+  --card-border-width: 1.5px;
+  --card-hover-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  --card-transform-active: scale(0.98);
+}
+
+/* Button Component Tokens */
+:root {
+  --button-transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
+}
+
+/* Icon Animation Tokens */
+:root {
+  --icon-hover-scale: 1.12;
+  --icon-hover-rotate: 4deg;
+}
+
+/* Tier Badge Tokens */
+:root {
+  --tier-free-bg: #d1fae5;
+  --tier-free-color: #065f46;
+  --tier-pro-bg: #ede9fe;
+  --tier-pro-color: #5b21b6;
+}
+
+.dark {
+  --tier-free-bg: rgba(16, 185, 129, 0.15);
+  --tier-free-color: #6ee7b7;
+  --tier-pro-bg: rgba(139, 92, 246, 0.15);
+  --tier-pro-color: #c4b5fd;
+}
