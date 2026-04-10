@@ -142,7 +142,7 @@
 
 **Why**: Atomic design creates artificial abstractions that don't match user mental models. A "SurfaceStep" is not an "organism" — it's a **journal component**.
 
-**Action**: 
+**Action**:
 - Delete `/components/atoms`, `/components/molecules`, `/components/organisms`, `/components/templates`
 - Move reusable UI to `/shared/ui`
 - Move feature-specific components into their feature folders
@@ -297,10 +297,10 @@ import type { QuickActionType } from '@/types';
 
 export default function HomePage() {
   const handleComplete = () => router.push('/entries');
-  
+
   return (
-    <JournalFlow 
-      initialAction="stress" 
+    <JournalFlow
+      initialAction="stress"
       onComplete={handleComplete}
     />
   );
