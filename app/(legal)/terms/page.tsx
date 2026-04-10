@@ -1,7 +1,8 @@
+'use client';
 
 import Link from 'next/link';
 import { ArrowLeft, HeartPulse, Copyright, UserCircle, ShieldCheck, Sunrise } from 'lucide-react';
-import { Button } from '@/shared/ui/button';
+import { Button } from '@/components/ui/button';
 
 export default function TermsPage() {
   const sections = [
@@ -40,7 +41,7 @@ export default function TermsPage() {
           </Button>
           
           <Link href="/" className="flex items-center gap-2">
-            <Sunrise className="w-5 h-5 text-primary" />
+            <Sunrise className="w-5 h-5 text-orange-500" />
             <span className="font-bold text-sm">MindSteps</span>
           </Link>
         </div>

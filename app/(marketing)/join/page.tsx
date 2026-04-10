@@ -12,8 +12,8 @@ import {
   Heart,
   Users,
 } from 'lucide-react'
-import { Button } from '@/shared/ui/button'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/shared/ui/card'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { TierCard } from './_components/TierCard'
 
 const FOUNDER_BENEFITS = [
@@ -86,27 +86,27 @@ export default function JoinPage() {
           </p>
           <div className="space-y-2">
             <TierCard
-              icon={<Star className="w-5 h-5 text-insight-summary fill-insight-summary" />}
+              icon={<Star className="w-5 h-5 text-amber-500 fill-amber-500" />}
               title="ANGEL"
               description="Хөрөнгө оруулагч / Стратегийн түнш"
               badge="Хязгаарлагдмал"
-              bgClass="bg-insight-summary/10 border-insight-summary/20"
+              bgClass="bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900"
               onClick={() => { window.location.href = 'mailto:munkhjargal.ts39@gmail.com?subject=ANGEL Investor' }}
             />
             <TierCard
-              icon={<Sparkles className="w-5 h-5 text-success" />}
+              icon={<Sparkles className="w-5 h-5 text-emerald-500" />}
               title="FIRST100"
               description="Үнэгүй гишүүнчлэл • 98 суудал үлдсэн"
               badge="Хязгаарлагдмал"
-              bgClass="bg-success/10 border-success/20"
+              bgClass="bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900"
               isSpecial
               onClick={() => { window.location.href = 'mailto:munkhjargal.ts39@gmail.com?subject=FIRST100' }}
             />
             <TierCard
-              icon={<Heart className="w-5 h-5 text-destructive" />}
+              icon={<Heart className="w-5 h-5 text-rose-500" />}
               title="FUNDEA"
               description="Санхүүжилт / Хандив / Дэмжлэг – жижиг ч гэсэн тусламж"
-              bgClass="bg-destructive/10 border-destructive/20"
+              bgClass="bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-900"
               onClick={() => window.open('https://fundea.mn/yourproject', '_blank')}
             />
           </div>

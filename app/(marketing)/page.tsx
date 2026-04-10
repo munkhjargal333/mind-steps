@@ -2,8 +2,8 @@
 
 import Link from 'next/link'
 import { Sunrise, ArrowRight, Eye, Zap, Sparkles, Brain, Heart, BookOpen } from 'lucide-react'
-import { Button } from '@/shared/ui/button'
-import { MainHeader } from '@/shared/layout'
+import { Button } from '@/components/ui/button'
+import { MainHeader } from '@/components/shared/MainHeader'
 import { ProblemCard } from './_components/ProblemCard'
 import { HowItWorksCard } from './_components/HowItWorksCard'
 import { FeatureCard } from './_components/FeatureCard'
@@ -25,7 +25,7 @@ export default function LandingPage() {
         <section className="container max-w-3xl mx-auto px-4 py-20 md:py-32">
           <div className="text-center space-y-6 md:space-y-8">
             <div className="space-y-3">
-              <p className="text-lg uppercase tracking-wider text-primary font-semibold">
+              <p className="text-lg uppercase tracking-wider text-amber-500 dark:text-amber-400 font-semibold">
                 Ухаалаг тэмдэглэлийн дэвтэр
               </p>
 
@@ -74,7 +74,7 @@ export default function LandingPage() {
                 {/* HOOK — тоог тод байлгав, асуултыг илүү шууд болгов */}
                 <h2 className="text-3xl md:text-4xl font-bold leading-tight">
                   Өнөөдрийн бодлын{' '}
-                  <span className="underline decoration-primary decoration-2 underline-offset-4">
+                  <span className="underline decoration-orange-500 decoration-2 underline-offset-4">
                     90%
                   </span>{' '}
                   өчигдрийн давталт.
@@ -243,7 +243,7 @@ export default function LandingPage() {
           <div className="container max-w-3xl mx-auto px-4 py-20 md:py-32">
             <div className="text-center space-y-6 md:space-y-8">
               <div className="space-y-3">
-                <p className="text-lg uppercase tracking-wider text-primary font-semibold">
+                <p className="text-lg uppercase tracking-wider text-amber-500 dark:text-amber-400 font-semibold">
                   Эхлэх цаг нь болсон
                 </p>
 
@@ -282,7 +282,7 @@ export default function LandingPage() {
         <div className="container max-w-5xl mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2">
-              <Sunrise className="w-5 h-5 text-primary" aria-hidden="true" />
+              <Sunrise className="w-5 h-5 text-orange-500" aria-hidden="true" />
               <span className="font-semibold">MindSteps</span>
             </div>
             <div className="flex gap-6 text-sm text-muted-foreground">

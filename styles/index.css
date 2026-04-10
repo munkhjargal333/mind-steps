@@ -1,8 +1,0 @@
-/* ════════════════════════════════════════════════════════════════════════════════
-   STYLES ENTRY POINT
-   Import all style modules in a single file
-   Include this in your app/layout.tsx or globals.css
-   ════════════════════════════════════════════════════════════════════════════════ */
-
-@import './design-tokens.css';
-@import './animations.css';

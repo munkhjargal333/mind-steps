@@ -1,10 +1,5 @@
-import { Suspense } from 'react';
-import { HomeView, HomeViewSkeleton } from '@/features/journal';
+import { HomeContainer } from '@/components/shared/HomeContainer';
 
-export default function DashboardHomePage() {
-  return (
-    <Suspense fallback={<HomeViewSkeleton />}>
-      <HomeView />
-    </Suspense>
-  );
+export default function Page() {
+  return <HomeContainer />;
 }

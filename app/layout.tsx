@@ -1,17 +1,13 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// app/layout.tsx — ROOT LAYOUT (Server Component)
-// Provider order: Auth → Theme → Tier → Toast → children
-// ─────────────────────────────────────────────────────────────────────────────
+import type { Metadata } from "next";
+import "./globals.css";
+import { ThemeProvider } from "@/contexts/theme-provider";
+import { Plus_Jakarta_Sans } from 'next/font/google'; 
+import { AuthProvider } from "@/contexts/AuthContext";
+import { ThoughtProvider } from "@/components/thought";
+// import { TourProvider } from "@/contexts/TourContext";
 
-import type { Metadata } from 'next';
-import './globals.css';
-import { Plus_Jakarta_Sans } from 'next/font/google';
-import { ThemeProvider } from '@/shared/providers/theme.provider';
-import { AuthProvider } from '@/shared/providers/auth.provider';
-import { TierProvider } from '@/shared/providers/tier.provider';
-import { ToastProvider } from '@/shared/providers/toast.provider';
-
-const jakarta = Plus_Jakarta_Sans({
+// Фонт тохируулга
+const jakarta = Plus_Jakarta_Sans({ 
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-jakarta',
@@ -20,7 +16,7 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: {
     default: 'Ухаалаг тэмдэглэлийн дэвтэр',
-    template: '%s | MindSteps',
+    template: '%s | Mind-steps'
   },
   description: 'Сэтгэлзүйн туслах платформ',
   manifest: '/manifest.json',
@@ -32,27 +28,34 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
-    title: 'MindSteps',
+    title: 'Mind-steps',
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    // suppressHydrationWarning prevents React warning when next-themes
-    // adds the `dark` class on the server vs client hydration.
-    <html lang="mn" suppressHydrationWarning>
+    // suppressHydrationWarning-ийг энд нэмж өгнө
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${jakarta.variable} font-sans antialiased bg-background text-foreground`}
+        className={`${jakarta.variable} antialiased`}
       >
         <AuthProvider>
-          <ThemeProvider>
-            <TierProvider>
-              <ToastProvider>
-                {children}
-              </ToastProvider>
-            </TierProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {/* <TourProvider> */}
+              <ThoughtProvider >
+                  {children}
+              </ThoughtProvider>
+            {/* </TourProvider> */}
+
           </ThemeProvider>
         </AuthProvider>
       </body>
