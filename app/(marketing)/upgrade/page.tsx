@@ -12,8 +12,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useThoughtContext } from '@/contexts/TierContext'
-import { cn } from '@/shared/utils/utils'
+import { useThoughtContext } from '@/shared/providers/tier.provider'
+import { cn } from '@/shared/lib/utils/utils'
 import { Check, X, ArrowLeft, Loader2, QrCode, RefreshCw, ShieldCheck, Info } from 'lucide-react'
 
 const PLANS = [

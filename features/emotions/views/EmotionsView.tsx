@@ -11,7 +11,7 @@ import { BarChart2 } from 'lucide-react';
 import { useEmotionStats } from '../hooks/useEmotionStats';
 import { EmotionStatsList } from '../components/EmotionStatsList';
 import { EmotionsSkeleton } from '../components/EmotionsSkeleton';
-import { useThoughtContext } from '@/providers/TierProvider';
+import { useThoughtContext } from '@/shared/providers/tier.provider';
 
 export function EmotionsView() {
   const { token } = useThoughtContext();

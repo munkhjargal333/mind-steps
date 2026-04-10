@@ -1,4 +1,3 @@
-'use client';
 
 import Link from 'next/link';
 import { ArrowLeft, Database, Lock, Share2, EyeOff, Sunrise } from 'lucide-react';

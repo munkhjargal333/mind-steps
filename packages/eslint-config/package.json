@@ -1,0 +1,9 @@
+{
+  "name": "@mindsteps/eslint-config",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./index.mjs",
+  "dependencies": {
+    "eslint-plugin-boundaries": "^5"
+  }
+}

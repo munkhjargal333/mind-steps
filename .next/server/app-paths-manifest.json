@@ -1,0 +1,21 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/(auth)/auth/callback/route": "app/(auth)/auth/callback/route.js",
+  "/api/qpay/check/route": "app/api/qpay/check/route.js",
+  "/_global-error/page": "app/_global-error/page.js",
+  "/api/qpay/invoice/route": "app/api/qpay/invoice/route.js",
+  "/manifest.webmanifest/route": "app/manifest.webmanifest/route.js",
+  "/(legal)/privacy/page": "app/(legal)/privacy/page.js",
+  "/(legal)/terms/page": "app/(legal)/terms/page.js",
+  "/(marketing)/demo/page": "app/(marketing)/demo/page.js",
+  "/(marketing)/join/page": "app/(marketing)/join/page.js",
+  "/(marketing)/page": "app/(marketing)/page.js",
+  "/(marketing)/upgrade/page": "app/(marketing)/upgrade/page.js",
+  "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/(dashboard)/emotions/page": "app/(dashboard)/emotions/page.js",
+  "/(dashboard)/entries/[entry_id]/page": "app/(dashboard)/entries/[entry_id]/page.js",
+  "/(dashboard)/entries/page": "app/(dashboard)/entries/page.js",
+  "/(dashboard)/graph/page": "app/(dashboard)/graph/page.js",
+  "/(dashboard)/home/page": "app/(dashboard)/home/page.js",
+  "/(dashboard)/insights/page": "app/(dashboard)/insights/page.js"
+}

@@ -1,8 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// features/entries/index.ts
-// Public API for entries feature
-// ─────────────────────────────────────────────────────────────────────────────
-
 export { useEntries, useEntry } from './hooks/useEntries';
+export { EntriesView, EntriesSkeleton } from './views/EntriesView';
 export type { JournalEntry, PaginatedEntries } from './types';
-export { listEntries, getEntry, deleteEntry, createEntry } from './services/entries.service';

@@ -14,11 +14,11 @@ import {
   UserCircle,
   Info,
 } from 'lucide-react'
-import { useAuth } from '@/contexts/AuthContext'
+import { useAuth } from '@/shared/providers/auth.provider'
 import { Button } from '@/shared/ui/button'
 import { Input } from '@/shared/ui/input'
 import { Label } from '@/shared/ui/label'
-import { MainHeader } from '@/components/organisms/MainHeader'
+import { MainHeader } from '@/shared/layout'
 
 function LoginForm() {
   const [email, setEmail] = useState('')

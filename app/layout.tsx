@@ -6,10 +6,10 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Plus_Jakarta_Sans } from 'next/font/google';
-import { ThemeProvider } from '@/contexts/theme-provider';
-import { AuthProvider } from '@/contexts/AuthContext';
-import { TierProvider } from '@/contexts/TierContext';
-import { ToastProvider } from '@/contexts/ToastContext';
+import { ThemeProvider } from '@/shared/providers/theme.provider';
+import { AuthProvider } from '@/shared/providers/auth.provider';
+import { TierProvider } from '@/shared/providers/tier.provider';
+import { ToastProvider } from '@/shared/providers/toast.provider';
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],

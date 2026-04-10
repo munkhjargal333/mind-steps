@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { Sunrise, ArrowRight, Eye, Zap, Sparkles, Brain, Heart, BookOpen } from 'lucide-react'
 import { Button } from '@/shared/ui/button'
-import { MainHeader } from '@/components/organisms/MainHeader'
+import { MainHeader } from '@/shared/layout'
 import { ProblemCard } from './_components/ProblemCard'
 import { HowItWorksCard } from './_components/HowItWorksCard'
 import { FeatureCard } from './_components/FeatureCard'

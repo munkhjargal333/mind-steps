@@ -1,15 +1,12 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// app/(dashboard)/layout.tsx  — CLIENT COMPONENT (uses context)
-// Wraps all dashboard routes with DashboardLayout template.
-// Auth guard: redirects unauthenticated users.
-// ─────────────────────────────────────────────────────────────────────────────
-
 'use client';
+
+// app/(dashboard)/layout.tsx
+// Auth guard + dashboard shell. Uses shared DashboardLayout.
 
 import { useEffect, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
-import { DashboardLayout } from '@/components/templates/DashboardLayout';
-import { useAuth } from '@/contexts/AuthContext';
+import { DashboardLayout } from '@/shared/layout';
+import { useAuth } from '@/shared/providers/auth.provider';
 
 export default function DashboardRouteLayout({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth();

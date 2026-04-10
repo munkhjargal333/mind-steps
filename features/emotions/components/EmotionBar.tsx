@@ -4,7 +4,7 @@
 // Uses design tokens exclusively - no hardcoded colors
 // ════════════════════════════════════════════════════════════════════════════════
 
-import { cn } from '@/shared/utils/utils';
+import { cn } from '@/shared/lib/utils/utils';
 import type { EmotionStat } from '../types';
 
 export interface EmotionBarProps {

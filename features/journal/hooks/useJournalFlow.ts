@@ -8,8 +8,8 @@
 
 import { useState, useCallback, useRef } from 'react';
 import type { QuickActionType, SessionData, FlowStep, AnalyzeResult } from '@/types';
-import { analyzeSession } from '@/features/journal/services/journal.api';
-import { useThoughtContext } from '@/contexts/TierContext';
+import { analyzeSession } from '../services/journal.service';
+import { useThoughtContext } from '@/shared/providers/tier.provider';
 
 // ─── Internal state shape ─────────────────────────────────────────────────────
 

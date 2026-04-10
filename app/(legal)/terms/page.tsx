@@ -1,4 +1,3 @@
-'use client';
 
 import Link from 'next/link';
 import { ArrowLeft, HeartPulse, Copyright, UserCircle, ShieldCheck, Sunrise } from 'lucide-react';

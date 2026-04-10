@@ -1,0 +1,9 @@
+{
+  "extends": "@mindsteps/tsconfig/nextjs.json",
+  "compilerOptions": {
+    "paths": { "@/*": ["./*"] },
+    "types": []
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "**/*.mts"],
+  "exclude": ["node_modules"]
+}
