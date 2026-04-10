@@ -1,26 +1,26 @@
 .card {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: var(--space-3);
   width: 100%;
-  padding: 14px;
-  border-radius: 16px;
+  padding: var(--space-4);
+  border-radius: var(--radius-2xl);
   text-align: left;
-  border: 1.5px solid transparent;
+  border: var(--card-border-width) solid transparent;
   background: transparent;
   cursor: pointer;
-  transition: border-color 150ms, box-shadow 150ms, transform 150ms;
+  transition: var(--button-transition);
 }
 .card:hover {
-  border-color: var(--color-border);
-  box-shadow: 0 1px 6px rgba(0,0,0,.06);
+  border-color: var(--border);
+  box-shadow: var(--card-hover-shadow);
 }
-.card:active { transform: scale(0.98); }
+.card:active { transform: var(--card-transform-active); }
 
 .card.locked {
   opacity: 0.45;
   cursor: not-allowed;
-  background: var(--color-muted);
+  background: var(--muted);
 }
 .card.locked:hover {
   border-color: transparent;
@@ -29,28 +29,28 @@
 
 .iconWrap {
   flex-shrink: 0;
-  padding: 8px;
-  border-radius: 12px;
+  padding: var(--space-2);
+  border-radius: var(--radius-xl);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 150ms;
+  transition: transform var(--transition-fast);
 }
 .card:not(.locked):hover .iconWrap {
-  transform: scale(1.12) rotate(4deg);
+  transform: scale(var(--icon-hover-scale)) rotate(var(--icon-hover-rotate));
 }
 
 .body { flex: 1; min-width: 0; }
 
 .label {
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 1.3;
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  line-height: var(--leading-tight);
 }
 
 .sub {
-  font-size: 12px;
-  color: var(--color-muted-fg);
+  font-size: var(--text-xs);
+  color: var(--muted-foreground);
   margin-top: 1px;
   white-space: nowrap;
   overflow: hidden;
@@ -59,8 +59,8 @@
 
 .arrow {
   flex-shrink: 0;
-  color: var(--color-muted-fg);
+  color: var(--muted-foreground);
   opacity: 0.4;
-  transition: opacity 150ms;
+  transition: opacity var(--transition-fast);
 }
 .card:not(.locked):hover .arrow { opacity: 0.7; }
