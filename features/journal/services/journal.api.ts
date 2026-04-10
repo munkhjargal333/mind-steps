@@ -112,3 +112,61 @@ export async function getSeedInsight(
     token
   );
 }
+
+// ─── Analysis Orchestrator ─────────────────────────────────────────────────────
+
+interface AnalyzeAuthenticatedSessionResponse {
+  entry_id: string;
+  seed_insight: SeedInsight & { summary: string };
+  analysis_channel: string;
+}
+
+/**
+ * Analyze authenticated session (creates entry + returns insight)
+ */
+export async function analyzeAuthenticatedSession(
+  token: string,
+  payload: CreateEntryRequest
+): Promise<AnalyzeAuthenticatedSessionResponse> {
+  return createJournalEntry(token, payload);
+}
+
+/**
+ * Main analysis function that routes between authenticated and demo modes
+ */
+export async function analyzeSession(
+  session: {
+    actionType: string;
+    surfaceText: string;
+    innerText: string;
+    meaningText: string;
+  },
+  config: { token: string | null }
+): Promise<{ entryId: string | null; insight: SeedInsight & { summary: string } }> {
+  const payload = {
+    surface_text: session.surfaceText,
+    inner_reaction_text: session.innerText,
+    meaning_text: session.meaningText,
+    save_text: true,
+  };
+
+  if (config.token) {
+    const result = await analyzeAuthenticatedSession(config.token, payload);
+    return {
+      entryId: result.entry_id,
+      insight: result.seed_insight,
+    };
+  }
+
+  // Demo / unauthenticated path
+  const result = await analyzeDemoSession({
+    surface_text: payload.surface_text,
+    inner_reaction_text: payload.inner_reaction_text,
+    meaning_text: payload.meaning_text,
+  });
+
+  return {
+    entryId: null,
+    insight: result.seed_insight,
+  };
+}
