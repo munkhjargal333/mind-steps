@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/contexts/theme-provider";
 import { Plus_Jakarta_Sans } from 'next/font/google'; 
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider } from "@/contexts/AuthProvider";
 import { ThoughtProvider } from "@/components/thought";
 // import { TourProvider } from "@/contexts/TourContext";
 
