@@ -17,14 +17,16 @@ import {
 // ─── useEntries (paginated list) ──────────────────────────────────────────────
 
 interface UseEntriesOptions {
+  token: string | null;
   initialPage?: number;
   pageSize?: number;
 }
 
 export function useEntries({
+  token,
   initialPage = 1,
   pageSize = 5,
-}: UseEntriesOptions = {}) {
+}: UseEntriesOptions) {
   const [data, setData] = useState<PaginatedEntries | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -33,10 +35,11 @@ export function useEntries({
 
   const fetchPage = useCallback(
     async (p: number, s: string) => {
+      if (!token) return;
       setLoading(true);
       setError(null);
       try {
-        const result = await listEntries({
+        const result = await listEntries(token, {
           page: p,
           page_size: pageSize,
           search: s || undefined,
@@ -48,7 +51,7 @@ export function useEntries({
         setLoading(false);
       }
     },
-    [pageSize]
+    [token, pageSize]
   );
 
   useEffect(() => {
@@ -58,7 +61,8 @@ export function useEntries({
   const refresh = () => fetchPage(page, search);
 
   const remove = async (entryId: string) => {
-    await deleteEntry(entryId);
+    if (!token) return;
+    await deleteEntry(token, entryId);
     await fetchPage(page, search);
   };
 
@@ -82,22 +86,22 @@ export function useEntries({
 
 // ─── useEntry (single entry) ──────────────────────────────────────────────────
 
-export function useEntry(entryId: string | null) {
+export function useEntry(token: string | null, entryId: string | null) {
   const [entry, setEntry] = useState<JournalEntry | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!entryId) return;
+    if (!token || !entryId) return;
     setLoading(true);
     setError(null);
-    getEntry(entryId)
+    getEntry(token, entryId)
       .then(setEntry)
       .catch((err) =>
         setError(err instanceof Error ? err.message : 'Алдаа гарлаа')
       )
       .finally(() => setLoading(false));
-  }, [entryId]);
+  }, [token, entryId]);
 
   return { entry, loading, error } as const;
 }
