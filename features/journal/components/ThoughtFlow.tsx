@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/shared/ui/button';
 import { ChevronLeft, ChevronRight, Sparkles, RefreshCw } from 'lucide-react';
 import { useThoughtFlow } from '../hooks/useThoughtFlow';
 import { StepIndicator } from './StepIndicator';

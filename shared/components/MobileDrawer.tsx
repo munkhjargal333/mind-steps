@@ -2,8 +2,8 @@
 
 import { Sunrise, Lock, Sparkles, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { ThemeToggle } from '@/components/shared/ThemeToggle';
-import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/shared/components/ThemeToggle';
+import { Button } from '@/shared/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { useThoughtContext } from '@/contexts/context';
 import Link from 'next/link';

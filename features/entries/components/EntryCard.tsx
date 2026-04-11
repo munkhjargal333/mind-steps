@@ -1,7 +1,7 @@
 'use client';
 
 import { Trash2, Lock, FileText, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/shared/ui/button';
 import Link from 'next/link';
 import { relativeTimeMn } from '@/lib/utils/date';
 

@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation'
 import { useThoughtContext } from '@/contexts/context'
 import { ArrowLeft, Info } from 'lucide-react'
 import { PLANS } from '@/data/constants'
-import { PricingCard } from '@/components/features/upgrade/PricingCard'
-import { QPayPayment } from '@/components/features/upgrade/QPayPayment'
+import { PricingCard } from '@/features/journal/components/upgrade/PricingCard'
+import { QPayPayment } from '@/features/journal/components/upgrade/QPayPayment'
 
 export default function UpgradePage() {
   const router = useRouter()
