@@ -3,7 +3,7 @@
 import { Trash2, Lock, FileText, Loader2 } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import Link from 'next/link';
-import { relativeTimeMn } from '@/lib/utils/date';
+import { relativeTimeMn } from '@/shared/lib/date';
 
 function relativeTime(iso: string) {
   return relativeTimeMn(iso);

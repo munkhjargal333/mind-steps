@@ -2,11 +2,11 @@
 
 import { use, useState, useEffect } from 'react';
 import { useAuth } from '@/core/auth/AuthContext';
-import { useEntry } from '@/lib/hooks/useEntries';
+import { useEntry } from '@/features/journal/hooks/useEntries';
 import { DashboardLayout } from '@/shared/components/DashboardLayout';
 import { Button } from '@/shared/ui/button';
 import { cn } from '@/shared/lib/utils';
-import { formatDatetimeMn } from '@/lib/utils/date';
+import { formatDatetimeMn } from '@/shared/lib/date';
 import {
   ArrowLeft,
   Loader2,
