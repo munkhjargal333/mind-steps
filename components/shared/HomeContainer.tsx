@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { HomePage } from '@/components/pages/HomePage'
-import { ThoughtFlow } from '@/components/thought/ThoughtFlow'
+import { ThoughtFlow } from '@/features/journal'
 import { useRateLimit } from '@/lib/hooks/useRateLimit'
 import { useAuth } from '@/contexts/AuthContext'
 import { useThoughtContext } from '@/contexts/context'

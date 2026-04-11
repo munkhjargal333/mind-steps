@@ -1,4 +1,4 @@
-import { QuickActionButton } from '@/components/thought/components/QuickActionButton'
+import { QuickActionButton } from '@/features/journal'
 import type { ActionConfig } from '@/data/constants'
 
 interface Props {
