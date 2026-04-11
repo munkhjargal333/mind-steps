@@ -1,15 +1,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// types/types.ts
-// Single source of truth for ALL domain types.
-// Re-exports from domain modules for backward compatibility.
-// Import from here everywhere — never from scattered local files.
+// types/domain/index.ts
+// Barrel export for all domain types
+// Import from here to get all domain types organized by feature
 // ─────────────────────────────────────────────────────────────────────────────
 
 // Auth & User
-export type { AuthUser, User, AdminUser } from './domain/auth';
+export type { AuthUser, User, AdminUser } from './auth';
 
 // Subscription
-export type { Tier, Plan } from './domain/subscription';
+export type { Tier, Plan } from './subscription';
 
 // Journal & Entries
 export type {
@@ -23,10 +22,10 @@ export type {
   DemoResponse,
   Journal,
   JournalListResponse,
-} from './domain/journal';
+} from './journal';
 
 // Insights
-export type { SeedInsight, AnalyzeResult, DeepInsight } from './domain/insight';
+export type { SeedInsight, AnalyzeResult, DeepInsight } from './insight';
 
 // Emotions & Mood
 export type {
@@ -40,10 +39,10 @@ export type {
   MoodStatistics,
   MoodUnitListResponse,
   PlutchikCombinationListResponse,
-} from './domain/emotion';
+} from './emotion';
 
 // Graph
-export type { GraphNode, GraphEdge, GraphData } from './domain/graph';
+export type { GraphNode, GraphEdge, GraphData } from './graph';
 
 // Goals
 export type {
@@ -52,10 +51,10 @@ export type {
   GoalListResponse,
   GoalStatistics,
   MilestoneCompleteResponse,
-} from './domain/goal';
+} from './goal';
 
 // Core Values
-export type { CoreValue, Maslow, CoreValueListResponse } from './domain/value';
+export type { CoreValue, Maslow, CoreValueListResponse } from './value';
 
 // Lessons
 export type {
@@ -67,7 +66,7 @@ export type {
   UpdateLessonData,
   CompleteLessonPayload,
   MeditationSession,
-} from './domain/lesson';
+} from './lesson';
 
 // Gamification
 export type {
@@ -75,7 +74,7 @@ export type {
   UserGamification,
   UserStreak,
   DashboardStats,
-} from './domain/gamification';
+} from './gamification';
 
 // Actions & Flow
 export type {
@@ -84,10 +83,10 @@ export type {
   SessionData,
   ActionConfig,
   StepCopy,
-} from './domain/action';
+} from './action';
 
 // UI
-export type { NavItem } from './domain/ui';
+export type { NavItem } from './ui';
 
 // API
 export type {
@@ -96,4 +95,4 @@ export type {
   JournalSearchResponse,
   AdminStats,
   LlmConfig,
-} from './domain/api';
+} from './api';

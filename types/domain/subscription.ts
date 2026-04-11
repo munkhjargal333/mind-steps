@@ -1,7 +1,14 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/types.ts
-// Re-export all types from types/types.ts for backward compatibility
-// Also define additional domain types used across the application
+// types/domain/subscription.ts
+// Subscription & Tier domain types
 // ─────────────────────────────────────────────────────────────────────────────
 
-export * from '@/types/types';
+export type Tier = 'demo' | 'free' | 'pro';
+
+export interface Plan {
+  id: string;
+  name: string;
+  tier: Tier;
+  price: number;
+  features: string[];
+}
