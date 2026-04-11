@@ -2,7 +2,7 @@
  * Insights Feature API Client
  */
 
-import type { SeedInsightData, GraphData, DeepInsight } from '../types';
+import type { SeedInsight, GraphData, DeepInsight } from '../../../types/types';
 
 const getBase = () =>
   (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_API_BASE) ||
@@ -46,9 +46,9 @@ export async function listDeepInsights(token: string): Promise<DeepInsight[]> {
   return handleResponse<DeepInsight[]>(res);
 }
 
-export async function getSeedInsight(token: string, entryId: string): Promise<SeedInsightData> {
+export async function getSeedInsight(token: string, entryId: string): Promise<SeedInsight> {
   const res = await fetch(`${getBase()}/api/insights/seed/${entryId}`, {
     headers: authHeaders(token),
   });
-  return handleResponse<SeedInsightData>(res);
+  return handleResponse<SeedInsight>(res);
 }

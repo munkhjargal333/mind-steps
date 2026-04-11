@@ -4,14 +4,14 @@
  */
 
 import type {
-  SeedInsightData,
+  SeedInsight,
   EntryCreateRequest,
   EntryCreateResponse,
   EntryResponse,
   PaginatedEntryResponse,
   DemoRequest,
   DemoResponse,
-} from '../types';
+} from '../../../types/types';
 
 const getBase = () =>
   (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_API_BASE) ||

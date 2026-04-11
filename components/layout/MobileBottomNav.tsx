@@ -3,13 +3,7 @@
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-
-interface NavItem {
-  href: string;
-  label: string;
-  icon: React.ComponentType<{ size?: number; strokeWidth?: number }>;
-  isPro: boolean;
-}
+import type { NavItem } from '@/types/types';
 
 interface MobileBottomNavProps {
   navItems: NavItem[];
