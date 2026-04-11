@@ -4,12 +4,23 @@
 export * from './api';
 
 // Hooks
-// export { useJournal } from './hooks/useJournal';
+export { useThoughtFlow } from './hooks/useThoughtFlow';
+export type { UseThoughtFlowReturn } from './hooks/useThoughtFlow';
 
 // Types
 export type * from './types';
 
 // Components
-// export { JournalList } from './components/JournalList';
-// export { JournalEntry } from './components/JournalEntry';
-// export { JournalForm } from './components/JournalForm';
+export { ThoughtFlow } from './components/ThoughtFlow';
+export { StepIndicator } from './components/StepIndicator';
+export { SeedInsightStep } from './components/SeedInsightStep';
+export { SurfaceStep } from './components/steps/SurfaceStep';
+export { InnerReactionStep } from './components/steps/InnerReactionStep';
+export { MeaningStep } from './components/steps/MeaningStep';
+export { QuickActionButton } from './components/QuickActionButton';
+export { ActionBadge } from './components/ActionBadge';
+export { ActionCard } from './components/ActionCard';
+export { TierPill } from './components/TierPill';
+
+// Config
+export * from './config';
