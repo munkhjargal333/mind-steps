@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { User, Session } from '@supabase/supabase-js';
-import { createClient } from '@/lib/supabase/client';
+import { createClient } from '@/core/supabase/client';
 import { useRouter } from 'next/navigation';
 
 export function useAuthLogic() {

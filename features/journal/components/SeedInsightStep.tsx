@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
-import { cn } from '@/lib/utils';
-import { INSIGHT_CARDS, ACTION_MAP } from '@/data/constants';
+import { cn } from '@/shared/lib/utils';
+import { INSIGHT_CARDS, ACTION_MAP } from '@/shared/constants/constants';
 import type { SessionData } from '@/types';
 import type { AnalyzeResult } from '@/lib/api/api';
 

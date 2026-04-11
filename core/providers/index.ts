@@ -1,4 +1,2 @@
-// core/providers/index.ts
-// Core React providers for the application
-
-export { AppProviders } from './AppProviders';
+export { ThemeProvider, useTheme } from './theme-provider';
+export { ToastProvider, useToast } from './ToastContext';

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/core/supabase/server'
 
 const QPAY_SANDBOX_URL = 'https://merchant-sandbox.qpay.mn/v2'
 const QPAY_USERNAME    = process.env.QPAY_USERNAME ?? 'TEST_VENDOR_MERCHANT'

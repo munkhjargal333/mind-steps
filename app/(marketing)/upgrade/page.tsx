@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useThoughtContext } from '@/contexts/context'
 import { ArrowLeft, Info } from 'lucide-react'
-import { PLANS } from '@/data/constants'
+import { PLANS } from '@/shared/constants/constants'
 import { PricingCard } from '@/features/journal/components/upgrade/PricingCard'
 import { QPayPayment } from '@/features/journal/components/upgrade/QPayPayment'
 

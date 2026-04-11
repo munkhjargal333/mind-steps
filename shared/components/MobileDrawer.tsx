@@ -1,10 +1,10 @@
 'use client';
 
 import { Sunrise, Lock, Sparkles, ChevronRight } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/lib/utils';
 import { ThemeToggle } from '@/shared/components/ThemeToggle';
 import { Button } from '@/shared/ui/button';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/core/auth/AuthContext';
 import { useThoughtContext } from '@/contexts/context';
 import Link from 'next/link';
 import Image from 'next/image';

@@ -4,7 +4,7 @@ import { Sunrise, BookOpen, BarChart2, Sparkles, Network, Zap } from 'lucide-rea
 import { DesktopSidebar } from './DesktopSidebar';
 import { MobileBottomNav } from './MobileBottomNav';
 import { MobileDrawer } from './MobileDrawer';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/core/auth/AuthContext';
 import { useThoughtContext } from '@/contexts/context';
 import { useState, useEffect } from 'react';
 
