@@ -7,8 +7,8 @@ export * from './api';
 export { useThoughtFlow } from './hooks/useThoughtFlow';
 export type { UseThoughtFlowReturn } from './hooks/useThoughtFlow';
 
-// Types
-export type * from './types';
+// Types - re-export from central types (no local types folder needed)
+// Import directly from @/types in components
 
 // Components
 export { ThoughtFlow } from './components/ThoughtFlow';

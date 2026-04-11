@@ -1,6 +1,6 @@
 import { BaseAPIClient } from '../core/client';
 import { ApiResponse, GoalListResponse, GoalStatistics, MilestoneCompleteResponse } from '../core/types';
-import { Goal, Milestone } from '@/lib/types';
+import { Goal, Milestone } from '@/types';
 
 export class GoalsAPI extends BaseAPIClient {
   // ==================== GOALS ====================

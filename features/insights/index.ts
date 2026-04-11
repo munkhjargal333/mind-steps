@@ -6,8 +6,8 @@ export * from './api';
 // Hooks
 // export { useInsights } from './hooks/useInsights';
 
-// Types - re-export from central types via feature types
-export type { SeedInsight, GraphData, DeepInsight } from './types';
+// Types - re-export from central types
+export type { SeedInsight, GraphData, DeepInsight } from '@/types';
 
 // Components
 // export { InsightCard } from './components/InsightCard';

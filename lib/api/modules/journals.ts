@@ -1,6 +1,6 @@
 import { BaseAPIClient } from '../core/client';
 import { JournalListResponse, JournalSearchParams, JournalSearchResponse } from '../core/types';
-import { Journal } from '@/lib/types';
+import { Journal } from '@/types';
 
 export class JournalAPI extends BaseAPIClient {
   /**

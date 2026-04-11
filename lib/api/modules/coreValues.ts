@@ -1,6 +1,6 @@
 import { BaseAPIClient } from '../core/client';
 import { CoreValueListResponse } from '../core/types';
-import { CoreValue, Maslow } from '@/lib/types';
+import { CoreValue, Maslow } from '@/types';
 
 export class CoreValuesAPI extends BaseAPIClient {
   /**

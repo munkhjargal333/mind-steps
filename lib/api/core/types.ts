@@ -1,4 +1,4 @@
-import {
+import type {
   Journal,
   User,
   UserGamification,
@@ -18,7 +18,7 @@ import {
   PlutchikCombination,
   CompleteLessonPayload,
   DashboardStats
-} from '@/lib/types';
+} from '@/types';
 
 // ==================== GENERIC RESPONSE TYPES ====================
 

@@ -6,8 +6,8 @@ export * from './api';
 // Hooks
 export { useEmotionStats } from './hooks/useEmotionStats';
 
-// Types
-export type { EmotionStat } from './types';
+// Types - re-export from central types
+export type { EmotionStat } from '@/types';
 
 // Components
 // export { EmotionPicker } from './components/EmotionPicker';

@@ -1,6 +1,6 @@
 import { BaseAPIClient } from '../core/client';
 import { LessonListResponse, CategoriesList, CreateLessonData, UpdateLessonData } from '../core/types';
-import { Lesson, CompleteLessonPayload } from '@/lib/types';
+import { Lesson, CompleteLessonPayload } from '@/types';
 
 export class LessonsAPI extends BaseAPIClient {
   // ==================== LESSON CATEGORIES ====================

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { DashboardStats } from '@/lib/types';
+import { DashboardStats } from '@/types';
 
 export function useStats(userId: string | undefined) {
   const [dashboard, setData] = useState<DashboardStats | null>(null);
