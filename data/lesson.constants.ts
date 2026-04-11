@@ -1,4 +1,5 @@
 import { Layers, Flame, Compass, type LucideIcon } from 'lucide-react';
+import type { StepCopy } from '@/types/types';
 
 // ─── Step indicator metadata ──────────────────────────────────
 
@@ -9,12 +10,6 @@ export const STEPS: { label: string; icon: LucideIcon }[] = [
 ];
 
 // ─── Per-action question copy ─────────────────────────────────
-
-export interface StepCopy {
-  surface: { q: string; placeholder: string };
-  inner:   { q: string; placeholder: string };
-  meaning: { q: string; placeholder: string };
-}
 
 export const STEP_CONFIG: Record<string, StepCopy> = {
 

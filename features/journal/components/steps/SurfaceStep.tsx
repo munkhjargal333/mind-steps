@@ -1,6 +1,6 @@
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/lib/utils';
-import type { StepCopy } from '@/data/constants';
+import type { StepCopy } from '@/types/types';
 
 interface Props {
   cfg: StepCopy['surface'];
