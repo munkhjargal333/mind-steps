@@ -1,11 +1,14 @@
 // Emotions Feature Module Barrel Export
 
+// API
+export * from './api';
+
+// Hooks
+export { useEmotionStats } from './hooks/useEmotionStats';
+
+// Types
+export type { EmotionStat } from './types';
+
 // Components
 // export { EmotionPicker } from './components/EmotionPicker';
 // export { EmotionTracker } from './components/EmotionTracker';
-
-// Hooks
-// export { useEmotions } from './hooks/useEmotions';
-
-// Types
-// export type { Emotion } from './types/emotion.types';
