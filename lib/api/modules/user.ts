@@ -1,6 +1,6 @@
 import { BaseAPIClient } from '../core/client';
 import { ApiResponse } from '../core/types';
-import { User,DashboardStats } from '@/lib/types';
+import { User,DashboardStats } from '@/types';
 
 export class UserAPI extends BaseAPIClient {
   /**

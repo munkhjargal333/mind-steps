@@ -1,5 +1,5 @@
 import { BaseAPIClient } from '../core/client';
-import { MoodUnit, PlutchikCombination, PlutchikEmotion } from '@/lib/types';
+import { MoodUnit, PlutchikCombination, PlutchikEmotion } from '@/types';
 
 export class AdminAPI extends BaseAPIClient {
   // ==================== MOOD UNITS MANAGEMENT ====================

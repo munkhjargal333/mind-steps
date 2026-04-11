@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Journal, JournalListResponse } from '@/lib/types'; 
+import { Journal, JournalListResponse } from '@/types'; 
 
 export function useJournals(userId: string | undefined, page: number = 1, limit: number = 10) {
 

@@ -1,6 +1,6 @@
 import { BaseAPIClient } from '../core/client';
 import { MoodEntryListResponse, MoodStatistics } from '../core/types';
-import { MoodCategory, MoodUnit, MoodEntry } from '@/lib/types';
+import { MoodCategory, MoodUnit, MoodEntry } from '@/types';
 
 export class MoodAPI extends BaseAPIClient {
   // ==================== MOOD CATEGORIES & UNITS ====================

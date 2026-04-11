@@ -1,7 +1,7 @@
 // hooks/useGamification.ts
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { UserGamification } from '@/lib/types';
+import { UserGamification } from '@/types';
 
 export function useGamification(userId: string | undefined) {
   const [gamification, setData] = useState<UserGamification | null>(null);
