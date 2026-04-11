@@ -1,7 +1,22 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// lib/types.ts
-// Re-export all types from types/types.ts for backward compatibility
-// Also define additional domain types used across the application
+// types/domain/graph.ts
+// Graph & Visualization domain types
 // ─────────────────────────────────────────────────────────────────────────────
 
-export * from '@/types/types';
+export interface GraphNode {
+  id: string;
+  label: string;
+  [key: string]: unknown;
+}
+
+export interface GraphEdge {
+  source: string;
+  target: string;
+  [key: string]: unknown;
+}
+
+export interface GraphData {
+  nodes: GraphNode[];
+  edges: GraphEdge[];
+  [key: string]: unknown;
+}
