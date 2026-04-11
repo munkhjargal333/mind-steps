@@ -8,7 +8,7 @@ import { useRateLimit } from '@/lib/hooks/useRateLimit'
 import { useAuth } from '@/contexts/AuthContext'
 import { useThoughtContext } from '@/contexts/context'
 import type { QuickActionType } from '@/types/types'
-import { DailyLimitModal } from '@/components/features/home/DailyLimitModal'
+import { DailyLimitModal } from '@/features/home'
 
 type View = 'home' | 'flow'
 
