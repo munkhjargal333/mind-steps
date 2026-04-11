@@ -4,6 +4,22 @@
  * All endpoints follow the OpenAPI spec.
  */
 
+import type {
+  SeedInsight,
+  EntryCreateRequest,
+  EntryCreateResponse,
+  EntryResponse,
+  PaginatedEntryResponse,
+  DemoRequest,
+  DemoResponse,
+  AdminUser,
+  LlmConfig,
+  AdminStats,
+  EmotionStat,
+  GraphData,
+  DeepInsight,
+} from '../../types/types';
+
 const getBase = () =>
   (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_API_BASE) ||
   'http://localhost:8000';
@@ -28,98 +44,6 @@ async function handleResponse<T>(res: Response): Promise<T> {
   }
   if (res.status === 204) return undefined as unknown as T;
   return res.json() as Promise<T>;
-}
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-export interface SeedInsightData {
-  mirror: string;
-  reframe: string;
-  relief: string;
-  summary: string;
-}
-
-export interface EntryCreateRequest {
-  surface_text: string;
-  inner_reaction_text: string;
-  meaning_text: string;
-  save_text?: boolean;
-}
-
-export interface EntryCreateResponse {
-  entry_id: string;
-  seed_insight: SeedInsightData;
-  analysis_channel: string;
-}
-
-export interface EntryResponse {
-  id: string;
-  user_id: string;
-  surface_text: string | null;
-  inner_reaction_text: string | null;
-  meaning_text: string | null;
-  is_encrypted: boolean;
-  is_text_saved: boolean;
-  entry_index: number;
-  created_at: string;
-}
-
-export interface PaginatedEntryResponse {
-  items: EntryResponse[];
-  total: number;
-  page: number;
-  page_size: number;
-}
-
-export interface DemoRequest {
-  surface_text: string;
-  inner_reaction_text: string;
-  meaning_text: string;
-}
-
-export interface DemoResponse {
-  seed_insight: SeedInsightData;
-  remaining: number;
-  note: string;
-}
-
-export interface AdminUser {
-  id: string;
-  email: string;
-  created_at: string;
-  [key: string]: unknown;
-}
-
-export interface LlmConfig {
-  model?: string;
-  provider?: string;
-  [key: string]: unknown;
-}
-
-export interface AdminStats {
-  total_users?: number;
-  total_entries?: number;
-  [key: string]: unknown;
-}
-
-export interface EmotionStat {
-    emotion:    string,
-    score_sum:  number,
-    count:      number,
-    percentage: number,
-}
-
-export interface GraphData {
-  nodes: { id: string; label: string; [key: string]: unknown }[];
-  edges: { source: string; target: string; [key: string]: unknown }[];
-  [key: string]: unknown;
-}
-
-export interface DeepInsight {
-  id: string;
-  content: string;
-  created_at: string;
-  [key: string]: unknown;
 }
 
 // ─── Entries ──────────────────────────────────────────────────────────────────
@@ -182,11 +106,11 @@ export async function listDeepInsights(token: string): Promise<DeepInsight[]> {
   return handleResponse<DeepInsight[]>(res);
 }
 
-export async function getSeedInsight(token: string, entryId: string): Promise<SeedInsightData> {
+export async function getSeedInsight(token: string, entryId: string): Promise<SeedInsight> {
   const res = await fetch(`${getBase()}/api/insights/seed/${entryId}`, {
     headers: authHeaders(token),
   });
-  return handleResponse<SeedInsightData>(res);
+  return handleResponse<SeedInsight>(res);
 }
 
 // ─── Stats ────────────────────────────────────────────────────────────────────

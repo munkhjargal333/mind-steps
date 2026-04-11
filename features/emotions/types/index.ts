@@ -1,10 +1,6 @@
 /**
  * Emotion Feature Types
+ * Re-exported from central types to maintain feature boundary imports.
  */
 
-export interface EmotionStat {
-  emotion: string;
-  score_sum: number;
-  count: number;
-  percentage: number;
-}
+export type { EmotionStat } from '../../../types/types';

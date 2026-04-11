@@ -17,7 +17,7 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import Link from 'next/link';
-import { getSeedInsight, type SeedInsightData } from '@/lib/api/journalBackend';
+import { getSeedInsight, type SeedInsight } from '@/lib/api/journalBackend';
 
 // ─── Insight card config ──────────────────────────────────────
 
@@ -51,7 +51,7 @@ export default function EntryDetailPage({
   const { token } = useAuth();
   const { entry, loading, error } = useEntry(token, entry_id);
 
-  const [insight, setInsight]           = useState<SeedInsightData | null>(null);
+  const [insight, setInsight]           = useState<SeedInsight | null>(null);
   const [insightLoading, setInsightLoading] = useState(false);
   const [insightError, setInsightError] = useState<string | null>(null);
 

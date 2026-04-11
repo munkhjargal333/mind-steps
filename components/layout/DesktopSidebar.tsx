@@ -3,13 +3,7 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
-
-interface NavItem {
-  href: string;
-  label: string;
-  icon: React.ComponentType<{ size?: number; strokeWidth?: number }>;
-  isPro: boolean;
-}
+import type { NavItem } from '@/types/types';
 
 interface DesktopSidebarProps {
   navItems: NavItem[];

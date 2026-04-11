@@ -1,8 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// types/index.ts
+// types/types.ts
 // Single source of truth for ALL domain types.
 // Import from here everywhere — never from scattered local files.
 // ─────────────────────────────────────────────────────────────────────────────
+
+import type { LucideIcon } from 'lucide-react';
 
 // ─── Auth ─────────────────────────────────────────────────────────────────────
 export interface AuthUser {
@@ -41,7 +43,11 @@ export interface SessionData {
   meaningText: string;
 }
 
-// ─── Insight ──────────────────────────────────────────────────────────────────
+// ─── Insight (Seed Insight) ───────────────────────────────────────────────────
+/**
+ * Core insight structure returned from analysis.
+ * Used across journal, insights, and demo features.
+ */
 export interface SeedInsight {
   mirror: string;
   reframe: string;
@@ -72,6 +78,51 @@ export interface PaginatedEntries {
   total: number;
   page: number;
   page_size: number;
+}
+
+// ─── Entry API Request/Response (Journal Backend) ─────────────────────────────
+export interface EntryCreateRequest {
+  surface_text: string;
+  inner_reaction_text: string;
+  meaning_text: string;
+  save_text?: boolean;
+}
+
+export interface EntryCreateResponse {
+  entry_id: string;
+  seed_insight: SeedInsight;
+  analysis_channel: string;
+}
+
+export interface EntryResponse {
+  id: string;
+  user_id: string;
+  surface_text: string | null;
+  inner_reaction_text: string | null;
+  meaning_text: string | null;
+  is_encrypted: boolean;
+  is_text_saved: boolean;
+  entry_index: number;
+  created_at: string;
+}
+
+export interface PaginatedEntryResponse {
+  items: EntryResponse[];
+  total: number;
+  page: number;
+  page_size: number;
+}
+
+export interface DemoRequest {
+  surface_text: string;
+  inner_reaction_text: string;
+  meaning_text: string;
+}
+
+export interface DemoResponse {
+  seed_insight: SeedInsight;
+  remaining: number;
+  note: string;
 }
 
 // ─── Emotions / Stats ─────────────────────────────────────────────────────────
@@ -117,8 +168,6 @@ export interface NavItem {
 }
 
 // ─── Action Config (UI catalog) ───────────────────────────────────────────────
-import type { LucideIcon } from 'lucide-react';
-
 export interface ActionConfig {
   type: QuickActionType;
   label: string;
@@ -135,4 +184,24 @@ export interface StepCopy {
   surface: { q: string; placeholder: string };
   inner: { q: string; placeholder: string };
   meaning: { q: string; placeholder: string };
+}
+
+// ─── Admin Types ──────────────────────────────────────────────────────────────
+export interface AdminUser {
+  id: string;
+  email: string;
+  created_at: string;
+  [key: string]: unknown;
+}
+
+export interface LlmConfig {
+  model?: string;
+  provider?: string;
+  [key: string]: unknown;
+}
+
+export interface AdminStats {
+  total_users?: number;
+  total_entries?: number;
+  [key: string]: unknown;
 }
