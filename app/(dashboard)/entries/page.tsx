@@ -5,11 +5,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useEntries } from '@/lib/hooks/useEntries';
 import { Loader2, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
-import { EntryCard } from '@/features/entries/components/EntryCard';
-import { EntriesHeader } from './components/EntriesHeader';
-import { EntriesSearch } from './components/EntriesSearch';
-import { EntriesEmptyState } from './components/EntriesEmptyState';
-import { EntriesPagination } from './components/EntriesPagination';
+import { EntryCard, EntriesHeader, EntriesSearch, EntriesEmptyState, EntriesPagination } from '@/features/entries';
 
 export default function EntriesPage() {
   const { token } = useAuth();

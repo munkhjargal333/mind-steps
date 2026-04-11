@@ -1,2 +1,12 @@
-DailyLimitModal.tsx
-HomeContainer.tsx
+```
+# Dependencies
+node_modules/
+
+# Editors
+.vscode/
+
+# Environment
+.env
+.env.local
+.env.*
+```
