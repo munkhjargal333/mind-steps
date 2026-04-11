@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/shared/ui/button';
 
 interface SocialLoginProps {
   onError: (error: string | null) => void;

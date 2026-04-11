@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from '@/shared/ui/button';
 import { ArrowLeft, ArrowRight, RotateCcw } from 'lucide-react';
 
 type Props = {

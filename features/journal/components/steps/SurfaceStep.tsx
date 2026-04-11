@@ -1,4 +1,4 @@
-import { Textarea } from '@/components/ui/textarea';
+import { Textarea } from '@/shared/ui/textarea';
 import { cn } from '@/lib/utils';
 import type { StepCopy } from '@/data/constants';
 

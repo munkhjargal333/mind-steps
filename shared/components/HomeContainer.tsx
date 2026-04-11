@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { HomePage } from '@/components/pages/HomePage'
+import { HomePage } from '@/shared/components/HomePage'
 import { ThoughtFlow } from '@/features/journal'
 import { useRateLimit } from '@/lib/hooks/useRateLimit'
 import { useAuth } from '@/contexts/AuthContext'

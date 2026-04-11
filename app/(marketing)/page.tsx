@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { Sunrise } from 'lucide-react'
-import { MainHeader } from '@/components/shared/MainHeader'
+import { MainHeader } from '@/shared/components/MainHeader'
 import { HeroSection } from './_sections/HeroSection'
 import { ProblemSection } from './_sections/ProblemSection'
 import { HowItWorksSection } from './_sections/HowItWorksSection'
