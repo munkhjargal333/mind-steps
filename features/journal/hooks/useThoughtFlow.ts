@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback, useRef } from 'react';
-import type { QuickActionType, SessionData, FlowStep } from '@/types/types';
+import type { QuickActionType, SessionData, FlowStep } from '@/types';
 import type { AnalyzeResult } from '@/lib/api/api';
 import { analyzeSession } from '@/lib/api/api';
 import { useThoughtContext, type ThoughtContextValue } from '@/contexts/context';

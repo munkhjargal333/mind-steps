@@ -1,5 +1,5 @@
 import { Layers, Flame, Compass, type LucideIcon } from 'lucide-react';
-import type { StepCopy } from '@/types/types';
+import type { StepCopy } from '@/types';
 
 // ─── Step indicator metadata ──────────────────────────────────
 

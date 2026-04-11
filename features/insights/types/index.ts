@@ -7,4 +7,4 @@ export type {
   SeedInsight,
   GraphData,
   DeepInsight,
-} from '../../../types/types';
+} from '@/shared/types';

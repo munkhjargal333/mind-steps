@@ -7,7 +7,7 @@ import { ThoughtFlow } from '@/features/journal'
 import { useRateLimit } from '@/lib/hooks/useRateLimit'
 import { useAuth } from '@/contexts/AuthContext'
 import { useThoughtContext } from '@/contexts/context'
-import type { QuickActionType } from '@/types/types'
+import type { QuickActionType } from '@/types'
 import { DailyLimitModal } from '@/features/home'
 
 type View = 'home' | 'flow'

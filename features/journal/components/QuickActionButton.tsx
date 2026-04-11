@@ -1,7 +1,7 @@
 'use client';
 
 import { ArrowRight, Lock } from 'lucide-react';
-import type { QuickActionType } from '@/types/types';
+import type { QuickActionType } from '@/types';
 import { cn } from '@/lib/utils';
 
 interface QuickActionButtonProps {

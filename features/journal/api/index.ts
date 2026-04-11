@@ -11,7 +11,7 @@ import type {
   PaginatedEntryResponse,
   DemoRequest,
   DemoResponse,
-} from '../../../types/types';
+} from '@/shared/types';
 
 const getBase = () =>
   (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_API_BASE) ||
