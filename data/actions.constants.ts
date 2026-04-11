@@ -1,5 +1,5 @@
 import { Zap, Users, Heart, HelpCircle, Target, Compass, Shield, Sun, type LucideIcon } from 'lucide-react';
-import type { QuickActionType, Tier, ActionConfig } from '@/types/types';
+import type { QuickActionType, Tier, ActionConfig } from '@/types';
 
 export const ALL_ACTIONS: ActionConfig[] = [
   // ── FREE (4) ──────────────────────────────────────────────

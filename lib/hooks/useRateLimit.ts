@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import { Tier } from '@/types/types'
+import { Tier } from '@/types'
 
 const DAILY_LIMITS: Record<Tier, number> = {
   demo: 3,

@@ -11,4 +11,4 @@ export type {
   PaginatedEntryResponse,
   DemoRequest,
   DemoResponse,
-} from '../../../types/types';
+} from '@/shared/types';

@@ -3,4 +3,4 @@
  * Re-exported from central types to maintain feature boundary imports.
  */
 
-export type { EmotionStat } from '../../../types/types';
+export type { EmotionStat } from '@/shared/types';

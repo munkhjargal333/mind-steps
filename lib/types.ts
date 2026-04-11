@@ -4,4 +4,4 @@
 // Also define additional domain types used across the application
 // ─────────────────────────────────────────────────────────────────────────────
 
-export * from '@/types/types';
+export * from '@/types';

@@ -1,4 +1,4 @@
-import type { Tier } from '@/types/types';
+import type { Tier } from '@/types';
 
 export type { Tier };
 
