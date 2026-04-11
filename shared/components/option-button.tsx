@@ -1,6 +1,6 @@
 import { LucideIcon } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/lib/utils';
 
 interface OptionButtonProps {
   visual: LucideIcon | string; // Дүрс эсвэл Эможи

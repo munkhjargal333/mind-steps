@@ -1,11 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { FREE_ACTIONS, PRO_ACTIONS } from '@/data/constants'
+import { FREE_ACTIONS, PRO_ACTIONS } from '@/shared/constants/constants'
 import { ActionGrid } from '@/shared/components/action-grid'
 import { useThoughtContext } from '@/contexts/context'
 import { Lock } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/lib/utils'
 
 interface Props {
   onSelectAction: (type: any) => void

@@ -1,5 +1,3 @@
-// core/auth/index.ts
-// Core authentication system-level logic
-
-export { authManager } from './manager';
-export type { AuthState, AuthSession } from './types';
+export { AuthContext, useAuth } from './AuthContext';
+export { AuthProvider } from './AuthProvider';
+export type { AuthContextType } from './AuthContext';

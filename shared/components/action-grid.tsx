@@ -1,5 +1,5 @@
 import { QuickActionButton } from '@/features/journal'
-import type { ActionConfig } from '@/data/constants'
+import type { ActionConfig } from '@/shared/constants/constants'
 
 interface Props {
   actions: ActionConfig[]

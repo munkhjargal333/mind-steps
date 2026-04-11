@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { useAuth } from '@/contexts/AuthContext'
+import { useAuth } from '@/core/auth/AuthContext'
 import { MainHeader } from '@/shared/components/MainHeader'
 import { LoginForm } from './components/LoginForm'
 import { SocialLogin } from './components/SocialLogin'

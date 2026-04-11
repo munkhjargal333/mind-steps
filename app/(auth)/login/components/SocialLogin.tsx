@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/core/auth/AuthContext';
 import { Button } from '@/shared/ui/button';
 
 interface SocialLoginProps {

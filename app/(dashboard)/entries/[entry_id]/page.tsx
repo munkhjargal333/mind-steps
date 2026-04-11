@@ -1,11 +1,11 @@
 'use client';
 
 import { use, useState, useEffect } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/core/auth/AuthContext';
 import { useEntry } from '@/lib/hooks/useEntries';
 import { DashboardLayout } from '@/shared/components/DashboardLayout';
 import { Button } from '@/shared/ui/button';
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/lib/utils';
 import { formatDatetimeMn } from '@/lib/utils/date';
 import {
   ArrowLeft,

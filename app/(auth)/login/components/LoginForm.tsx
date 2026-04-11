@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { ArrowRight, Mail, Lock, Eye, EyeOff } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/core/auth/AuthContext';
 import { Button } from '@/shared/ui/button';
 import { Input } from '@/shared/ui/input';
 import { Label } from '@/shared/ui/label';

@@ -2,7 +2,7 @@
 
 import { ArrowRight, Lock } from 'lucide-react';
 import type { QuickActionType } from '@/types';
-import { cn } from '@/lib/utils';
+import { cn } from '@/shared/lib/utils';
 
 interface QuickActionButtonProps {
   action: {

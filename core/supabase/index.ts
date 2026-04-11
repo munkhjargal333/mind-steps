@@ -1,5 +1,2 @@
-// core/supabase/index.ts
-// Core Supabase client configuration
-
-export { supabaseClient } from './client';
-export type { SupabaseConfig } from './types';
+export { createClient } from './client';
+export { createClient as createServerClient } from './server';
