@@ -1,4 +1,4 @@
-import type { SessionData, SeedInsight } from '../../types/types';
+import type { SessionData, SeedInsight } from '@/types/types';
 import type { ThoughtContextValue } from '@/contexts/context';
 import { createEntry, demoSeedInsight } from './journalBackend';
 

@@ -1,5 +1,5 @@
 import { Zap, Users, Heart, HelpCircle, Target, Compass, Shield, Sun, type LucideIcon } from 'lucide-react';
-import type { QuickActionType } from '../types/types';
+import type { QuickActionType } from '@/types/types';
 import type { Tier } from './constants';
 
 export interface ActionConfig {

@@ -1,4 +1,4 @@
-import type { SessionData, SeedInsight } from '../../../types/types';
+import type { SessionData, SeedInsight } from '@/types/types';
 // ─── Config ───────────────────────────────────────────────────
 
 export interface ApiConfig {

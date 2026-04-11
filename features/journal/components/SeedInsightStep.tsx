@@ -2,8 +2,8 @@
 
 import { useEffect } from 'react';
 import { cn } from '@/lib/utils';
-import { INSIGHT_CARDS, ACTION_MAP } from '../../../data/constants';
-import type { SessionData } from '../../../types/types';
+import { INSIGHT_CARDS, ACTION_MAP } from '@/data/constants';
+import type { SessionData } from '@/types/types';
 import type { AnalyzeResult } from '@/lib/api/api';
 
 interface Props {
