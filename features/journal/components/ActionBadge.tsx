@@ -1,5 +1,5 @@
 import { cn } from '@/shared/lib/utils';
-import type { QuickActionType } from '@/types';
+import type { QuickActionType } from '@/core/api/types';
 import { ACTION_MAP } from '@/shared/constants';
 
 interface Props {

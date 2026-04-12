@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useCallback, useRef } from 'react';
-import type { QuickActionType, SessionData, FlowStep } from '@/types';
-import type { AnalyzeResult } from '@/types';
+import type { QuickActionType, SessionData, FlowStep } from '@/core/api/types';
+import type { AnalyzeResult } from '@/core/api/types';
 import { analyzeSession } from '@/core/api';
 import { useTierContext, type TierContextValue } from '@/core/providers';
 

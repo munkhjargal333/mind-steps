@@ -3,8 +3,8 @@
 import { useEffect } from 'react';
 import { cn } from '@/shared/lib/utils';
 import { INSIGHT_CARDS, ACTION_MAP } from '@/shared/constants';
-import type { SessionData } from '@/types';
-import type { AnalyzeResult } from '@/types';
+import type { SessionData } from '@/core/api/types';
+import type { AnalyzeResult } from '@/core/api/types';
 
 interface Props {
   session: SessionData;

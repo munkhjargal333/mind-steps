@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/core/auth/AuthContext';
-import { useEntries } from '@/features/journal/hooks/useEntries';
+import { useEntries } from '@/features/entries/useEntries';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { EntryCard, EntriesHeader, EntriesSearch, EntriesEmptyState, EntriesPagination } from '@/features/entries';
 

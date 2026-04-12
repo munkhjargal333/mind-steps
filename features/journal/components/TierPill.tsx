@@ -1,4 +1,4 @@
-import type { Tier } from '@/types';
+import type { Tier } from '@/core/api/types';
 import s from './TierPill.module.css';
 
 interface Props { tier: Tier }

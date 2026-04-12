@@ -3,7 +3,7 @@
 import { cn } from '@/shared/lib/utils';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import type { NavItem } from '@/types';
+import type { NavItem } from '@/core/api/types';
 
 interface MobileBottomNavProps {
   navItems: NavItem[];

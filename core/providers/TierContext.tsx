@@ -7,7 +7,7 @@
 'use client';
 
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
-import type { Tier } from '@/types';
+import type { Tier } from '@/core/api/types';
 import { useAuth } from '@/core/auth/AuthContext';
 import { createClient } from '@/core/supabase'
 

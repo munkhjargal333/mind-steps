@@ -1,10 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// lib/services/journal.service.ts
-// Pure service layer — NO React, NO hooks, NO UI.
-// Responsible ONLY for HTTP communication with the backend API.
-// All types come from the centralized /types/index.ts.
-// ─────────────────────────────────────────────────────────────────────────────
-
 import type {
   JournalEntry,
   PaginatedEntries,
@@ -12,7 +5,7 @@ import type {
   EmotionStat,
   GraphData,
   DeepInsight,
-} from '@/types';
+} from '@/core/api/types';
 
 // ─── Internal helpers ─────────────────────────────────────────────────────────
 
@@ -169,50 +162,4 @@ export async function getSeedInsight(
     headers: authHeaders(token),
   });
   return handleResponse<SeedInsight & { summary: string }>(res);
-}
-
-// ─── Admin ────────────────────────────────────────────────────────────────────
-
-export interface AdminUser {
-  id: string;
-  email: string;
-  created_at: string;
-  [key: string]: unknown;
-}
-
-export interface AdminStats {
-  total_users?: number;
-  total_entries?: number;
-  [key: string]: unknown;
-}
-
-export async function adminListUsers(token: string): Promise<AdminUser[]> {
-  const res = await fetch(`${getBase()}/api/admin/users`, {
-    headers: authHeaders(token),
-  });
-  return handleResponse<AdminUser[]>(res);
-}
-
-export async function adminInviteUser(token: string, email: string): Promise<unknown> {
-  const res = await fetch(`${getBase()}/api/admin/users/invite`, {
-    method: 'POST',
-    headers: authHeaders(token),
-    body: JSON.stringify({ email }),
-  });
-  return handleResponse<unknown>(res);
-}
-
-export async function adminDeleteUser(token: string, userId: string): Promise<void> {
-  const res = await fetch(`${getBase()}/api/admin/users/${userId}`, {
-    method: 'DELETE',
-    headers: authHeaders(token),
-  });
-  return handleResponse<void>(res);
-}
-
-export async function adminGetStats(token: string): Promise<AdminStats> {
-  const res = await fetch(`${getBase()}/api/admin/stats`, {
-    headers: authHeaders(token),
-  });
-  return handleResponse<AdminStats>(res);
 }

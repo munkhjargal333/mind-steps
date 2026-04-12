@@ -10,7 +10,7 @@ import { InnerReactionStep } from './steps/InnerReactionStep';
 import { MeaningStep } from './steps/MeaningStep';
 import { SeedInsightStep } from './SeedInsightStep';
 import { STEP_CONFIG } from '@/shared/constants';
-import type { QuickActionType } from '@/types';
+import type { QuickActionType } from '@/core/api/types';
 
 interface Props {
   initialAction: QuickActionType;

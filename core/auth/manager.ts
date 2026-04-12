@@ -2,7 +2,7 @@
 // Core authentication manager
 
 import type { AuthState, AuthSession } from './types';
-import type { User } from '@/types';
+import type { User } from '@/core/api/types';
 
 class AuthManager {
   private state: AuthState = {

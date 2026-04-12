@@ -2,7 +2,7 @@
 
 import { use, useState, useEffect } from 'react';
 import { useAuth } from '@/core/auth/AuthContext';
-import { useEntry } from '@/features/journal/hooks/useEntries';
+import { useEntry } from '@/features/entries/useEntries';
 import { Button } from '@/shared/ui/button';
 import { cn } from '@/shared/lib/utils';
 import { formatDatetimeMn } from '@/shared/lib/date';
@@ -16,8 +16,8 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import Link from 'next/link';
-import { getSeedInsight } from '@/features/journal/services';
-import {  type SeedInsight } from '@/types'
+import { getSeedInsight } from '@/core/api';
+import {  type SeedInsight } from '@/core/api'
 
 // ─── Insight card config ──────────────────────────────────────
 

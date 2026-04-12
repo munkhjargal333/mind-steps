@@ -1,6 +1,6 @@
 import { Textarea } from '@/shared/ui/textarea';
 import { cn } from '@/shared/lib/utils';
-import type { StepCopy } from '@/types';
+import type { StepCopy } from '@/core/api/types';
 
 interface Props {
   cfg: StepCopy['meaning'];

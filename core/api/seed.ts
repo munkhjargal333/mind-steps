@@ -5,12 +5,12 @@
 // NOTE: Энэ файл @/lib/api/api path-аар import хийгддэг (legacy).
 // Шинэ код нь @/features/journal/services эсвэл @/core/api/journalBackend ашиглана.
 
-import type { SessionData, AnalyzeResult } from '@/types';
+import type { SessionData, AnalyzeResult } from '@/core/api/types';
 import type { TierContextValue } from '@/core/providers';
 import {
   analyzeAuthenticatedSession,
   analyzeDemoSession,
-} from '@/features/journal/services';
+} from '@/core/api';
 
 export type { AnalyzeResult };
 

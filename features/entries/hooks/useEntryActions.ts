@@ -1,108 +1,107 @@
-'use client'
+// ─────────────────────────────────────────────────────────────────────────────
+// features/entries/hooks/useEntries.ts
+// Feature hook for journal entries list + single entry.
+// Delegates ALL API calls to journal.service.ts
+// ─────────────────────────────────────────────────────────────────────────────
 
-import { useState, useCallback } from 'react'
+'use client';
+
+import { useState, useCallback, useEffect } from 'react';
+import type { JournalEntry, PaginatedEntries } from '@/core/api/types';
 import {
-  createEntry as apiCreateEntry,
-  updateEntry as apiUpdateEntry,
-  deleteEntry as apiDeleteEntry,
-  type EntryCreateRequest,
-  type EntryResponse,
-} from '@/lib/api/journalBackend'
+  listEntries,
+  getEntry,
+  deleteEntry,
+} from '@/core/api';
 
-interface UseEntryActionsOptions {
-  token: string | null
-  onSuccess?: () => void
-  onError?: (error: string) => void
+// ─── useEntries (paginated list) ──────────────────────────────────────────────
+
+interface UseEntriesOptions {
+  token: string | null;
+  initialPage?: number;
+  pageSize?: number;
 }
 
-export function useEntryActions({ token, onSuccess, onError }: UseEntryActionsOptions) {
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+export function useEntries({
+  token,
+  initialPage = 1,
+  pageSize = 5,
+}: UseEntriesOptions) {
+  const [data, setData] = useState<PaginatedEntries | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState(initialPage);
+  const [search, setSearch] = useState('');
 
-  const createEntry = useCallback(
-    async (data: EntryCreateRequest): Promise<EntryResponse | null> => {
-      if (!token) {
-        setError('Нэвтрэх токен байхгүй байна')
-        return null
-      }
-
-      setLoading(true)
-      setError(null)
-
+  const fetchPage = useCallback(
+    async (p: number, s: string) => {
+      if (!token) return;
+      setLoading(true);
+      setError(null);
       try {
-        const result = await apiCreateEntry(token, data)
-        onSuccess?.()
-        return result
+        const result = await listEntries(token, {
+          page: p,
+          page_size: pageSize,
+          search: s || undefined,
+        });
+        setData(result);
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'Бичлэг үүсгэхэд алдаа гарлаа'
-        setError(message)
-        onError?.(message)
-        return null
+        setError(err instanceof Error ? err.message : 'Алдаа гарлаа');
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     },
-    [token, onSuccess, onError]
-  )
+    [token, pageSize]
+  );
 
-  const updateEntry = useCallback(
-    async (entryId: string, data: Partial<EntryCreateRequest>): Promise<boolean> => {
-      if (!token) {
-        setError('Нэвтрэх токен байхгүй байна')
-        return false
-      }
+  useEffect(() => {
+    fetchPage(page, search);
+  }, [fetchPage, page, search]);
 
-      setLoading(true)
-      setError(null)
+  const refresh = () => fetchPage(page, search);
 
-      try {
-        await apiUpdateEntry(token, entryId, data)
-        onSuccess?.()
-        return true
-      } catch (err) {
-        const message = err instanceof Error ? err.message : 'Бичлэг шинэчлэхэд алдаа гарлаа'
-        setError(message)
-        onError?.(message)
-        return false
-      } finally {
-        setLoading(false)
-      }
-    },
-    [token, onSuccess, onError]
-  )
-
-  const deleteEntry = useCallback(
-    async (entryId: string): Promise<boolean> => {
-      if (!token) {
-        setError('Нэвтрэх токен байхгүй байна')
-        return false
-      }
-
-      setLoading(true)
-      setError(null)
-
-      try {
-        await apiDeleteEntry(token, entryId)
-        onSuccess?.()
-        return true
-      } catch (err) {
-        const message = err instanceof Error ? err.message : 'Бичлэг устгахад алдаа гарлаа'
-        setError(message)
-        onError?.(message)
-        return false
-      } finally {
-        setLoading(false)
-      }
-    },
-    [token, onSuccess, onError]
-  )
+  const remove = async (entryId: string) => {
+    if (!token) return;
+    await deleteEntry(token, entryId);
+    await fetchPage(page, search);
+  };
 
   return {
-    createEntry,
-    updateEntry,
-    deleteEntry,
+    entries: data?.items ?? [],
+    total: data?.total ?? 0,
+    page,
+    pageSize,
     loading,
     error,
-    clearError: () => setError(null),
-  }
+    search,
+    setSearch: (s: string) => {
+      setSearch(s);
+      setPage(1);
+    },
+    setPage,
+    refresh,
+    remove,
+  } as const;
+}
+
+// ─── useEntry (single entry) ──────────────────────────────────────────────────
+
+export function useEntry(token: string | null, entryId: string | null) {
+  const [entry, setEntry] = useState<JournalEntry | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!token || !entryId) return;
+    setLoading(true);
+    setError(null);
+    getEntry(token, entryId)
+      .then(setEntry)
+      .catch((err) =>
+        setError(err instanceof Error ? err.message : 'Алдаа гарлаа')
+      )
+      .finally(() => setLoading(false));
+  }, [token, entryId]);
+
+  return { entry, loading, error } as const;
 }

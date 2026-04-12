@@ -3,7 +3,66 @@ import {
   Target, Compass, Shield, Sun,
   Layers, Flame, LucideIcon,
 } from 'lucide-react';
-import type { QuickActionType } from '@/types';
+import type { QuickActionType } from '@/core/api/types';
+
+export const PLANS = [
+  {
+    id: 'demo',
+    label: 'Demo',
+    price: 'Үнэгүй',
+    sub: 'Туршиж үзэх',
+    color: 'text-muted-foreground',
+    badge: '',
+    description: '2 минутын дотор өөрийгөө ойлгож үзэх',
+    highlight: '',
+    features: [
+      { text: '3 хүртэлх тэмдэглэл',     ok: true  },
+      { text: 'Тэмдэглэлийн шинжилгээ',   ok: true  },
+      { text: 'Gemini AI 2.5',             ok: true  },
+      { text: 'Түүх хадгалах',             ok: false },
+      { text: 'Давтамж илрүүлэх',          ok: false },
+      { text: 'Паттерн шинжилгээ',         ok: false },
+    ],
+  },
+  {
+    id: 'free',
+    label: 'Free',
+    price: 'Үнэгүй',
+    sub: 'Өдөр тутам',
+    color: 'text-primary',
+    badge: '',
+    description: 'Өөрийгөө ажиглах зуршил үүсгэнэ',
+    highlight: '',
+    features: [
+      { text: 'Өдөрт 3–5 тэмдэглэл',      ok: true  },
+      { text: 'Тэмдэглэлийн шинжилгээ',   ok: true  },
+      { text: 'Gemini AI 2.5',             ok: true  },
+      { text: 'Түүх хадгалах',             ok: true  },
+      { text: 'Давтамж илрүүлэх',          ok: true  },
+      { text: 'Өсөлт tracking',            ok: false },
+      { text: 'Паттерн шинжилгээ',         ok: false },
+    ],
+  },
+  {
+    id: 'pro',
+    label: 'Pro',
+    price: '9,900₮',
+    sub: 'сард',
+    color: 'text-accent',
+    badge: 'Шилдэг',
+    description: 'Өөрийгөө гүн ойлгож, дотоод өөрчлөлт эхлүүлнэ',
+    highlight: 'Давтагддаг бодлуудаа олж харна',
+    features: [
+      { text: 'Хязгааргүй тэмдэглэл',     ok: true  },
+      { text: 'Тэмдэглэлийн шинжилгээ',   ok: true  },
+      { text: 'Gemini AI 3.0',             ok: true  },
+      { text: 'Давтамж илрүүлэх',          ok: true  },
+      { text: 'Өсөлт tracking',            ok: true  },
+      { text: 'Паттерн шинжилгээ',         ok: true  },
+      { text: 'Зөвлөмж, зөвлөгөө',        ok: true  },
+    ],
+  },
+] as const
 
 export const TIERS = ['free', 'demo', 'pro'] as const;
 export type Tier = (typeof TIERS)[number];

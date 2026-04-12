@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { cn } from '@/shared/lib/utils';
 import { usePathname } from 'next/navigation';
-import type { NavItem } from '@/types';
+import type { NavItem } from '@/core/api/types';
 
 interface DesktopSidebarProps {
   navItems: NavItem[];
