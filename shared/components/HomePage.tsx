@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { FREE_ACTIONS, PRO_ACTIONS } from '@/shared/constants/constants'
+import { FREE_ACTIONS, PRO_ACTIONS } from '@/shared/constants'
 import { ActionGrid } from '@/shared/components/action-grid'
 import { useTierContext } from '@/core/providers'
 import { Lock } from 'lucide-react'

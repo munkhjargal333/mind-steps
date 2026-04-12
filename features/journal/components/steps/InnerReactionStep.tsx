@@ -1,7 +1,7 @@
 import { Flame } from 'lucide-react';
 import { Textarea } from '@/shared/ui/textarea';
 import { cn } from '@/shared/lib/utils';
-import type { StepCopy } from '@/shared/constants/constants';
+import type { StepCopy } from '@/shared/constants';
 
 interface Props {
   cfg: StepCopy['inner'];

@@ -1,5 +1,5 @@
 import { cn } from '@/shared/lib/utils';
-import { STEPS } from '@/shared/constants/constants';
+import { STEPS } from '@/shared/constants';
 
 interface Props {
   current: number; // 1-based

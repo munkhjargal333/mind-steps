@@ -2,8 +2,8 @@
 
 import { useState, useCallback, useRef } from 'react';
 import type { QuickActionType, SessionData, FlowStep } from '@/types';
-import type { AnalyzeResult } from '@/lib/api/api';
-import { analyzeSession } from '@/lib/api/api';
+import type { AnalyzeResult } from '@/types';
+import { analyzeSession } from '@/core/api';
 import { useTierContext, type TierContextValue } from '@/core/providers';
 
 // ─── State ────────────────────────────────────────────────────
