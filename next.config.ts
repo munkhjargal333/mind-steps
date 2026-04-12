@@ -1,9 +1,9 @@
-import withPWA from 'next-pwa'
+const withPWA = require('next-pwa')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-  turbopack: {},
+  turbopack: {},          // ← энийг нэм
   images: {
     remotePatterns: [
       {
@@ -14,7 +14,7 @@ const nextConfig = {
   },
 }
 
-export default withPWA({
+module.exports = withPWA({
   dest: 'public',
   register: true,
   skipWaiting: true,

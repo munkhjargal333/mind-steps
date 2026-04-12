@@ -3,15 +3,18 @@
 node_modules/
 
 # Build outputs
-.next/
 dist/
 build/
-out/
+*.js.map
+*.ts.map
 
 # Environment variables
 .env
 .env.local
-.env.*
+*.env.*
+
+# Logs
+*.log
 
 # IDE files
 .vscode/
@@ -19,41 +22,20 @@ out/
 *.swp
 *.swo
 
-# Logs
-*.log
-
-# Python cache
+# Python artifacts (if any Python files exist in project)
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-
-# Temporary files
-*.tmp
-*.temp
-
-# OS generated files
-.DS_Store
-Thumbs.db
 
 # Coverage reports
 coverage/
 htmlcov/
 .coverage
 
-# Test caches
-.pytest_cache/
-.mypy_cache/
-.nyc_output/
-coverage/
-
-# Runtime data
-*.pid
-*.seed
-*.pid.lock
-
-# Next.js specific
-.next/cache/
-.next/static/
-.next/server/
+# Temporary files
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
 ```
