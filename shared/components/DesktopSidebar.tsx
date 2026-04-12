@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { cn } from '@/shared/lib/utils';
 import { usePathname } from 'next/navigation';
 import type { NavItem } from '@/core/api/types';
-import { LockIcon } from './LockIcon';
+import { Lock } from 'lucide-react';
 
 interface DesktopSidebarProps {
   navItems: NavItem[];
@@ -42,7 +42,7 @@ export function DesktopSidebar({ navItems, userTier }: DesktopSidebarProps) {
             >
               <item.icon size={18} />
               <span className="flex-1">{item.label}</span>
-              {locked && <LockIcon />}
+              {locked && <Lock size={12} />}
             </Link>
           );
         })}

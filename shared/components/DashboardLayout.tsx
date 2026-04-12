@@ -8,7 +8,7 @@ import { useTierContext } from '@/core/providers';
 import { useState, useEffect } from 'react';
 import { NAV_ITEMS } from '@/shared/constants/navItems';
 import { getUserTier } from '@/shared/utils/userHelpers';
-import { SunriseIcon } from './SunriseIcon';
+import { Sun } from 'lucide-react';
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { logout, user } = useAuth();
@@ -37,7 +37,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         {/* Mobile topbar */}
         <div className="md:hidden flex items-center justify-between px-4 h-14 border-b bg-background/80 backdrop-blur-sm sticky top-0 z-30">
           <div className="flex items-center gap-2">
-            <SunriseIcon className="w-5 h-5 text-orange-500" />
+            <Sun className="w-5 h-5 text-orange-500" />
             <span className="font-bold text-base">MindSteps</span>
           </div>
 

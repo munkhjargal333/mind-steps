@@ -1,6 +1,6 @@
 'use client';
 
-import { Sparkles, ChevronRight } from 'lucide-react';
+import { Sparkles, ChevronRight, Sun, X } from 'lucide-react';
 import { cn } from '@/shared/lib/utils';
 import { ThemeToggle } from '@/shared/components/ThemeToggle';
 import { useAuth } from '@/core/auth/AuthContext';
@@ -9,8 +9,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { User } from '@supabase/supabase-js';
 import { getUserInitials, getDisplayName, getUserTier } from '@/shared/utils/userHelpers';
-import { CloseIcon } from './CloseIcon';
-import { SunriseIcon } from './SunriseIcon';
 
 interface MobileDrawerProps {
   isOpen: boolean;
@@ -73,7 +71,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
         <div className="p-5 border-b">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <SunriseIcon className="w-5 h-5 text-orange-500" />
+              <Sun className="w-5 h-5 text-orange-500" />
               <span className="font-bold text-sm">MindSteps</span>
             </div>
             <button
@@ -81,7 +79,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
               className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-muted transition-colors"
               aria-label="Хаах"
             >
-              <CloseIcon className="w-4 h-4 text-muted-foreground" />
+              <X className="w-4 h-4 text-muted-foreground" />
             </button>
           </div>
 

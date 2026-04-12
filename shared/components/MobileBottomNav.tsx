@@ -4,7 +4,7 @@ import { cn } from '@/shared/lib/utils';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import type { NavItem } from '@/core/api/types';
-import { LockIcon } from './LockIcon';
+import { Lock } from 'lucide-react';
 
 interface MobileBottomNavProps {
   navItems: NavItem[];
@@ -34,7 +34,7 @@ export function MobileBottomNav({ navItems, userTier }: MobileBottomNavProps) {
               <item.icon size={20} strokeWidth={active ? 2.5 : 2} />
               {locked && (
                 <div className="absolute -top-1 -right-1 bg-background rounded-full p-0.5">
-                  <LockIcon className="w-[10px] h-[10px]" />
+                  <Lock className="w-[10px] h-[10px]" />
                 </div>
               )}
             </div>
