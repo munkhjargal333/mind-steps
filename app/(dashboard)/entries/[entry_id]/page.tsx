@@ -17,7 +17,7 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import Link from 'next/link';
-import { getSeedInsight, type SeedInsight } from '@/lib/api/journalBackend';
+import { getSeedInsight, type SeedInsight } from '@/features/insights/api';
 
 // ─── Insight card config ──────────────────────────────────────
 

@@ -1,8 +1,9 @@
 /**
  * Journal Feature API Client
- * Connects to the new backend: NEXT_PUBLIC_API_BASE
+ * Uses base ApiClient from core/api
  */
 
+import { apiClient } from '@/core/api/client';
 import type {
   SeedInsight,
   EntryCreateRequest,
@@ -13,30 +14,12 @@ import type {
   DemoResponse,
 } from '@/shared/types';
 
-const getBase = () =>
-  (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_API_BASE) ||
-  'http://localhost:8000';
+const BASE_PATH = '';
 
-function authHeaders(token: string): HeadersInit {
+function getAuthHeaders(token: string): Record<string, string> {
   return {
-    'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`,
   };
-}
-
-async function handleResponse<T>(res: Response): Promise<T> {
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({ detail: res.statusText }));
-    const message =
-      typeof body?.detail === 'string'
-        ? body.detail
-        : Array.isArray(body?.detail)
-        ? body.detail.map((e: { msg: string }) => e.msg).join(', ')
-        : `HTTP ${res.status}`;
-    throw new Error(message);
-  }
-  if (res.status === 204) return undefined as unknown as T;
-  return res.json() as Promise<T>;
 }
 
 // ─── Entries ──────────────────────────────────────────────────────────────────
@@ -45,12 +28,9 @@ export async function createEntry(
   token: string,
   payload: EntryCreateRequest
 ): Promise<EntryCreateResponse> {
-  const res = await fetch(`${getBase()}/api/entries/`, {
-    method: 'POST',
-    headers: authHeaders(token),
-    body: JSON.stringify(payload),
+  return apiClient.post<EntryCreateResponse>(`${BASE_PATH}/api/entries/`, payload, {
+    headers: getAuthHeaders(token),
   });
-  return handleResponse<EntryCreateResponse>(res);
 }
 
 export async function listEntries(
@@ -62,39 +42,32 @@ export async function listEntries(
   if (params?.page_size) query.set('page_size', String(params.page_size));
   if (params?.search) query.set('search', params.search);
 
-  const res = await fetch(`${getBase()}/api/entries/?${query}`, {
-    headers: authHeaders(token),
+  const queryString = query.toString();
+  const endpoint = `${BASE_PATH}/api/entries/${queryString ? `?${queryString}` : ''}`;
+  
+  return apiClient.get<PaginatedEntryResponse>(endpoint, {
+    headers: getAuthHeaders(token),
   });
-  return handleResponse<PaginatedEntryResponse>(res);
 }
 
 export async function getEntry(token: string, entryId: string): Promise<EntryResponse> {
-  const res = await fetch(`${getBase()}/api/entries/${entryId}`, {
-    headers: authHeaders(token),
+  return apiClient.get<EntryResponse>(`${BASE_PATH}/api/entries/${entryId}`, {
+    headers: getAuthHeaders(token),
   });
-  return handleResponse<EntryResponse>(res);
 }
 
 export async function deleteEntry(token: string, entryId: string): Promise<void> {
-  const res = await fetch(`${getBase()}/api/entries/${entryId}`, {
-    method: 'DELETE',
-    headers: authHeaders(token),
+  return apiClient.delete<void>(`${BASE_PATH}/api/entries/${entryId}`, {
+    headers: getAuthHeaders(token),
   });
-  return handleResponse<void>(res);
 }
 
 // ─── Demo ─────────────────────────────────────────────────────────────────────
 
 export async function demoSeedInsight(payload: DemoRequest): Promise<DemoResponse> {
-  const res = await fetch(`${getBase()}/api/demo/seed-insight`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
-  return handleResponse<DemoResponse>(res);
+  return apiClient.post<DemoResponse>(`${BASE_PATH}/api/demo/seed-insight`, payload);
 }
 
 export async function getDemoRemaining(): Promise<{ remaining: number }> {
-  const res = await fetch(`${getBase()}/api/demo/remaining`);
-  return handleResponse<{ remaining: number }>(res);
+  return apiClient.get<{ remaining: number }>(`${BASE_PATH}/api/demo/remaining`);
 }

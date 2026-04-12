@@ -7,7 +7,7 @@ import {
   deleteEntry as apiDeleteEntry,
   type EntryCreateRequest,
   type EntryResponse,
-} from '@/lib/api/journalBackend'
+} from '@/features/journal/api'
 
 interface UseEntryActionsOptions {
   token: string | null

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useCallback, useEffect } from 'react'
-import { getEmotionStats, type EmotionStat } from '@/lib/api/journalBackend'
+import { getEmotionStats, type EmotionStat } from '@/features/emotions/api'
 
 interface UseEmotionTrendsOptions {
   token: string | null
