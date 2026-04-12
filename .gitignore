@@ -1,6 +1,25 @@
-```gitignore
+```
 # Dependencies
 node_modules/
+
+# Build artifacts
+dist/
+build/
+*.js.map
+*.ts.map
+
+# Logs and temp files
+*.log
+*.tmp
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vscode/
+.idea/
 
 # Python
 __pycache__/
@@ -11,45 +30,4 @@ __pycache__/
 env/
 venv/
 .venv/
-.ENV
-.python-version
-
-# Logs
-*.log
-
-# Environment variables
-.env
-.env.local
-.env.*
-
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS generated files
-.DS_Store
-Thumbs.db
-
-# Build outputs
-dist/
-build/
-target/
-*.out
-
-# Coverage reports
-coverage/
-htmlcov/
-.coverage
-
-# Temporary files
-*.tmp
-*.temp
-```
-
-Wait, let me reconsider the input. The changes are only TypeScript/JSX files (.ts, .tsx) which are source code files, not build artifacts or dependencies. No build artifacts, dependencies, or temp files are present in the change list.
-
-```gitignore
-
 ```
