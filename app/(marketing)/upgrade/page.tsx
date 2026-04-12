@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useThoughtContext } from '@/core/providers'
+import { useTierContext } from '@/core/providers'
 import { ArrowLeft, Info } from 'lucide-react'
 import { PLANS } from '@/shared/constants'
 import { PricingCard } from '@/features/journal/components/upgrade/PricingCard'
@@ -10,7 +10,7 @@ import { QPayPayment } from '@/features/journal/components/upgrade/QPayPayment'
 
 export default function UpgradePage() {
   const router = useRouter()
-  const { tier } = useThoughtContext()
+  const { tier } = useTierContext()
   
   const [showTooltip, setShowTooltip] = useState(false)
   const [showPayment, setShowPayment] = useState(false)

@@ -5,7 +5,7 @@ import { DesktopSidebar } from './DesktopSidebar';
 import { MobileBottomNav } from './MobileBottomNav';
 import { MobileDrawer } from './MobileDrawer';
 import { useAuth } from '@/core/auth/AuthContext';
-import { useThoughtContext } from '@/contexts/context';
+import { useTierContext } from '@/core/providers';
 import { useState, useEffect } from 'react';
 
 const NAV_ITEMS = [
@@ -18,7 +18,7 @@ const NAV_ITEMS = [
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { logout, user } = useAuth();
-  const { tier } = useThoughtContext();
+  const { tier } = useTierContext();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [avatarError, setAvatarError] = useState(false);
 

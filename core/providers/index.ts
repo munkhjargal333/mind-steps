@@ -1,4 +1,4 @@
 export { ThemeProvider } from './ThemeProvider';
 export { AppProviders } from './AppProviders';
 export { ToastProvider, useGlobalToast } from './ToastContext';
-export { useThoughtContext } from './TierContext'
+export { TierProvider, useTierContext, type TierContextValue } from './TierContext';

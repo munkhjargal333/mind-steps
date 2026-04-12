@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { FREE_ACTIONS, PRO_ACTIONS } from '@/shared/constants/constants'
 import { ActionGrid } from '@/shared/components/action-grid'
-import { useThoughtContext } from '@/contexts/context'
+import { useTierContext } from '@/core/providers'
 import { Lock } from 'lucide-react'
 import { cn } from '@/shared/lib/utils'
 
@@ -27,7 +27,7 @@ export function HomePage({
   isLimited,
   tier,
 }: Props) {
-  const { tier: contextTier } = useThoughtContext()
+  const { tier: contextTier } = useTierContext()
 
   const isDemo = tier === 'demo'
   const isPro  = tier === 'pro'

@@ -1,13 +1,13 @@
 import { Sunrise, User, Sparkles, LogOut } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { Button } from '@/shared/ui/button';
-import { useThoughtContext } from '@/contexts/context';
+import { useTierContext } from '@/core/providers';
 import { useAuth } from '@/core/auth/AuthContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export function MainHeader() {
-  const { tier } = useThoughtContext();
+  const { tier } = useTierContext();
   const { user, logout } = useAuth();
   const pathname = usePathname();
   const isLoggedIn = !!user;
