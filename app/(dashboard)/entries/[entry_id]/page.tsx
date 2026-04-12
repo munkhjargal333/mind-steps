@@ -2,7 +2,7 @@
 
 import { use, useState, useEffect } from 'react';
 import { useAuth } from '@/core/auth/AuthContext';
-import { useEntry } from '@/features/entries/useEntries';
+import { useEntry } from '@/features/entries';
 import { Button } from '@/shared/ui/button';
 import { cn } from '@/shared/lib/utils';
 import { formatDatetimeMn } from '@/shared/lib/date';

@@ -1,5 +1,7 @@
 // Entries Feature Module Barrel Export
 
+export { useEntry } from './hooks/useEntries'
+
 export { EntryCard } from './components/EntryCard';
 export { EntriesHeader } from './components/EntriesHeader';
 export { EntriesSearch } from './components/EntriesSearch';

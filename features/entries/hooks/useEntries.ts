@@ -7,7 +7,7 @@
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
-import type { JournalEntry, PaginatedEntries } from '@/core/api/types';
+import type { JournalEntry, PaginatedEntries } from '@/core/api';
 import {
   listEntries,
   getEntry,

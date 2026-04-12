@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/core/auth/AuthContext';
-import { useEntries } from '@/features/entries/useEntries';
+import { useEntries } from '@/features/entries/hooks/useEntries';
 import { Loader2, AlertCircle } from 'lucide-react';
 import { EntryCard, EntriesHeader, EntriesSearch, EntriesEmptyState, EntriesPagination } from '@/features/entries';
 
@@ -21,7 +21,7 @@ export default function EntriesPage() {
     setSearch,
     setPage,
     remove,
-  } = useEntries({ token, pageSize: 20 });
+  } = useEntries({ token, pageSize: 10 });
 
   const totalPages = Math.ceil(total / pageSize);
 
