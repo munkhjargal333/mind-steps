@@ -1,15 +1,20 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// features/entries/hooks/useEntries.ts
+// Feature hook for journal entries list + single entry.
+// Delegates ALL API calls to journal.service.ts
+// ─────────────────────────────────────────────────────────────────────────────
+
 'use client';
 
 import { useState, useCallback, useEffect } from 'react';
+import type { JournalEntry, PaginatedEntries } from '@/types';
 import {
   listEntries,
   getEntry,
   deleteEntry,
-  type EntryResponse,
-  type PaginatedEntryResponse,
-} from '../api';
+} from '@/features/journal/services/index';
 
-// ─── List hook ────────────────────────────────────────────────
+// ─── useEntries (paginated list) ──────────────────────────────────────────────
 
 interface UseEntriesOptions {
   token: string | null;
@@ -17,20 +22,28 @@ interface UseEntriesOptions {
   pageSize?: number;
 }
 
-export function useEntries({ token, initialPage = 1, pageSize = 20 }: UseEntriesOptions) {
-  const [data, setData] = useState<PaginatedEntryResponse | null>(null);
+export function useEntries({
+  token,
+  initialPage = 1,
+  pageSize = 5,
+}: UseEntriesOptions) {
+  const [data, setData] = useState<PaginatedEntries | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(initialPage);
   const [search, setSearch] = useState('');
 
-  const fetch = useCallback(
+  const fetchPage = useCallback(
     async (p: number, s: string) => {
       if (!token) return;
       setLoading(true);
       setError(null);
       try {
-        const result = await listEntries(token, { page: p, page_size: pageSize, search: s || undefined });
+        const result = await listEntries(token, {
+          page: p,
+          page_size: pageSize,
+          search: s || undefined,
+        });
         setData(result);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Алдаа гарлаа');
@@ -42,15 +55,15 @@ export function useEntries({ token, initialPage = 1, pageSize = 20 }: UseEntries
   );
 
   useEffect(() => {
-    fetch(page, search);
-  }, [fetch, page, search]);
+    fetchPage(page, search);
+  }, [fetchPage, page, search]);
 
-  const refresh = () => fetch(page, search);
+  const refresh = () => fetchPage(page, search);
 
   const remove = async (entryId: string) => {
     if (!token) return;
     await deleteEntry(token, entryId);
-    await fetch(page, search);
+    await fetchPage(page, search);
   };
 
   return {
@@ -61,17 +74,20 @@ export function useEntries({ token, initialPage = 1, pageSize = 20 }: UseEntries
     loading,
     error,
     search,
-    setSearch: (s: string) => { setSearch(s); setPage(1); },
+    setSearch: (s: string) => {
+      setSearch(s);
+      setPage(1);
+    },
     setPage,
     refresh,
     remove,
-  };
+  } as const;
 }
 
-// ─── Single entry hook ────────────────────────────────────────
+// ─── useEntry (single entry) ──────────────────────────────────────────────────
 
 export function useEntry(token: string | null, entryId: string | null) {
-  const [entry, setEntry] = useState<EntryResponse | null>(null);
+  const [entry, setEntry] = useState<JournalEntry | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -81,9 +97,11 @@ export function useEntry(token: string | null, entryId: string | null) {
     setError(null);
     getEntry(token, entryId)
       .then(setEntry)
-      .catch((err) => setError(err instanceof Error ? err.message : 'Алдаа гарлаа'))
+      .catch((err) =>
+        setError(err instanceof Error ? err.message : 'Алдаа гарлаа')
+      )
       .finally(() => setLoading(false));
   }, [token, entryId]);
 
-  return { entry, loading, error };
+  return { entry, loading, error } as const;
 }

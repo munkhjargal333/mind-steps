@@ -3,7 +3,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/contexts/theme-provider";
 import { Plus_Jakarta_Sans } from 'next/font/google'; 
 import { AuthProvider } from "@/contexts/AuthProvider";
-import { ThoughtProvider } from "@/features/journal";
+import { ThoughtProvider } from "@/context/journal";
 // import { TourProvider } from "@/contexts/TourContext";
 
 // Фонт тохируулга

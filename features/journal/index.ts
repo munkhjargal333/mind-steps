@@ -1,7 +1,7 @@
 // Journal Feature Module Barrel Export
 
 // API
-export * from './api';
+export * from './services';
 
 // Hooks
 export { useThoughtFlow } from './hooks/useThoughtFlow';

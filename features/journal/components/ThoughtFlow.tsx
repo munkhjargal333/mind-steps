@@ -9,7 +9,7 @@ import { SurfaceStep } from './steps/SurfaceStep';
 import { InnerReactionStep } from './steps/InnerReactionStep';
 import { MeaningStep } from './steps/MeaningStep';
 import { SeedInsightStep } from './SeedInsightStep';
-import { STEP_CONFIG } from '@/shared/constants/constants';
+import { STEP_CONFIG } from '@/shared/constants';
 import type { QuickActionType } from '@/types';
 
 interface Props {

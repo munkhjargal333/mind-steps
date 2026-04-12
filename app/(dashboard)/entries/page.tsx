@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useAuth } from '@/core/auth/AuthContext';
 import { useEntries } from '@/features/journal/hooks/useEntries';
 import { Loader2, AlertCircle } from 'lucide-react';
-import Link from 'next/link';
 import { EntryCard, EntriesHeader, EntriesSearch, EntriesEmptyState, EntriesPagination } from '@/features/entries';
 
 export default function EntriesPage() {

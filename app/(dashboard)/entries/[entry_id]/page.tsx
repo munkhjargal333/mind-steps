@@ -3,7 +3,6 @@
 import { use, useState, useEffect } from 'react';
 import { useAuth } from '@/core/auth/AuthContext';
 import { useEntry } from '@/features/journal/hooks/useEntries';
-import { DashboardLayout } from '@/shared/components/DashboardLayout';
 import { Button } from '@/shared/ui/button';
 import { cn } from '@/shared/lib/utils';
 import { formatDatetimeMn } from '@/shared/lib/date';
@@ -17,7 +16,8 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import Link from 'next/link';
-import { getSeedInsight, type SeedInsight } from '@/lib/api/journalBackend';
+import { getSeedInsight } from '@/features/journal/services';
+import {  type SeedInsight } from '@/types'
 
 // ─── Insight card config ──────────────────────────────────────
 

@@ -1,7 +1,7 @@
 // middleware.ts
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
-import { can, type Permission, type Tier } from '@/lib/permissions'
+import { can, type Permission, type Tier } from '@/shared/constants'
 import type { User } from '@supabase/supabase-js'
 
 const PUBLIC_PATHS = [
