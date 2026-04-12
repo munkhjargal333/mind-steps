@@ -1,12 +1,12 @@
 // lib/api/api.ts
-// analyzeSession — ThoughtContextValue-г ашиглан tier-д тохирсон
+// analyzeSession — TierContextValue-г ашиглан tier-д тохирсон
 // authenticated эсвэл demo endpoint дуудна.
 //
 // NOTE: Энэ файл @/lib/api/api path-аар import хийгддэг (legacy).
 // Шинэ код нь @/features/journal/services эсвэл @/core/api/journalBackend ашиглана.
 
 import type { SessionData, AnalyzeResult } from '@/types';
-import type { useThoughtContext } from '@/core/providers';
+import type { TierContextValue } from '@/core/providers';
 import {
   analyzeAuthenticatedSession,
   analyzeDemoSession,
@@ -16,7 +16,7 @@ export type { AnalyzeResult };
 
 export async function analyzeSession(
   session: SessionData,
-  ctx: useThoughtContext
+  ctx: TierContextValue
 ): Promise<AnalyzeResult> {
   const { tier, token } = ctx;
 

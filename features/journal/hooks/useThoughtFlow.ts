@@ -4,7 +4,7 @@ import { useState, useCallback, useRef } from 'react';
 import type { QuickActionType, SessionData, FlowStep } from '@/types';
 import type { AnalyzeResult } from '@/lib/api/api';
 import { analyzeSession } from '@/lib/api/api';
-import { useThoughtContext, type ThoughtContextValue } from '@/contexts/context';
+import { useTierContext, type TierContextValue } from '@/core/providers';
 
 // ─── State ────────────────────────────────────────────────────
 
@@ -28,7 +28,7 @@ const EMPTY_DATA: StepData = {
 // ─── Hook ─────────────────────────────────────────────────────
 
 export function useThoughtFlow(onBack?: () => void) { 
-  const ctx = useThoughtContext();
+  const ctx = useTierContext();
 
   const [state, setState] = useState<ThoughtFlowState>({
     step:       1,
@@ -40,7 +40,7 @@ export function useThoughtFlow(onBack?: () => void) {
   });
 
   // Render бүрт шинэ ctx авна
-  const configRef = useRef<ThoughtContextValue>(ctx);
+  const configRef = useRef<TierContextValue>(ctx);
   configRef.current = ctx;
 
   const selectAction = useCallback((type: QuickActionType) => {

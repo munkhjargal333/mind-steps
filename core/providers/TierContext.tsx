@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// contexts/TierContext.tsx
+// core/providers/TierContext.tsx
 // Global Context — Subscription tier state only.
 // Reads from Supabase DB + JWT. Exposes refreshTier for post-payment use.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -98,8 +98,8 @@ export function TierProvider({ children }: { children: ReactNode }) {
 
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
-export function useThoughtContext(): TierContextValue {
+export function useTierContext(): TierContextValue {
   const ctx = useContext(TierContext);
-  if (!ctx) throw new Error('useThoughtContext must be used within TierProvider');
+  if (!ctx) throw new Error('useTierContext must be used within TierProvider');
   return ctx;
 }

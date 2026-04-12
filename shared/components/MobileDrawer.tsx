@@ -5,7 +5,7 @@ import { cn } from '@/shared/lib/utils';
 import { ThemeToggle } from '@/shared/components/ThemeToggle';
 import { Button } from '@/shared/ui/button';
 import { useAuth } from '@/core/auth/AuthContext';
-import { useThoughtContext } from '@/contexts/context';
+import { useTierContext } from '@/core/providers';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -25,7 +25,7 @@ const NAV_ITEMS = [
 
 export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
   const { logout, user } = useAuth();
-  const { tier } = useThoughtContext();
+  const { tier } = useTierContext();
   const [avatarError, setAvatarError] = useState(false);
 
   const userTier = tier === 'pro' ? 'pro' : 'free';

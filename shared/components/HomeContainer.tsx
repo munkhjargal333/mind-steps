@@ -6,7 +6,7 @@ import { HomePage } from '@/shared/components/HomePage'
 import { ThoughtFlow } from '@/features/journal'
 import { useRateLimit } from '@/shared/hooks/useRateLimit'
 import { useAuth } from '@/core/auth/AuthContext'
-import { useThoughtContext } from '@/contexts/context'
+import { useTierContext } from '@/core/providers'
 import type { QuickActionType } from '@/types'
 import { DailyLimitModal } from '@/features/home'
 
@@ -19,7 +19,7 @@ export function HomeContainer() {
   const [showLimitModal, setShowLimitModal] = useState(false)
 
   const { user } = useAuth()
-  const { tier } = useThoughtContext()
+  const { tier } = useTierContext()
 
   const userId = user?.id ?? 'guest'
   const userTier = tier === 'pro' ? 'pro' : tier === 'demo' ? 'demo' : 'free'
