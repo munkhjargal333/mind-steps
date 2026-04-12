@@ -1,43 +1,52 @@
 'use client';
 
-import { Sunrise, Lock, Sparkles, ChevronRight } from 'lucide-react';
+import { Sparkles, ChevronRight } from 'lucide-react';
 import { cn } from '@/shared/lib/utils';
 import { ThemeToggle } from '@/shared/components/ThemeToggle';
-import { Button } from '@/shared/ui/button';
 import { useAuth } from '@/core/auth/AuthContext';
 import { useTierContext } from '@/core/providers';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState } from 'react';
+import type { User } from '@/core/api/types';
+import { getUserInitials, getDisplayName, getUserTier } from '@/shared/utils/userHelpers';
 
 interface MobileDrawerProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const NAV_ITEMS = [
-  { href: '/home',     label: 'Тэмдэглэл', icon: null,       isPro: false },
-  { href: '/entries',  label: 'Түүх',       icon: null,  isPro: false },
-  { href: '/insights', label: 'Зөвлөмж',   icon: Sparkles,  isPro: true  },
-  { href: '/emotions', label: 'Сэтгэл',    icon: null, isPro: false },
-  { href: '/graph',    label: 'Цэнэ',       icon: null,   isPro: false },
-];
+/**
+ * Avatar компонент - DashboardLayout болон MobileDrawer-т ашиглана
+ */
+export function DrawerAvatar({ user }: { user: User | null | undefined }) {
+  const initials = getUserInitials(user);
+  const displayName = getDisplayName(user);
+
+  if (user?.user_metadata?.avatar_url) {
+    return (
+      <Image
+        src={user.user_metadata.avatar_url}
+        alt={displayName}
+        width={48}
+        height={48}
+        className="rounded-full object-cover ring-2 ring-border"
+      />
+    );
+  }
+
+  return (
+    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-semibold text-lg shrink-0">
+      {initials}
+    </div>
+  );
+}
 
 export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
   const { logout, user } = useAuth();
   const { tier } = useTierContext();
-  const [avatarError, setAvatarError] = useState(false);
 
-  const userTier = tier === 'pro' ? 'pro' : 'free';
-
-  // Avatar үсэг
-  const initials = user?.user_metadata?.full_name
-    ? user.user_metadata.full_name[0].toUpperCase()
-    : user?.email?.[0].toUpperCase() ?? 'U';
-
-  // Хэрэглэгчийн нэр
-  const displayName =
-    user?.user_metadata?.full_name ?? user?.email?.split('@')[0] ?? 'Хэрэглэгч';
+  const userTier = getUserTier(tier);
+  const displayName = getDisplayName(user);
 
   return (
     <>
@@ -62,7 +71,9 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
         <div className="p-5 border-b">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Sunrise className="w-5 h-5 text-orange-500" />
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-orange-500">
+                <path d="M12 3v18M3 12h18"/>
+              </svg>
               <span className="font-bold text-sm">MindSteps</span>
             </div>
             <button
@@ -78,20 +89,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
 
           {/* Avatar + нэр + имэйл */}
           <div className="flex items-center gap-3">
-            {user?.user_metadata?.avatar_url && !avatarError ? (
-              <Image
-                src={user.user_metadata.avatar_url}
-                alt={displayName}
-                width={48}
-                height={48}
-                className="rounded-full object-cover ring-2 ring-border"
-                onError={() => setAvatarError(true)}
-              />
-            ) : (
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-semibold text-lg shrink-0">
-                {initials}
-              </div>
-            )}
+            <DrawerAvatar user={user} />
             <div className="flex-1 min-w-0">
               <p className="font-semibold text-sm truncate">{displayName}</p>
               <p className="text-xs text-muted-foreground truncate">{user?.email}</p>

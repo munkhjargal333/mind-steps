@@ -10,6 +10,15 @@ interface MobileBottomNavProps {
   userTier: 'free' | 'pro';
 }
 
+function LockIcon() {
+  return (
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </svg>
+  );
+}
+
 export function MobileBottomNav({ navItems, userTier }: MobileBottomNavProps) {
   const pathname = usePathname();
 
@@ -33,10 +42,7 @@ export function MobileBottomNav({ navItems, userTier }: MobileBottomNavProps) {
               <item.icon size={20} strokeWidth={active ? 2.5 : 2} />
               {locked && (
                 <div className="absolute -top-1 -right-1 bg-background rounded-full p-0.5">
-                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                  </svg>
+                  <LockIcon />
                 </div>
               )}
             </div>
