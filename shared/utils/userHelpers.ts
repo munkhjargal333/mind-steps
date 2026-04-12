@@ -1,4 +1,4 @@
-import type { User } from '@/core/api/types';
+import type { User } from '@supabase/supabase-js';
 
 /**
  * Хэрэглэгчийн avatar-ийн үсгийг гаргаж авна

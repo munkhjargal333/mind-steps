@@ -20,14 +20,34 @@ build/
 # Editors
 .vscode/
 .idea/
+*.swp
+*.swo
 
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-env/
-venv/
-.venv/
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist/
+build/
+target/
+*.out
+
+# Coverage reports
+coverage/
+htmlcov/
+.coverage
+
+# Temporary files
+*.tmp
+*.temp
 ```
+
+.next/
+
+Wait, let me reconsider the input. The changes are only TypeScript/JSX files (.ts, .tsx) which are source code files, not build artifacts or dependencies. No build artifacts, dependencies, or temp files are present in the change list.
+
+```gitignore
+
+```
+.next/
