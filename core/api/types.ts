@@ -128,6 +128,7 @@ export interface DeepInsight {
 
 // ─── Navigation ───────────────────────────────────────────────────────────────
 export interface NavItem {
+  icon: any;
   href: string;
   label: string;
   isPro: boolean;

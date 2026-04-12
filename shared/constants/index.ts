@@ -1,4 +1,5 @@
 import type { QuickActionType } from '@/core/api/types';
+import { Compass, Flame, Heart, HelpCircle, Layers, LucideIcon, Shield, Sun, Target, Users, Zap } from 'lucide-react';
 
 export { NAV_ITEMS } from './navItems';
 

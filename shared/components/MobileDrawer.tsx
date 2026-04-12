@@ -7,7 +7,7 @@ import { useAuth } from '@/core/auth/AuthContext';
 import { useTierContext } from '@/core/providers';
 import Link from 'next/link';
 import Image from 'next/image';
-import type { User } from '@/core/api/types';
+import type { User } from '@supabase/supabase-js';
 import { getUserInitials, getDisplayName, getUserTier } from '@/shared/utils/userHelpers';
 
 interface MobileDrawerProps {

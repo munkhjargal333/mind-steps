@@ -48,8 +48,11 @@ htmlcov/
 *.temp
 ```
 
+.next/
+
 Wait, let me reconsider the input. The changes are only TypeScript/JSX files (.ts, .tsx) which are source code files, not build artifacts or dependencies. No build artifacts, dependencies, or temp files are present in the change list.
 
 ```gitignore
 
 ```
+.next/
