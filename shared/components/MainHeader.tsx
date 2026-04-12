@@ -1,11 +1,10 @@
-import { User, Sparkles, LogOut } from 'lucide-react';
+import { User, Sparkles, LogOut, Sun } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { Button } from '@/shared/ui/button';
 import { useTierContext } from '@/core/providers';
 import { useAuth } from '@/core/auth/AuthContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { SunriseIcon } from './SunriseIcon';
 import { TierBadge } from './TierBadge';
 
 export function MainHeader() {
@@ -19,7 +18,7 @@ export function MainHeader() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm">
       <div className="container max-w-2xl mx-auto h-14 flex items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2.5 transition-opacity hover:opacity-80">
-          <SunriseIcon className="w-6 h-6 text-orange-500" />
+          <Sun className="w-6 h-6 text-orange-500" />
           <span className="text-[17px] font-bold tracking-tight text-foreground">MindSteps</span>
         </Link>
 
