@@ -5,9 +5,26 @@ import {
 } from 'lucide-react';
 import type { QuickActionType } from '@/types';
 
-// ─── Tier ─────────────────────────────────────────────────────
+export const TIERS = ['free', 'demo', 'pro'] as const;
+export type Tier = (typeof TIERS)[number];
 
-export type Tier = 'free' | 'pro';
+export const PERMISSIONS = {
+  view_insights: ["free",'pro'],
+  view_emotions: ["free",'pro'],
+  view_graph:    ["free",'pro'],
+} as const;
+
+export type Permission = keyof typeof PERMISSIONS;
+
+export function can(tier: Tier, permission: Permission): boolean {
+  return (PERMISSIONS[permission] as readonly string[]).includes(tier);
+}
+
+export const TIER_LABEL: Record<string, string> = {
+  pro:     'PRO',
+  premium: 'PRE',
+};
+
 
 // ─── Action catalog ───────────────────────────────────────────
 
