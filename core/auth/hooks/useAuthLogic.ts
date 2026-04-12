@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { createClient } from '@/core/supabase/client';
 import { useRouter } from 'next/navigation';
@@ -12,7 +12,9 @@ export function useAuthLogic() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-  const supabase = createClient();
+  
+  // Memoize supabase instance to prevent unnecessary re-renders
+  const supabase = useMemo(() => createClient(), []);
 
   useEffect(() => {
     // Initial session load
