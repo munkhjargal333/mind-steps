@@ -1,46 +1,48 @@
-```gitignore
+```
 # Dependencies
 node_modules/
 
-# Build outputs
-dist/
-build/
-.next/
-
-# Environment variables
-.env
-.env.local
-.env.*
-
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Logs
-*.log
-
-# Temporary files
-*.tmp
-
-# Python cache
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
+.Python
+env/
+venv/
+.venv/
+.env
+.env.local
+.env.*
 
-# Coverage reports
+# Build outputs
+dist/
+build/
+target/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# Testing
+.coverage
 coverage/
 htmlcov/
-.coverage
+.pytest_cache/
+.mypy_cache/
 
-# Local configuration
-*.local
-```
-
-Wait, let me reconsider. The changes only include TypeScript/JSX source files and UI components, no build artifacts, dependencies, or temporary files. According to rule #6, if the change list contains only source or config files and no build artifacts, dependencies, or temp files, I should output an empty .gitignore.
-
-```gitignore
-
+# Distribution / packaging
+*.tar.gz
+*.whl
+*.egg-info/
 ```
