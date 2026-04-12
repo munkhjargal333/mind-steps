@@ -71,8 +71,7 @@ export function TierProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     fetchSubscription();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user, supabase]);
 
   const refreshTier = async () => {
     setLoading(true);
