@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { getEmotionStats, type EmotionStat } from '../api';
+import { getEmotionStats, type EmotionStat } from '@/types';
 
 export function useEmotionStats(token: string | null, days = 30) {
   const [stats, setStats] = useState<EmotionStat[]>([]);

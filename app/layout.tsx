@@ -1,13 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ThemeProvider } from "@/contexts/theme-provider";
-import { Plus_Jakarta_Sans } from 'next/font/google'; 
-import { AuthProvider } from "@/contexts/AuthProvider";
-import { ThoughtProvider } from "@/context/journal";
-// import { TourProvider } from "@/contexts/TourContext";
+import { Plus_Jakarta_Sans } from 'next/font/google';
+import { AppProviders } from "@/core/providers";
 
-// Фонт тохируулга
-const jakarta = Plus_Jakarta_Sans({ 
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-jakarta',
@@ -38,26 +34,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // suppressHydrationWarning-ийг энд нэмж өгнө
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${jakarta.variable} antialiased`}
-      >
-        <AuthProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="dark"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {/* <TourProvider> */}
-              <ThoughtProvider >
-                  {children}
-              </ThoughtProvider>
-            {/* </TourProvider> */}
-
-          </ThemeProvider>
-        </AuthProvider>
+      <body className={`${jakarta.variable} antialiased`}>
+        <AppProviders>
+          {children}
+        </AppProviders>
       </body>
     </html>
   );
