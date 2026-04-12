@@ -5,3 +5,6 @@ export { EntriesHeader } from './components/EntriesHeader';
 export { EntriesSearch } from './components/EntriesSearch';
 export { EntriesEmptyState } from './components/EntriesEmptyState';
 export { EntriesPagination } from './components/EntriesPagination';
+
+// Types
+export type { JournalEntry, PaginatedEntries } from './types';

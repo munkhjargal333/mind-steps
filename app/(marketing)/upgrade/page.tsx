@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useThoughtContext } from '@/contexts/context'
+import { useThoughtContext } from '@/core/providers/'
 import { ArrowLeft, Info } from 'lucide-react'
-import { PLANS } from '@/shared/constants/constants'
+import { PLANS } from '@/types'
 import { PricingCard } from '@/features/journal/components/upgrade/PricingCard'
 import { QPayPayment } from '@/features/journal/components/upgrade/QPayPayment'
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export function useTypewriter(text: string, speed = 18) {
+export function useTypeWriter(text: string, speed = 18) {
   const [out, setOut] = useState("");
 
   useEffect(() => {

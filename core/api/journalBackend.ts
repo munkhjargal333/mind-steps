@@ -6,6 +6,12 @@
 
 import type {
   SeedInsight,
+  EmotionStat,
+  GraphData,
+  DeepInsight,
+} from '@/types';
+
+import type {
   EntryCreateRequest,
   EntryCreateResponse,
   EntryResponse,
@@ -15,10 +21,7 @@ import type {
   AdminUser,
   LlmConfig,
   AdminStats,
-  EmotionStat,
-  GraphData,
-  DeepInsight,
-} from '@/shared/types';
+} from '@/features/journal/services/index'
 
 const getBase = () =>
   (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_API_BASE) ||

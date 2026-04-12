@@ -2,7 +2,7 @@
  * Emotion Feature API Client
  */
 
-import type { EmotionStat } from '../types';
+import type { EmotionStat } from '@/types';
 
 const getBase = () =>
   (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_API_BASE) ||

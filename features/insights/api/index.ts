@@ -2,7 +2,7 @@
  * Insights Feature API Client
  */
 
-import type { SeedInsight, GraphData, DeepInsight } from '@/shared/types';
+import type { SeedInsight, GraphData, DeepInsight } from '@/types';
 
 const getBase = () =>
   (typeof process !== 'undefined' && process.env.NEXT_PUBLIC_API_BASE) ||

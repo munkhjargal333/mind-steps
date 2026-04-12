@@ -13,3 +13,9 @@ export interface ApiResponseHandler<T> {
   onError?: (error: Error) => void;
   onFinally?: () => void;
 }
+
+export interface ApiResponse<T = unknown> {
+  data: T | null;
+  error: string | null;
+  status: number;
+}

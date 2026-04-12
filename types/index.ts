@@ -136,3 +136,7 @@ export interface StepCopy {
   inner: { q: string; placeholder: string };
   meaning: { q: string; placeholder: string };
 }
+
+// ─── Aliases ──────────────────────────────────────────────────────────────────
+// User is an alias for AuthUser for backward compatibility
+export type { AuthUser as User };

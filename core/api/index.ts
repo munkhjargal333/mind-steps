@@ -1,2 +1,2 @@
-export { BaseAPIClient } from './client';
+export { ApiClient } from './client';
 export type { ApiResponse } from './types';

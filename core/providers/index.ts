@@ -1,2 +1,2 @@
-export { ThemeProvider, useTheme } from './theme-provider';
-export { ToastProvider, useToast } from './ToastContext';
+export { ThemeProvider } from './ThemeProvider';
+export { ToastProvider, useGlobalToast } from './ToastContext';

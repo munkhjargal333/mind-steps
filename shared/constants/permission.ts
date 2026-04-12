@@ -1,10 +1,11 @@
-export const TIERS = ['free', 'demo', 'pro'] as const;
-type Tier = (typeof TIERS)[number];
+import type { Tier } from '@/types';
+
+export const TIERS = ['free', 'demo', 'pro'] as const satisfies readonly Tier[];
 
 export const PERMISSIONS = {
-  view_insights: ["free",'pro'],
-  view_emotions: ["free",'pro'],
-  view_graph:    ["free",'pro'],
+  view_insights: ['free', 'pro'],
+  view_emotions: ['free', 'pro'],
+  view_graph:    ['free', 'pro'],
 } as const;
 
 export type Permission = keyof typeof PERMISSIONS;

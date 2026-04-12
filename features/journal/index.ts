@@ -24,3 +24,15 @@ export { TierPill } from './components/TierPill';
 
 // Config
 export * from './config';
+
+// Types
+export type {
+  QuickActionType,
+  FlowStep,
+  SessionData,
+  SeedInsight,
+  AnalyzeResult,
+  ActionConfig,
+  StepCopy,
+  Tier,
+} from './types';
