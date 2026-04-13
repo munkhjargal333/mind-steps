@@ -1,6 +1,6 @@
 'use client';
 
-import { Sparkles, ChevronRight, Sun, X } from 'lucide-react';
+import { Sparkles, ChevronRight, Sunrise, X } from 'lucide-react';
 import { cn } from '@/shared/lib/utils';
 import { ThemeToggle } from '@/shared/components/ThemeToggle';
 import { useAuth } from '@/core/auth/AuthContext';
@@ -71,7 +71,7 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
         <div className="p-5 border-b">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <Sun className="w-5 h-5 text-orange-500" />
+              <Sunrise className="w-5 h-5 text-orange-500" />
               <span className="font-bold text-sm">MindSteps</span>
             </div>
             <button

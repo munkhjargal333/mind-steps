@@ -37,16 +37,16 @@ export function QuickActionButton({
 
   const variants = {
     default: {
-      button: "group relative flex flex-col items-start p-5 rounded-[2.5rem] bg-white dark:bg-zinc-900 border border-border shadow-sm transition-all text-left overflow-hidden",
-      iconContainer: `p-3 rounded-2xl mb-4 transition-transform ${action.bg} ${action.color}`,
-      iconSize: 22,
+      button: "group relative flex flex-col items-center justify-center p-4 rounded-3xl bg-white dark:bg-zinc-900 border border-border shadow-sm transition-all text-center overflow-hidden",
+      iconContainer: `p-2.5 rounded-xl mb-3 transition-transform ${action.bg} ${action.color}`,
+      iconSize: 20,
       label: "font-bold text-sm leading-tight",
-      sub: "text-[11px] text-muted-foreground mt-1.5 leading-snug"
+      sub: "text-[11px] text-muted-foreground mt-1 leading-snug"
     },
     compact: {
-      button: `group flex flex-col items-start p-5 rounded-[2.5rem] text-left border transition-all min-h-[160px] relative overflow-hidden ${className}`,
-      iconContainer: `p-3 rounded-2xl mb-4 transition-transform bg-white/90 dark:bg-black/20 ${action.color} shadow-sm`,
-      iconSize: 24,
+      button: `group flex flex-col items-center justify-center p-4 rounded-3xl text-center border transition-all min-h-[140px] relative overflow-hidden ${className}`,
+      iconContainer: `p-2.5 rounded-xl mb-3 transition-transform bg-white/90 dark:bg-black/20 ${action.color} shadow-sm`,
+      iconSize: 22,
       label: `text-sm font-bold leading-tight ${action.color}`,
       sub: "text-[10px] text-muted-foreground/80 leading-snug font-medium"
     }

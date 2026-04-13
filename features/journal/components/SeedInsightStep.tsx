@@ -37,7 +37,7 @@ export function SeedInsightStep({
         <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full bg-primary/8 blur-2xl pointer-events-none" />
 
         <div className="space-y-1">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-yellow-500/70">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-500">
             Дотоод түлхэц
           </p>
           <h2 className="text-xl font-bold tracking-tight text-foreground/90 leading-snug">

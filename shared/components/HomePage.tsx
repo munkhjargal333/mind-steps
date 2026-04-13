@@ -89,8 +89,8 @@ export function HomePage() {
 
       {/* Greeting */}
       <div className="pt-2">
-        <p className="text-xs text-muted-foreground font-medium tracking-wide">{greeting()}</p>
-        <h1 className="text-xl font-semibold tracking-tight mt-0.5">Сэтгэлийн дэвтэр</h1>
+        <p className="text-xs text-amber-500 font-medium tracking-wide">{greeting()}</p>
+        <h1 className="text-xl font-semibold tracking-tight mt-0.5">Тэмдэглэлийн дэвтэр</h1>
       </div>
 
       {/* Emotion card */}

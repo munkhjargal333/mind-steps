@@ -9,7 +9,7 @@ interface Props {
 
 export function ActionGrid({ actions, onSelect, disabled }: Props) {
   return (
-    <div className="grid grid-cols-2 gap-4">
+    <div className="grid grid-cols-2 gap-5 md:gap-6 w-full max-w-2xl mx-auto p-4">
       {actions.map((action) => (
         <QuickActionButton
           key={action.type}
