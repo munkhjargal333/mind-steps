@@ -145,7 +145,7 @@ export function ActionSelector({
 
       {/* ── Footer ── */}
       <p className="text-[10px] text-center text-muted-foreground/40 pt-4">
-        MindSteps v1.0 • Сэтгэл зүйн туслах
+        MindSteps v2.0.31 • Сэтгэл зүйн туслах
       </p>
     </div>
   )

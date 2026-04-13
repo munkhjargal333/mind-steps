@@ -15,3 +15,4 @@ export { ProgressBar } from './ProgressBar';
 export { ThemeToggle } from './ThemeToggle';
 export { ActionGrid } from './action-grid';
 export { OptionButton } from './option-button';
+export { ActionButton } from './ActionButton';

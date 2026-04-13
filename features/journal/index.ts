@@ -12,5 +12,3 @@ export { MeaningStep } from './components/steps/MeaningStep';
 export { QuickActionButton } from './components/QuickActionButton';
 export { ActionBadge } from './components/ActionBadge';
 export { ActionCard } from './components/ActionCard';
-export { TierPill } from './components/TierPill';
-

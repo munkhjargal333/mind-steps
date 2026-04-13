@@ -11,3 +11,9 @@ export { Label } from '@/shared/ui/label';
 export { Progress } from '@/shared/ui/progress';
 export { Tabs, TabsList, TabsTrigger, TabsContent } from '@/shared/ui/tabs';
 export { Textarea } from '@/shared/ui/textarea';
+export {
+  Skeleton,
+  EntryCardSkeleton,
+  InsightCardSkeleton,
+  ListSkeleton,
+} from './skeleton';

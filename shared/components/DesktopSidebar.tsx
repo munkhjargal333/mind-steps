@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { cn } from '@/shared/lib/utils';
 import { usePathname } from 'next/navigation';
 import type { NavItem } from '@/core/api/types';
-import { Lock } from 'lucide-react';
+import { Lock, Sunrise } from 'lucide-react';
 
 interface DesktopSidebarProps {
   navItems: NavItem[];
@@ -17,9 +17,7 @@ export function DesktopSidebar({ navItems, userTier }: DesktopSidebarProps) {
   return (
     <aside className="hidden md:flex flex-col w-64 border-r bg-card/40 shrink-0">
       <div className="h-16 flex items-center gap-2.5 px-6 border-b">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-orange-500">
-          <path d="M12 3v18M3 12h18"/>
-        </svg>
+      <Sunrise className="w-5 h-5 text-orange-500" />
         <span className="text-lg font-bold">MindSteps</span>
       </div>
 
