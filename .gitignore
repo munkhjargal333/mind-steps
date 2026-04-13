@@ -26,6 +26,7 @@ coverage/
 
 # IDE specific
 .vscode/
+.next/
 .idea/
 *.swp
 *.swo

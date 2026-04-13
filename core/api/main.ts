@@ -5,6 +5,10 @@ import type {
   EmotionStat,
   GraphData,
   DeepInsight,
+  HumanInsight,
+  Pattern,
+  PatternSummary,
+  TodaySnapshot,
 } from '@/core/api/types';
 
 // ─── Internal helpers ─────────────────────────────────────────────────────────
@@ -131,8 +135,9 @@ export async function getDemoRemaining(): Promise<{ remaining: number }> {
 
 // ─── Stats & Graph ────────────────────────────────────────────────────────────
 
-export async function getEmotionStats(token: string, days = 30): Promise<EmotionStat[]> {
-  const res = await fetch(`${getBase()}/api/stats/emotions?days=${days}`, {
+// API параметр: entries (тэмдэглэлийн тоо, 1–50), days биш
+export async function getEmotionStats(token: string, entries = 10): Promise<EmotionStat[]> {
+  const res = await fetch(`${getBase()}/api/stats/emotions?entries=${entries}`, {
     headers: authHeaders(token),
   });
   return handleResponse<EmotionStat[]>(res);
@@ -162,4 +167,75 @@ export async function getSeedInsight(
     headers: authHeaders(token),
   });
   return handleResponse<SeedInsight & { summary: string }>(res);
+}
+// ─── Today Snapshot ───────────────────────────────────────────────────────────
+
+export async function getTodaySnapshot(token: string): Promise<TodaySnapshot> {
+  const res = await fetch(`${getBase()}/api/today`, {
+    headers: authHeaders(token),
+  });
+  return handleResponse<TodaySnapshot>(res);
+}
+
+// ─── Patterns ─────────────────────────────────────────────────────────────────
+
+export async function listPatterns(
+  token: string,
+  params?: { limit?: number; unread_only?: boolean }
+): Promise<Pattern[]> {
+  const query = new URLSearchParams();
+  if (params?.limit)       query.set('limit', String(params.limit));
+  if (params?.unread_only) query.set('unread_only', 'true');
+
+  const res = await fetch(`${getBase()}/api/patterns/?${query}`, {
+    headers: authHeaders(token),
+  });
+  return handleResponse<Pattern[]>(res);
+}
+
+export async function getPatternSummary(token: string): Promise<PatternSummary> {
+  const res = await fetch(`${getBase()}/api/patterns/summary`, {
+    headers: authHeaders(token),
+  });
+  return handleResponse<PatternSummary>(res);
+}
+
+export async function acknowledgePattern(token: string, patternId: string): Promise<void> {
+  const res = await fetch(`${getBase()}/api/patterns/${patternId}/ack`, {
+    method: 'PATCH',
+    headers: authHeaders(token),
+  });
+  return handleResponse<void>(res);
+}
+
+// ─── Human Insights ───────────────────────────────────────────────────────────
+
+export async function listHumanInsights(
+  token: string,
+  limit = 10
+): Promise<HumanInsight[]> {
+  const res = await fetch(`${getBase()}/api/patterns/human-insight?limit=${limit}`, {
+    headers: authHeaders(token),
+  });
+  return handleResponse<HumanInsight[]>(res);
+}
+
+export async function generateHumanInsight(
+  token: string,
+  patternRunId?: string | null
+): Promise<HumanInsight> {
+  const res = await fetch(`${getBase()}/api/patterns/human-insight`, {
+    method: 'POST',
+    headers: authHeaders(token),
+    body: JSON.stringify({ pattern_run_id: patternRunId ?? null }),
+  });
+  return handleResponse<HumanInsight>(res);
+}
+
+export async function acknowledgeHumanInsight(token: string, insightId: string): Promise<void> {
+  const res = await fetch(`${getBase()}/api/patterns/human-insight/${insightId}/ack`, {
+    method: 'PATCH',
+    headers: authHeaders(token),
+  });
+  return handleResponse<void>(res);
 }

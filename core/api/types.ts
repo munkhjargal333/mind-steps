@@ -126,6 +126,51 @@ export interface DeepInsight {
   [key: string]: unknown;
 }
 
+// ─── Human Insights ───────────────────────────────────────────────────────────
+export interface HumanInsight {
+  id: string;
+  insight_text: string;
+  highlight_type: string | null;
+  strength_score: number;
+  generated_at: string;
+  acknowledged: boolean;
+  pattern_run_id?: string | null;
+}
+
+// ─── Patterns ─────────────────────────────────────────────────────────────────
+export interface Pattern {
+  id: string;
+  pattern_type: string;
+  pattern_data: Record<string, unknown>;
+  strength_score: number;
+  detected_at: string;
+  acknowledged: boolean;
+  run_id?: string | null;
+  related_node_ids: string[];
+}
+
+export interface PatternSummary {
+  dominant_need:            Record<string, unknown> | null;
+  dominant_emotion:         Record<string, unknown> | null;
+  low_state:                Record<string, unknown> | null;
+  emotion_trend:            Record<string, unknown> | null;
+  unmet_needs:              Record<string, unknown>[];
+  strong_connections:       Record<string, unknown>[];
+  high_intensity_emotions:  Record<string, unknown>[];
+  emotion_variance:         Record<string, unknown> | null;
+  latest_run_at:            string | null;
+}
+
+// ─── Today Snapshot ───────────────────────────────────────────────────────────
+export interface TodaySnapshot {
+  ewma:                number | null;
+  entry_count:         number;
+  top_patterns:        Record<string, unknown>[];
+  last_seed:           SeedInsight | null;
+  last_human_insight:  HumanInsight | null;
+  dominant_emotion:    string | null;
+}
+
 // ─── Navigation ───────────────────────────────────────────────────────────────
 export interface NavItem {
   icon: any;

@@ -1,5 +1,5 @@
-import { HomeContainer } from '@/shared/components/HomeContainer';
+import { ActionContainer } from '@/shared/components/ActionContainer';
 
 export default function Page() {
-  return <HomeContainer />;
+  return <ActionContainer mode={'demo'} />;
 }

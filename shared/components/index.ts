@@ -3,8 +3,9 @@
 
 export { MainHeader } from './MainHeader';
 export { Layout } from './Layout';
-export { HomeContainer } from './HomeContainer';
-export { HomePage } from './HomePage';
+export { HomePage } from './HomePage'
+export { ActionContainer } from './ActionContainer';
+export { ActionSelector } from './ActionSelector';
 export { DashboardLayout } from './DashboardLayout';
 export { DesktopSidebar } from './DesktopSidebar';
 export { MobileBottomNav } from './MobileBottomNav';

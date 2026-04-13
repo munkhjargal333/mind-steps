@@ -1,60 +1,56 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { HomePage } from '@/shared/components/HomePage'
+import { ActionSelector } from '@/shared/components/ActionSelector'
 import { ThoughtFlow } from '@/features/journal'
 import { useRateLimit } from '@/shared/hooks/useRateLimit'
 import { useAuth } from '@/core/auth/AuthContext'
 import { useTierContext } from '@/core/providers'
-import type { QuickActionType } from '@/core/api/types'
 import { DailyLimitModal } from '@/features/home'
+import type { QuickActionType, Tier } from '@/core/api/types'
 
 type View = 'home' | 'flow'
 
-export function HomeContainer() {
-  const router = useRouter()
-  const [view, setView] = useState<View>('home')
+interface Props {
+  mode: 'demo' | 'authed'
+  onBack?: () => void  // гадна view рүү буцах (жишээ: home page)
+}
+
+export function ActionContainer({ mode, onBack: onExternalBack }: Props) {
+  const [view, setView]                     = useState<View>('home')
   const [selectedAction, setSelectedAction] = useState<QuickActionType | null>(null)
   const [showLimitModal, setShowLimitModal] = useState(false)
 
-  const { user } = useAuth()
-  const { tier } = useTierContext()
+  // authed mode-д л context шаардлагатай
+  const { user }  = useAuth()
+  const { tier: ctxTier } = useTierContext()
 
-  const userId = user?.id ?? 'guest'
-  const userTier = tier === 'pro' ? 'pro' : tier === 'demo' ? 'demo' : 'free'
+  const tier: Tier   = mode === 'demo' ? 'demo' : ctxTier === 'pro' ? 'pro' : 'free'
+  const userId       = mode === 'demo' ? 'guest' : (user?.id ?? 'unknown')
+  const isPro        = tier === 'pro'
 
-  const { usageCount, limit, remaining, isLimited, increment } = useRateLimit(userId, userTier)
+  const { usageCount, limit, remaining, isLimited, increment } = useRateLimit(userId, tier)
 
   function handleSelectAction(type: QuickActionType) {
-    if (userTier === 'pro') {
-      setSelectedAction(type)
-      setView('flow')
-      return
-    }
-
-    if (isLimited) {
+    if (!isPro && isLimited) {
       setShowLimitModal(true)
       return
     }
-
     setSelectedAction(type)
     setView('flow')
   }
 
   function handleFlowComplete() {
-    // Flow дууссан → increment + нүүр хуудас
-    if (userTier !== 'pro') increment()
+    if (!isPro) increment()
     setView('home')
     setSelectedAction(null)
   }
 
-  function handleFlowReset() {
-    if (userTier !== 'pro') increment()
-  }
-
   function handleBack() {
-    // Дунд нь гарвал тоолохгүй
+    if (view === 'home' && onExternalBack) {
+      onExternalBack()
+      return
+    }
     setView('home')
     setSelectedAction(null)
   }
@@ -62,13 +58,13 @@ export function HomeContainer() {
   return (
     <>
       {view === 'home' && (
-        <HomePage
+        <ActionSelector
+          tier={tier}
           onSelectAction={handleSelectAction}
           usageCount={usageCount}
           limit={limit}
           remaining={remaining}
           isLimited={isLimited}
-          tier={userTier}
         />
       )}
 
@@ -77,14 +73,14 @@ export function HomeContainer() {
           initialAction={selectedAction}
           onBack={handleBack}
           onComplete={handleFlowComplete}
-          onReset={handleFlowReset}
+          onReset={() => { if (!isPro) increment() }}
         />
       )}
 
       <DailyLimitModal
         isOpen={showLimitModal}
         onClose={() => setShowLimitModal(false)}
-        userTier={userTier}
+        userTier={tier}
         usageCount={usageCount}
         limit={limit}
       />
