@@ -14,7 +14,7 @@ export { ActionContainer }    from './ActionContainer';
 
 // Dashboard building blocks
 export { EmotionCard, EMOTION_MAP, hawkinsInfo } from './EmotionCard';
-export { HumanInsightCard, SeedInsightCard, PatternCard } from './InsightCard';
+export { HumanInsightCard,  PatternCard } from './InsightCard';
 export { RateLimitBar }       from './RateLimitBar';
 export { SkeletonCard }       from './SkeletonCard';
 export { StatRow }            from './StatRow';
