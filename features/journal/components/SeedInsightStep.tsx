@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import { cn } from '@/shared/lib/utils';
 import { INSIGHT_CARDS, ACTION_MAP } from '@/shared/constants';
+import { InsightCards } from '@/shared/components/InsightCard';
 import type { SessionData } from '@/core/api/types';
 import type { AnalyzeResult } from '@/core/api/types';
 
@@ -82,29 +83,13 @@ export function SeedInsightStep({
       )}
 
       {/* Insight cards */}
-      {result && (
-        <div className="space-y-3">
-          {INSIGHT_CARDS.map((card, i) => (
-            <div
-              key={card.key}
-              className={cn(
-                'p-5 rounded-2xl',
-                'animate-[fadeUp_0.4s_ease_both]',
-                card.bg,
-              )}
-              style={{ animationDelay: `${i * 120}ms` }}
-            >
-              <div className="flex items-center gap-2 mb-3">
-                <div className={cn('w-2 h-2 rounded-full', card.dot)} />
-                <span className="text-[10px] text-muted-foreground/40">· {card.sub}</span>
-              </div>
-              <p className="text-sm leading-relaxed text-foreground/80">
-                {result.insight[card.key]}
-              </p>
-            </div>
-          ))}
-        </div>
-      )}
+      <InsightCards
+        data={result?.insight}
+        loading={analyzing}
+        error={error}
+        compact
+        title=""
+      />
     </div>
   );
 }

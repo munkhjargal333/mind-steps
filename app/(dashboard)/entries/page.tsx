@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/core/auth/AuthContext';
-import { useEntries } from '@/features/entries/hooks/useEntries';
-import { Loader2, AlertCircle } from 'lucide-react';
-import { EntryCard, EntriesHeader, EntriesSearch, EntriesEmptyState, EntriesPagination } from '@/features/entries';
+import { useEntries } from '@/features/journal/hooks/useEntries';
+import { Loader2, AlertCircle, Link, BookOpen } from 'lucide-react';
+import { EntryCard, EntriesHeader, EntriesSearch, EntriesEmptyState, EntriesPagination } from '@/features/journal';
+import { SectionHeader } from '@/shared/components/SectionHeader';
+import { Button } from '@/shared/ui';
 
 export default function EntriesPage() {
   const { token } = useAuth();
@@ -37,7 +39,18 @@ export default function EntriesPage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
-      <EntriesHeader total={total} />
+      <SectionHeader
+        title="Бичлэгүүд"
+        subtitle={`Нийт ${total} бичлэг`}
+        right={
+          <Link href="/home">
+            <Button size="sm" className="rounded-xl gap-2">
+              <BookOpen size={14} />
+              Шинэ
+            </Button>
+          </Link>
+        }
+      />
 
       <EntriesSearch value={search} onChange={setSearch} />
 

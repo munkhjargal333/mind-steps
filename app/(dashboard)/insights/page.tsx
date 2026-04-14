@@ -21,6 +21,7 @@ import {
   acknowledgeHumanInsight,
 } from '@/core/api';
 import type { HumanInsight } from '@/core/api/types';
+import { SectionHeader } from '@/shared/components/SectionHeader';
 
 // ─── Static config ────────────────────────────────────────────────────────────
 
@@ -209,23 +210,23 @@ export default function InsightsPage() {
     <div className="w-full max-w-2xl mx-auto px-4 py-6 space-y-5">
 
       {/* Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-lg font-semibold tracking-tight">Ойлголтууд</h1>
-          <p className="text-[11px] text-muted-foreground mt-0.5">Чиний хэв маягийн дүн шинжилгээ</p>
-        </div>
-        <button
-          onClick={handleGenerate}
-          disabled={generating || loading}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-medium hover:bg-muted transition-all disabled:opacity-50"
-        >
-          {generating
-            ? <Loader2 size={12} className="animate-spin" />
-            : <RefreshCw size={12} />
-          }
-          Шинэчлэх
-        </button>
-      </div>
+      <SectionHeader
+        title="Ойлголтууд"
+        subtitle="Чиний хэв маягийн дүн шинжилгээ"
+        right={
+          <button
+            onClick={handleGenerate}
+            disabled={generating || loading}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-medium hover:bg-muted transition-all disabled:opacity-50"
+          >
+            {generating
+              ? <Loader2 size={12} className="animate-spin" />
+              : <RefreshCw size={12} />
+            }
+            Шинэчлэх
+          </button>
+        }
+/>
 
       {/* Loading */}
       {loading && (

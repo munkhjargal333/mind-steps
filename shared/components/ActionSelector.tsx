@@ -1,22 +1,29 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import { FREE_ACTIONS, PRO_ACTIONS } from '@/shared/constants'
-import { ActionGrid } from '@/shared/components/action-grid'
-import { useTierContext } from '@/core/providers'
-import { Lock, ArrowLeft } from 'lucide-react'
-import { cn } from '@/shared/lib/utils'
+// shared/components/ActionSelector.tsx  (refactored)
+// ─────────────────────────────────────────────────────────────────────────────
+// CHANGES from original:
+//  • Inline rate-limit dots replaced with <RateLimitBar />
+//  • PRO badge class uses CSS token  var(--color-tier-pro) instead of bg-violet-500
+// ─────────────────────────────────────────────────────────────────────────────
+
+import Link from 'next/link';
+import { ArrowLeft, Lock } from 'lucide-react';
+
+import { FREE_ACTIONS, PRO_ACTIONS } from '@/shared/constants';
+import { ActionGrid }    from '@/shared/components/action-grid';
+import { RateLimitBar }  from '@/shared/components/RateLimitBar';
+import { cn }            from '@/shared/lib/utils';
 
 interface Props {
-  onSelectAction: (type: any) => void
-  onUpgrade?: () => void
-  onBack?: () => void   // Буцах товч — HomePage руу
-  // Rate limit props
-  usageCount: number
-  limit: number
-  remaining: number
-  isLimited: boolean
-  tier: 'demo' | 'free' | 'pro'
+  onSelectAction: (type: any) => void;
+  onUpgrade?: () => void;
+  onBack?: () => void;
+  usageCount: number;
+  limit: number;
+  remaining: number;
+  isLimited: boolean;
+  tier: 'demo' | 'free' | 'pro';
 }
 
 export function ActionSelector({
@@ -29,16 +36,14 @@ export function ActionSelector({
   isLimited,
   tier,
 }: Props) {
-  const { tier: contextTier } = useTierContext()
-
-  const isDemo = tier === 'demo'
-  const isPro  = tier === 'pro'
-  const isFree = tier === 'free'
+  const isDemo = tier === 'demo';
+  const isPro  = tier === 'pro';
+  const isFree = tier === 'free';
 
   return (
     <div className="w-full max-w-md mx-auto px-5 py-8 space-y-8 animate-in fade-in duration-500">
 
-      {/* ── Back button (optional) ── */}
+      {/* ── Back button (optional) ─────────────────────────────────────── */}
       {onBack && (
         <button
           onClick={onBack}
@@ -49,48 +54,23 @@ export function ActionSelector({
         </button>
       )}
 
-      {/* ── Usage indicator (demo & free) ── */}
+      {/* ── Usage indicator — shared component ────────────────────────── */}
       {!isPro && (
-        <div className="space-y-1.5">
-          <div className="flex items-center justify-between">
-            <p className="text-[11px] text-muted-foreground">
-              Өнөөдрийн ашиглалт
-            </p>
-            <p className={cn(
-              "text-[11px] font-semibold",
-              isLimited ? "text-red-500" : "text-muted-foreground"
-            )}>
-              {isLimited ? "Хязгаарт хүрлээ" : `${remaining} үлдсэн`}
-            </p>
-          </div>
-
-          {/* Progress dots */}
-          <div className="flex gap-1.5">
-            {Array.from({ length: limit }).map((_, i) => (
-              <div
-                key={i}
-                className={cn(
-                  "flex-1 h-1.5 rounded-full transition-colors duration-300",
-                  i < usageCount
-                    ? isLimited ? "bg-red-500" : "bg-orange-500"
-                    : "bg-muted"
-                )}
-              />
-            ))}
-          </div>
-        </div>
+        <RateLimitBar
+          usageCount={usageCount}
+          limit={limit}
+          remaining={remaining}
+          isLimited={isLimited}
+        />
       )}
 
-      {/* ── FREE ACTIONS ── */}
+      {/* ── FREE ACTIONS ───────────────────────────────────────────────── */}
       <div className="space-y-3">
         <p className="text-xs font-medium text-muted-foreground">Асуудлын тэмдэглэл</p>
-        <ActionGrid
-          actions={FREE_ACTIONS}
-          onSelect={onSelectAction}
-        />
+        <ActionGrid actions={FREE_ACTIONS} onSelect={onSelectAction} />
       </div>
 
-      {/* ── DEMO / FREE / PRO section ── */}
+      {/* ── DEMO / FREE / PRO section ──────────────────────────────────── */}
       {isDemo ? (
         <div className="px-4 mt-6">
           <div className="flex items-center justify-between p-3 rounded-2xl bg-muted/30 border">
@@ -105,7 +85,7 @@ export function ActionSelector({
                 </p>
               </div>
             </div>
-            <Link href="/login" className="text-xs font-semibold text-violet-500">
+            <Link href="/login" className="text-xs font-semibold text-[color:var(--color-tier-pro,theme(colors.violet.500))]">
               Нэвтрэх
             </Link>
           </div>
@@ -114,19 +94,22 @@ export function ActionSelector({
         <div className="space-y-3">
           <div className="flex justify-between items-center px-1">
             <div className="flex items-center gap-2">
-              <p className={cn(
-                "text-[10px] font-black uppercase px-1.5 py-0.5 rounded-md",
-                isPro
-                  ? "bg-violet-500 text-white"
-                  : "bg-muted text-muted-foreground"
-              )}>
+              {/* PRO badge uses CSS token */}
+              <p
+                className={cn(
+                  'text-[10px] font-black uppercase px-1.5 py-0.5 rounded-md',
+                  isPro
+                    ? 'bg-[color:var(--color-tier-pro,theme(colors.violet.500))] text-white'
+                    : 'bg-muted text-muted-foreground',
+                )}
+              >
                 {isPro ? 'Pro' : 'Limited'}
               </p>
               <p className="text-xs font-medium text-muted-foreground">Өсөлтийн тэмдэглэл</p>
             </div>
           </div>
 
-          <div className={cn("relative", isFree && "opacity-60 grayscale-[0.5]")}>
+          <div className={cn('relative', isFree && 'opacity-60 grayscale-[0.5]')}>
             <ActionGrid
               actions={PRO_ACTIONS.slice(0, 4)}
               onSelect={isPro ? onSelectAction : () => {}}
@@ -143,10 +126,10 @@ export function ActionSelector({
         </div>
       )}
 
-      {/* ── Footer ── */}
+      {/* ── Footer ─────────────────────────────────────────────────────── */}
       <p className="text-[10px] text-center text-muted-foreground/40 pt-4">
-        MindSteps v2.0.31 • Сэтгэл зүйн туслах
+        MindSteps v1.0 • Сэтгэл зүйн туслах
       </p>
     </div>
-  )
+  );
 }

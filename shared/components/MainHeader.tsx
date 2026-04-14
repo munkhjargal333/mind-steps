@@ -7,7 +7,7 @@ import { useTierContext } from '@/core/providers';
 import { useAuth } from '@/core/auth/AuthContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { TierDisplay } from './TierDisplay';
+import { TierBadge } from './TierBadge';
 
 export function MainHeader() {
   const { tier } = useTierContext();
@@ -29,7 +29,7 @@ export function MainHeader() {
           {isLoggedIn ? (
             <div className="flex items-center gap-2">
               {tier === 'pro' && (
-                <TierDisplay tier="pro" />
+                <TierBadge tier="pro" />
               )}
               <Link href="/home">
                 <Button variant="ghost" size="icon" className="rounded-full">

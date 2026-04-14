@@ -11,4 +11,11 @@ export { InnerReactionStep } from './components/steps/InnerReactionStep';
 export { MeaningStep } from './components/steps/MeaningStep';
 export { QuickActionButton } from './components/QuickActionButton';
 export { ActionBadge } from './components/ActionBadge';
-export { ActionCard } from './components/ActionCard';
+
+export { useEntry } from '../journal/hooks/useEntries'
+
+export { EntryCard } from './components/EntryCard';
+export { EntriesHeader } from './components/EntriesHeader';
+export { EntriesSearch } from './components/EntriesSearch';
+export { EntriesPagination } from './components/EntriesPagination';
+export { EntriesEmptyState } from './components/EntriesEmptyState'

@@ -1,18 +1,26 @@
 // shared/components/index.ts
-// Shared reusable components
 
-export { MainHeader } from './MainHeader';
-export { Layout } from './Layout';
-export { HomePage } from './HomePage'
-export { ActionContainer } from './ActionContainer';
-export { ActionSelector } from './ActionSelector';
-export { DashboardLayout } from './DashboardLayout';
-export { DesktopSidebar } from './DesktopSidebar';
-export { MobileBottomNav } from './MobileBottomNav';
-export { MobileDrawer } from './MobileDrawer';
-export { NavigationControls } from './NavigationControls';
-export { ProgressBar } from './ProgressBar';
-export { ThemeToggle } from './ThemeToggle';
-export { ActionGrid } from './action-grid';
-export { OptionButton } from './option-button';
-export { ActionButton } from './ActionButton';
+// Layout
+export { DashboardLayout }    from './DashboardLayout';
+export { DesktopSidebar }     from './DesktopSidebar';
+export { MobileBottomNav }    from './MobileBottomNav';
+export { MobileDrawer, DrawerAvatar } from './MobileDrawer';
+export { MainHeader }         from './MainHeader';
+
+// Dashboard page
+export { HomePage }           from './HomePage';
+export { ActionSelector }     from './ActionSelector';
+export { ActionContainer }    from './ActionContainer';
+
+// Dashboard building blocks
+export { EmotionCard, EMOTION_MAP, hawkinsInfo } from './EmotionCard';
+export { HumanInsightCard, SeedInsightCard, PatternCard } from './InsightCard';
+export { RateLimitBar }       from './RateLimitBar';
+export { SkeletonCard }       from './SkeletonCard';
+export { StatRow }            from './StatRow';
+
+// Misc shared UI
+export { TierBadge }          from './TierBadge';
+export { ThemeToggle }        from './ThemeToggle';
+export { ActionGrid }         from './action-grid';
+export { SectionHeader }      from './SectionHeader';

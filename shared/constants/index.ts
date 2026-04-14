@@ -316,7 +316,7 @@ export interface StepCopy {
 export const STEP_CONFIG: Record<string, StepCopy> = {
   stress: {
     surface: {
-      q: 'Сүүлийн үед толгойноос чинь гарч өгөхгүй, дахин дахин эргэж ирээд байгаа зүйл юу байна?',
+      q: 'Сүүлийн үед толгойн өвчин болоод байгаа асуудал?',
       placeholder: 'хийх ёстой зүйлс хэт их болоод альнаас нь эхлэхээ мэдэхгүй байх, амжихгүй юм шиг дарамт мэдрэгдэх...',
     },
     inner: {
@@ -446,26 +446,36 @@ export const ACTION_LABELS: Record<string, string> = {
 // ─── Seed Insight cards ───────────────────────────────────────
 // All colours use semantic insight tokens from globals.css.
 
+
 export const INSIGHT_CARDS = [
   {
-    key: 'mirror'  as const,
+    key: 'mirror',
     label: 'Mirror',
     sub: '🫂 Чи дангаараа биш',
-    dot: 'bg-insight-mirror',
-    bg: 'bg-insight-mirror/8',
+    dot: 'bg-[color:var(--color-insight-mirror,theme(colors.blue.400))]',
+    bg: 'bg-blue-50/60 dark:bg-blue-950/15',
   },
   {
-    key: 'reframe' as const,
+    key: 'reframe',
     label: 'Reframe',
     sub: '🌀 Өөр өнцгөөс харвал',
-    dot: 'bg-insight-reframe',
-    bg: 'bg-insight-reframe/8',
+    dot: 'bg-[color:var(--color-insight-reframe,theme(colors.violet.400))]',
+    bg: 'bg-violet-50/60 dark:bg-violet-950/15',
   },
   {
-    key: 'relief'  as const,
+    key: 'relief',
     label: 'Relief',
     sub: '🌱 Дотоод хүч чинь байсаар',
-    dot: 'bg-insight-relief',
-    bg: 'bg-insight-relief/8',
+    dot: 'bg-[color:var(--color-insight-relief,theme(colors.emerald.400))]',
+    bg: 'bg-emerald-50/60 dark:bg-emerald-950/15',
   },
+  // {
+  //   key: 'summary',
+  //   label: 'Summary',
+  //   sub: 'Хураангуй',
+  //   dot: 'bg-amber-400',
+  //   bg: 'bg-amber-50/60 dark:bg-amber-950/15',
+  // },
 ] as const;
+
+export type InsightKey = (typeof INSIGHT_CARDS)[number]['key'];
