@@ -15,7 +15,7 @@ export default function LandingPage() {
     <div className="h-dvh overflow-hidden bg-background flex flex-col">
       <MainHeader />
 
-      <main className="flex-1 overflow-y-auto snap-y snap-mandatory scroll-smooth">
+      <main className="flex-1 overflow-y-auto snap-y md:snap-mandatory scroll-smooth">
 
         {/* Snap sections */}
         <div className="h-dvh w-full snap-start">
@@ -39,9 +39,9 @@ export default function LandingPage() {
         </div>
 
         {/* CTA - snap хэвээр */}
-        <div className="min-h-dvh w-full snap-start flex items-center">
-          <CTASection />
-        </div>
+<div className="py-20 flex items-center">
+  <CTASection />
+</div>
 
         {/* Footer - snap биш (IMPORTANT) */}
         <footer className="border-t bg-background">

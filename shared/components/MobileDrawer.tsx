@@ -7,8 +7,10 @@ import { useAuth } from '@/core/auth/AuthContext';
 import { useTierContext } from '@/core/providers';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import type { User } from '@supabase/supabase-js';
 import { getUserInitials, getDisplayName, getUserTier } from '@/shared/utils/userHelpers';
+import { NAV_ITEMS } from '@/shared/constants/navItems';
 
 interface MobileDrawerProps {
   isOpen: boolean;
@@ -44,6 +46,7 @@ export function DrawerAvatar({ user }: { user: User | null | undefined }) {
 export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
   const { logout, user } = useAuth();
   const { tier } = useTierContext();
+  const pathname = usePathname();
 
   const userTier = getUserTier(tier);
   const displayName = getDisplayName(user);
@@ -108,23 +111,57 @@ export function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
           </div>
         </div>
 
-        {/* Navigation / Upgrade */}
-        <div className="flex-1 p-3 flex flex-col justify-end">
+        {/* ── Navigation цэс ─────────────────────────────────────── */}
+        <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
+          {NAV_ITEMS.map((item) => {
+            const Icon = item.icon;
+            const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={onClose}
+                className={cn(
+                  'flex items-center gap-3 px-4 py-3 rounded-2xl text-sm font-medium transition-all',
+                  isActive
+                    ? 'bg-orange-50 dark:bg-orange-950/30 text-orange-600 dark:text-orange-400'
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                )}
+              >
+                <Icon
+                  size={18}
+                  className={cn(
+                    'transition-colors',
+                    isActive ? 'text-orange-500' : 'text-muted-foreground'
+                  )}
+                />
+                <span>{item.label}</span>
+                {isActive && (
+                  <span className="ml-auto w-1.5 h-1.5 rounded-full bg-orange-500" />
+                )}
+              </Link>
+            );
+          })}
+
+          {/* Upgrade CTA */}
           {userTier !== 'pro' && (
-            <Link
-              href="/upgrade"
-              onClick={onClose}
-              className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-gradient-to-r from-violet-500 to-violet-600 text-white text-sm font-semibold shadow-md hover:from-violet-600 hover:to-violet-700 transition-all"
-            >
-              <Sparkles size={18} />
-              <div className="flex-1">
-                <p className="leading-none">Pro руу шилжих</p>
-                <p className="text-[10px] font-normal text-violet-200 mt-0.5">Бүх боломжийг нээх</p>
-              </div>
-              <ChevronRight size={16} className="opacity-70" />
-            </Link>
+            <div className="pt-2">
+              <Link
+                href="/upgrade"
+                onClick={onClose}
+                className="flex items-center gap-3 px-4 py-3 rounded-2xl bg-gradient-to-r from-violet-500 to-violet-600 text-white text-sm font-semibold shadow-md hover:from-violet-600 hover:to-violet-700 transition-all"
+              >
+                <Sparkles size={18} />
+                <div className="flex-1">
+                  <p className="leading-none">Pro руу шилжих</p>
+                  <p className="text-[10px] font-normal text-violet-200 mt-0.5">Бүх боломжийг нээх</p>
+                </div>
+                <ChevronRight size={16} className="opacity-70" />
+              </Link>
+            </div>
           )}
-        </div>
+        </nav>
 
         {/* Footer: theme toggle + logout */}
         <div className="p-3 border-t space-y-1">
