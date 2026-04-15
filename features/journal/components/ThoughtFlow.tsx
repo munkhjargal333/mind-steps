@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Button } from '@/shared/ui/button';
 import { ChevronLeft, ChevronRight, Sparkles, RefreshCw } from 'lucide-react';
 import { useThoughtFlow } from '../hooks/useThoughtFlow';
@@ -22,6 +22,20 @@ interface Props {
 
 export function ThoughtFlow({ initialAction, onBack, onComplete, onReset, onUpgrade }: Props) {
   const flow = useThoughtFlow(onBack);
+  const [visible, setVisible] = useState(true);
+  const prevStep = useRef(flow.step);
+
+  // Step өөрчлөгдөхөд fade-out → fade-in хийнэ
+  useEffect(() => {
+    if (prevStep.current !== flow.step) {
+      setVisible(false);
+      const t = setTimeout(() => {
+        setVisible(true);
+        prevStep.current = flow.step;
+      }, 160);
+      return () => clearTimeout(t);
+    }
+  }, [flow.step]);
 
   useEffect(() => {
     if (initialAction) {
@@ -80,7 +94,13 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset, onUpgr
     <div className="w-full max-w-md mx-auto px-4 py-4 space-y-4">
       <StepIndicator current={flow.step} />
 
-      <div className="min-h-[320px]">
+      <div
+        className="min-h-[320px] transition-all duration-200"
+        style={{
+          opacity: visible ? 1 : 0,
+          transform: visible ? 'translateY(0)' : 'translateY(8px)',
+        }}
+      >
         {flow.step === 1 && (
           <SurfaceStep
             cfg={cfg.surface}

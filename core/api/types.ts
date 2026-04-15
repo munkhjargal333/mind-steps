@@ -162,13 +162,56 @@ export interface PatternSummary {
 }
 
 // ─── Today Snapshot ───────────────────────────────────────────────────────────
+
+export interface HawkinsBand {
+  level:      number;
+  label_en:   string;
+  label_mn:   string;
+  band_code:  string;
+  band_label: string | null;
+  color_hex:  string | null;
+  band_min:   number | null;
+  band_max:   number | null;
+}
+
+export interface HawkinsTarget {
+  level:      number;
+  label_en:   string;
+  label_mn:   string;
+  band_label: string | null;
+  color_hex:  string | null;
+  gap:        number;
+}
+
+export interface DominantEmotion {
+  emotion:    string;
+  label_mn:   string | null;
+  emoji:      string | null;
+  score:      number;
+  percentage: number;
+}
+
+export interface DyadInfo {
+  name_en: string;
+  name_mn: string;
+}
+
+export interface DetectedPattern {
+  id:             string;
+  pattern_type:   string;
+  pattern_data:   Record<string, unknown>;
+  strength_score: number;
+  detected_at:    string;
+}
+
 export interface TodaySnapshot {
-  ewma:                number | null;
-  entry_count:         number;
-  top_patterns:        Record<string, unknown>[];
-  last_seed:           SeedInsight | null;
-  last_human_insight:  HumanInsight | null;
-  dominant_emotion:    string | null;
+  hawkins_current:    HawkinsBand | null;
+  hawkins_target:     HawkinsTarget | null;
+  entry_count:        number;
+  unread_patterns:    DetectedPattern[];
+  last_human_insight: HumanInsight | null;
+  dominant_emotions:  DominantEmotion[];
+  dominant_dyad:      DyadInfo | null;
 }
 
 // ─── Navigation ───────────────────────────────────────────────────────────────

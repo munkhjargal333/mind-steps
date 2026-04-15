@@ -80,26 +80,38 @@ export function EmotionCard({
 
   return (
     <div className={cn('flex items-center gap-4 p-4 rounded-2xl border', emo.bg)}>
-      <span className="text-[26px] leading-none select-none">{emo.emoji}</span>
+      {/* Том emoji — гол харааны цэг */}
+      <span className="text-[42px] leading-none select-none shrink-0">{emo.emoji}</span>
 
+      {/* Сэтгэлийн мэдээлэл */}
       <div className="flex-1 min-w-0">
         <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">
           Өнөөдрийн давамгай сэтгэл
         </p>
-        <p className={cn('text-base font-semibold', emo.color)}>{emo.label}</p>
-        {hw && ewmaRnd != null && (
-          <p className={cn('text-[11px] mt-0.5', hw.cls)}>
-            Хокинс {ewmaRnd} — {hw.label}
-          </p>
-        )}
+        <p className={cn('text-xl font-bold leading-tight', emo.color)}>{emo.label}</p>
       </div>
 
-      {entryCount != null && (
-        <div className="shrink-0 text-right">
-          <p className="text-2xl font-bold">{entryCount}</p>
-          <p className="text-[10px] text-muted-foreground">бичлэг</p>
-        </div>
-      )}
+      {/* Баруун тал: бичлэг тоо + Hawkins тэмдэглэгээ */}
+      <div className="shrink-0 text-right flex flex-col items-end gap-1">
+        {entryCount != null && (
+          <div>
+            <p className="text-2xl font-bold">{entryCount}</p>
+            <p className="text-[10px] text-muted-foreground">бичлэг</p>
+          </div>
+        )}
+        {hw && ewmaRnd != null && (
+          <span
+            className={cn(
+              'inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold',
+              'bg-white/60 dark:bg-black/20',
+              hw.cls,
+            )}
+            title={`Hawkins оноо: ${ewmaRnd}`}
+          >
+            {ewmaRnd} · {hw.label}
+          </span>
+        )}
+      </div>
     </div>
   );
 }

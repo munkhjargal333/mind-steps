@@ -80,11 +80,18 @@ export function QuickActionButton({
         ]
       )}
     >
-      {/* 🔒 LOCK BADGE */}
+      {/* 🔒 LOCK BADGE — hover-т upgrade tooltip */}
       {isDisabled && (
-        <div className="absolute top-3 right-3 flex items-center gap-1 text-[10px] bg-muted px-1.5 py-0.5 rounded-full">
-          <Lock size={10} />
-          Pro
+        <div className="absolute top-3 right-3 group/lock">
+          <div className="flex items-center gap-1 text-[10px] bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-300 px-2 py-1 rounded-full font-semibold border border-violet-200 dark:border-violet-800/40 cursor-pointer hover:bg-violet-200 dark:hover:bg-violet-800/40 transition-colors">
+            <Lock size={10} />
+            Pro
+          </div>
+          {/* Upgrade tooltip */}
+          <div className="pointer-events-none absolute top-full right-0 mt-1.5 w-36 rounded-xl bg-foreground px-2.5 py-2 text-[10px] leading-snug text-background opacity-0 group-hover/lock:opacity-100 transition-opacity duration-150 shadow-lg z-50">
+            <p className="font-semibold mb-0.5">Pro онцлог</p>
+            <p className="opacity-70">Нэвтрэх боломжийг нээхийн тулд дарна уу</p>
+          </div>
         </div>
       )}
 
