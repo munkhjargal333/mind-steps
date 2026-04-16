@@ -135,6 +135,7 @@ export interface HumanInsight {
   generated_at: string;
   acknowledged: boolean;
   pattern_run_id?: string | null;
+  pattern_type?: string;
 }
 
 // ─── Patterns ─────────────────────────────────────────────────────────────────
@@ -164,23 +165,31 @@ export interface PatternSummary {
 // ─── Today Snapshot ───────────────────────────────────────────────────────────
 
 export interface HawkinsBand {
-  level:      number;
-  label_en:   string;
-  label_mn:   string;
-  band_code:  string;
-  band_label: string | null;
-  color_hex:  string | null;
-  band_min:   number | null;
-  band_max:   number | null;
+  level:                 number;
+  label_en:              string;
+  label_mn:              string;
+  band_code:             string;
+  band_label:            string | null;
+  color_hex:             string | null;
+  band_min:              number | null;
+  band_max:              number | null;
+  view_of_life:          string | null;
+  what_we_experience:    string | null;
+  transcend_key:         string | null;
+  state_of_consciousness: string | null;
 }
 
 export interface HawkinsTarget {
-  level:      number;
-  label_en:   string;
-  label_mn:   string;
-  band_label: string | null;
-  color_hex:  string | null;
-  gap:        number;
+  level:                 number;
+  label_en:              string;
+  label_mn:              string;
+  band_label:            string | null;
+  color_hex:             string | null;
+  gap:                   number;
+  view_of_life:          string | null;
+  what_we_experience:    string | null;
+  transcend_key:         string | null;
+  state_of_consciousness: string | null;
 }
 
 export interface DominantEmotion {
@@ -205,10 +214,11 @@ export interface DetectedPattern {
 }
 
 export interface TodaySnapshot {
+  hawkins:            number;
   hawkins_current:    HawkinsBand | null;
-  hawkins_target:     HawkinsTarget | null;
+  hawkins_target:     HawkinsBand | null;
   entry_count:        number;
-  unread_patterns:    DetectedPattern[];
+  pattern_type_count:    number;
   last_human_insight: HumanInsight | null;
   dominant_emotions:  DominantEmotion[];
   dominant_dyad:      DyadInfo | null;
