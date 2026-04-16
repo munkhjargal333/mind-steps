@@ -6,8 +6,8 @@
 //
 // Layout (дээрээс доош):
 //   1. Greeting + StatRow: entry_count · pattern_count · Hawkins оноо
-//   2. HawkinsCard — band label · оноо · дараагийн зорилт
-//   3. HumanInsightSummary — last human insight эсвэл top pattern
+//   2. HawkinsCard — from to
+  // 3. HumanInsightSummary — ?
 //   4. RateLimitBar (free tier)
 //   5. "Тэмдэглэл нэмэх" CTA товч
 // ─────────────────────────────────────────────────────────────────────────────
@@ -52,83 +52,108 @@ function HawkinsCard({ data }: { data: TodaySnapshot }) {
     return (
       <div className="flex items-center gap-3 p-4 rounded-2xl border bg-muted/30">
         <Brain size={16} className="text-muted-foreground/50 shrink-0" />
-        <div>
-          <p className="text-sm font-medium">Hawkins оноо тооцоологдоогүй</p>
-          <p className="text-xs text-muted-foreground mt-0.5">
-            Тэмдэглэл бичиж эхэлснээр харагдана
-          </p>
-        </div>
+        <p className="text-sm">Hawkins оноо хараахан үүсээгүй</p>
       </div>
     );
   }
 
-  const bandColor = current.color_hex ?? '#888888';
-
-  const progressPct =
-    current.band_min != null && current.band_max != null
-      ? Math.round(
-          ((current.level - current.band_min) /
-            (current.band_max - current.band_min)) *
-            100,
-        )
-      : null;
+  const color = current.color_hex ?? '#888';
 
   return (
     <div
-      className="p-4 rounded-2xl border"
-      style={{ borderColor: `${bandColor}40`, background: `${bandColor}0D` }}
+      className="rounded-2xl border p-4 space-y-4"
+      style={{ borderColor: `${color}30`, background: `${color}08` }}
     >
-      {/* Header: label + оноо */}
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <div className="min-w-0">
-          <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider mb-0.5">
-            Hawkins — одоогийн төлөв
-          </p>
-          <p className="text-lg font-bold leading-tight" style={{ color: bandColor }}>
-            {current.label_mn}
-          </p>
-          {current.band_label && (
-            <p className="text-xs text-muted-foreground mt-0.5">{current.band_label}</p>
-          )}
-        </div>
-        {/* Оноо badge */}
-        <div
-          className="shrink-0 w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold"
-          style={{ background: `${bandColor}20`, color: bandColor }}
+      {/* ── Header ── */}
+      <div className="flex items-center justify-between">
+        <p className="text-[11px] font-semibold uppercase text-muted-foreground">
+          Таны төлөв
+        </p>
+
+        <span
+          className="text-[11px] font-medium px-2 py-0.5 rounded-full"
+          style={{ background: `${color}20`, color }}
         >
-          {current.level}
-        </div>
+          Hawkins
+        </span>
       </div>
 
-      {/* Band-н дотор прогресс */}
-      {progressPct != null && (
-        <div className="mb-3">
-          <div className="w-full h-1.5 rounded-full bg-muted overflow-hidden">
+      {/* ── CURRENT → TARGET ── */}
+      <div className="flex items-center gap-3">
+
+        {/* Current */}
+        <div className="flex-1">
+          <p className="text-[10px] text-muted-foreground mb-1">Одоо</p>
+          <div
+            className="p-3 rounded-xl"
+            style={{ background: `${color}15` }}
+          >
+            <p className="text-sm font-bold" style={{ color }}>
+              {current.label_mn}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              {current.level}
+            </p>
+          </div>
+        </div>
+
+        {/* Arrow */}
+        {target && (
+          <div className="flex flex-col items-center gap-1">
+            <ArrowRight size={16} className="text-muted-foreground/40" />
+            <span className="text-[10px] text-muted-foreground">
+              +{target.level - current.level}
+            </span>
+          </div>
+        )}
+
+        {/* Target */}
+        {target && (
+          <div className="flex-1">
+            <p className="text-[10px] text-muted-foreground mb-1">Дараагийн</p>
+            <div className="p-3 rounded-xl border border-dashed">
+              <p className="text-sm font-semibold text-foreground/70">
+                {target.label_mn}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {target.level}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ── Progress bar ── */}
+      {target && (
+        <div>
+          <div className="w-full h-2 rounded-full bg-muted overflow-hidden">
             <div
               className="h-full rounded-full transition-all duration-700"
-              style={{ width: `${progressPct}%`, background: bandColor }}
+              style={{
+                width: `${Math.min(
+                  100,
+                  ((current.level) / (target.level)) * 100
+                )}%`,
+                background: color,
+              }}
             />
           </div>
-          <p className="text-[10px] text-muted-foreground mt-1">
-            {current.band_label ?? 'Одоогийн band'} дотор: {progressPct}%
+
+          <p className="text-[10px] text-muted-foreground mt-1 text-right">
+            {target.level - current.level} оноо дутуу
           </p>
         </div>
       )}
 
-      {/* Дараагийн зорилт */}
-      {target && (
+      {/* ── Key insight (🔥 маш хүчтэй UX) ── */}
+      {current.transcend_key && (
         <div
-          className="flex items-center gap-2 px-3 py-2 rounded-xl"
-          style={{ background: `${bandColor}15` }}
+          className="flex items-start gap-2 p-3 rounded-xl"
+          style={{ background: `${color}15` }}
         >
-          <TrendingUp size={13} style={{ color: bandColor }} className="shrink-0" />
-          <p className="text-xs flex-1">
-            <span className="font-semibold">{target.label_mn}</span>
-            {' '}руу{' '}
-            <span className="font-bold" style={{ color: bandColor }}>
-              +{target.gap}
-            </span>
-            {' '}оноо хэрэгтэй
+          <Sparkles size={12} style={{ color }} className="mt-0.5" />
+          <p className="text-xs leading-relaxed" style={{ color }}>
+            {current.transcend_key}
           </p>
         </div>
       )}
@@ -136,58 +161,6 @@ function HawkinsCard({ data }: { data: TodaySnapshot }) {
   );
 }
 
-// ─── HumanInsightSummary ──────────────────────────────────────────────────────
-
-function HumanInsightSummary({ data }: { data: TodaySnapshot }) {
-  const hi  = data.last_human_insight;
-  const pat = data.unread_patterns?.[0] ?? null;
-
-  // Human insight байвал — үгчлэн харуулна
-  if (hi) {
-    return (
-      <div className="p-4 rounded-2xl border bg-card">
-        <div className="flex items-center gap-1.5 mb-2">
-          <Sparkles size={13} className="text-violet-500 shrink-0" />
-          <p className="text-[10px] font-semibold text-violet-600 dark:text-violet-400 uppercase tracking-wider">
-            Сүүлийн ойлголт
-          </p>
-        </div>
-        <p className="text-sm leading-relaxed text-foreground/80 line-clamp-3">
-          {hi.insight_text}
-        </p>
-        <div className="flex justify-end mt-2">
-          <a
-            href="/insights"
-            className="text-[11px] text-violet-500 font-medium flex items-center gap-0.5 hover:gap-1.5 transition-all"
-          >
-            Дэлгэрэнгүй <ArrowRight size={11} />
-          </a>
-        </div>
-      </div>
-    );
-  }
-
-  // Fallback: хамгийн хүчтэй pattern
-  if (pat) {
-    const pct = Math.round(pat.strength_score * 100);
-    return (
-      <div className="p-4 rounded-2xl border bg-muted/20">
-        <div className="flex items-center gap-1.5 mb-2">
-          <Brain size={13} className="text-muted-foreground" />
-          <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
-            {PATTERN_LABELS[pat.pattern_type] ?? pat.pattern_type}
-          </p>
-        </div>
-        <div className="w-full bg-muted rounded-full h-1.5">
-          <div className="h-1.5 rounded-full bg-primary" style={{ width: `${pct}%` }} />
-        </div>
-        <p className="text-[10px] text-muted-foreground mt-1.5">Хүч: {pct}%</p>
-      </div>
-    );
-  }
-
-  return null;
-}
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
@@ -216,8 +189,8 @@ export function HomePage() {
   const isPro    = tier === 'pro';
   const canWrite = isPro || !isLimited;
 
-  const hawkinsLevel = data?.hawkins_current?.level ?? null;
-  const patternCount = data?.unread_patterns?.length ?? 0;
+  const hawkinsLevel = Math.round(data?.hawkins || 0);
+  const patternCount = data?.pattern_type_count
 
   const statItems = data
     ? [
@@ -227,7 +200,7 @@ export function HomePage() {
         },
         {
           label: 'Илэрсэн паттерн',
-          value: patternCount,
+          value: patternCount ?? 0,
         },
         {
           label: 'Hawkins оноо',
@@ -266,13 +239,6 @@ export function HomePage() {
         </div>
       ) : data ? (
         <HawkinsCard data={data} />
-      ) : null}
-
-      {/* 3. Human insight / top pattern */}
-      {loading ? (
-        <SkeletonCard variant="block" className="h-[100px]" />
-      ) : data ? (
-        <HumanInsightSummary data={data} />
       ) : null}
 
       {/* Rate limit bar — free tier */}
