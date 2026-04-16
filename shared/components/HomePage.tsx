@@ -7,7 +7,7 @@
 // Layout (дээрээс доош):
 //   1. Greeting + StatRow: entry_count · pattern_count · Hawkins оноо
 //   2. HawkinsCard — from to
-  // 3. HumanInsightSummary — ?
+//   3. HumanInsightSummary — ?
 //   4. RateLimitBar (free tier)
 //   5. "Тэмдэглэл нэмэх" CTA товч
 // ─────────────────────────────────────────────────────────────────────────────
@@ -102,7 +102,7 @@ function HawkinsCard({ data }: { data: TodaySnapshot }) {
           <div className="flex flex-col items-center gap-1">
             <ArrowRight size={16} className="text-muted-foreground/40" />
             <span className="text-[10px] text-muted-foreground">
-              +{target.level - current.level}
+              +{target.level - data.hawkins}
             </span>
           </div>
         )}
