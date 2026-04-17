@@ -20,7 +20,7 @@ export function MainHeader() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm">
       <div className="container max-w-2xl mx-auto h-14 flex items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2.5 transition-opacity hover:opacity-80">
-          <Sunrise className="w-6 h-6 text-orange-500" />
+          <Sunrise className="w-6 h-6 color-brand-amber" />
           <span className="text-[17px] font-bold tracking-tight text-foreground">MindSteps</span>
         </Link>
 

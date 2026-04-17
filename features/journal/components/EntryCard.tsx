@@ -29,7 +29,7 @@ export function EntryCard({ entry, onDelete, deleting }: EntryCardProps) {
     <div className="group relative flex gap-4 p-4 rounded-2xl border bg-card hover:border-primary/40 transition-all">
       {/* Index badge */}
       <div className="shrink-0 w-9 h-9 rounded-xl bg-muted flex items-center justify-center text-xs font-bold text-muted-foreground">
-        #{entry.entry_index}
+        {entry.entry_index}
       </div>
 
       {/* Content */}

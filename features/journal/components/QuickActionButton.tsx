@@ -1,6 +1,5 @@
-'use client';
 
-import { ArrowRight, Lock } from 'lucide-react';
+import { Lock } from 'lucide-react';
 import type { QuickActionType } from '@/core/api/types';
 import { cn } from '@/shared/lib/utils';
 
@@ -21,111 +20,101 @@ interface QuickActionButtonProps {
   className?: string;
 }
 
-export function QuickActionButton({ 
-  action, 
-  onSelect, 
+export function QuickActionButton({
+  action,
+  onSelect,
   onUpgrade,
   disabled = false,
   variant = 'default',
   showArrow = true,
-  className = ''
+  className = '',
 }: QuickActionButtonProps) {
-
   const Icon = action.icon;
-
   const isDisabled = disabled || !onSelect;
-
-  const variants = {
-    default: {
-      button: "group relative flex flex-col items-center justify-center p-4 rounded-3xl bg-white dark:bg-zinc-900 border border-border shadow-sm transition-all text-center overflow-hidden",
-      iconContainer: `p-2.5 rounded-xl mb-3 transition-transform ${action.bg} ${action.color}`,
-      iconSize: 20,
-      label: "font-bold text-sm leading-tight",
-      sub: "text-[11px] text-muted-foreground mt-1 leading-snug"
-    },
-    compact: {
-      button: `group flex flex-col items-center justify-center p-4 rounded-3xl text-center border transition-all min-h-[140px] relative overflow-hidden ${className}`,
-      iconContainer: `p-2.5 rounded-xl mb-3 transition-transform bg-white/90 dark:bg-black/20 ${action.color} shadow-sm`,
-      iconSize: 22,
-      label: `text-sm font-bold leading-tight ${action.color}`,
-      sub: "text-[10px] text-muted-foreground/80 leading-snug font-medium"
-    }
-  };
-
-  const style = variants[variant];
 
   return (
     <button
       onClick={() => {
         if (isDisabled) {
-          onUpgrade?.()
-          return
+          onUpgrade?.();
+          return;
         }
-        onSelect?.(action.type)
+        onSelect?.(action.type);
       }}
       className={cn(
-        style.button,
+        'group relative flex flex-col text-left transition-all duration-200 overflow-hidden',
+        'rounded-2xl border',
 
-        // 🎨 ACTIVE
+        variant === 'default' && 'p-4 items-center justify-center text-center',
+        variant === 'compact' && cn('p-4 min-h-[140px] items-start justify-between', className),
+
+        // Active state
         !isDisabled && [
           action.bg,
-          'hover:border-border hover:shadow-md hover:scale-[1.02] active:scale-[0.95]'
+          'border-transparent',
+          'hover:shadow-sm hover:scale-[1.02] active:scale-[0.97]',
+          'hover:border-current/10',
         ],
 
-        // 🔒 DISABLED
+        // Disabled state
         isDisabled && [
-          'bg-muted/30 border-dashed border-border',
-          'opacity-60 grayscale',
-          'cursor-not-allowed'
-        ]
+          'bg-muted/20 border-dashed border-border/50',
+          'opacity-50 grayscale cursor-not-allowed',
+        ],
       )}
     >
-      {/* 🔒 LOCK BADGE — hover-т upgrade tooltip */}
+      {/* Pro lock badge */}
       {isDisabled && (
-        <div className="absolute top-3 right-3 group/lock">
-          <div className="flex items-center gap-1 text-[10px] bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-300 px-2 py-1 rounded-full font-semibold border border-violet-200 dark:border-violet-800/40 cursor-pointer hover:bg-violet-200 dark:hover:bg-violet-800/40 transition-colors">
-            <Lock size={10} />
+        <div className="absolute top-2.5 right-2.5 group/lock z-10">
+          <div className="flex items-center gap-1 text-[9px] font-semibold bg-background/80 backdrop-blur-sm text-foreground/60 px-2 py-1 rounded-full border border-border/60">
+            <Lock size={8} strokeWidth={2.5} />
             Pro
           </div>
-          {/* Upgrade tooltip */}
-          <div className="pointer-events-none absolute top-full right-0 mt-1.5 w-36 rounded-xl bg-foreground px-2.5 py-2 text-[10px] leading-snug text-background opacity-0 group-hover/lock:opacity-100 transition-opacity duration-150 shadow-lg z-50">
-            <p className="font-semibold mb-0.5">Pro онцлог</p>
-            <p className="opacity-70">Нэвтрэх боломжийг нээхийн тулд дарна уу</p>
+          <div className="pointer-events-none absolute top-full right-0 mt-1.5 w-36 rounded-xl bg-popover border border-border/60 px-2.5 py-2 text-[11px] leading-snug text-popover-foreground opacity-0 group-hover/lock:opacity-100 transition-opacity duration-150 shadow-sm z-50">
+            <p className="font-medium mb-0.5">Pro онцлог</p>
+            <p className="text-muted-foreground text-[10px]">Нэвтрэх боломжийг нээхийн тулд дарна уу</p>
           </div>
         </div>
       )}
 
-      <div className={cn(
-        style.iconContainer,
-        !isDisabled && 'group-hover:scale-110 group-hover:rotate-3'
-      )}>
-        <Icon size={style.iconSize} />
+      {/* Icon */}
+      <div
+        className={cn(
+          'rounded-xl transition-transform duration-200',
+          variant === 'default' && 'p-2.5 mb-3',
+          variant === 'compact' && 'p-2 mb-auto',
+          'bg-background/50 dark:bg-black/20',
+          action.color,
+          !isDisabled && 'group-hover:scale-110 group-hover:-rotate-3',
+        )}
+      >
+        <Icon size={variant === 'compact' ? 20 : 18} strokeWidth={1.75} />
       </div>
-      
-      <div className="space-y-1">
-        <div className={style.label}>
+
+      {/* Label + sub */}
+      <div className={cn('space-y-0.5', variant === 'default' && 'mt-0', variant === 'compact' && 'mt-3')}>
+        <p
+          className={cn(
+            'font-semibold leading-tight',
+            variant === 'default' ? 'text-[13px]' : 'text-[13px]',
+            action.color,
+          )}
+        >
           {action.label}
-        </div>
-        <div className={style.sub}>
+        </p>
+        <p className="text-[11px] text-muted-foreground/70 leading-snug">
           {action.sub}
-        </div>
+        </p>
       </div>
 
-      {/* 👉 Arrow зөвхөн active үед */}
-      {showArrow && !isDisabled && (
-        <ArrowRight
-          size={14}
-          className="absolute bottom-5 right-5 text-muted-foreground/30 group-hover:text-foreground group-hover:translate-x-1 transition-all"
-        />
-      )}
-
-      {/* background icon */}
+      {/* Background ghost icon (compact only) */}
       {variant === 'compact' && (
         <Icon
-          size={40}
+          size={44}
+          strokeWidth={1}
           className={cn(
-            "absolute -bottom-2 -right-2 opacity-5 rotate-12",
-            action.color
+            'absolute -bottom-3 -right-3 opacity-[0.06] rotate-12 pointer-events-none',
+            action.color,
           )}
         />
       )}

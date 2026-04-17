@@ -1,12 +1,18 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { Plus_Jakarta_Sans } from 'next/font/google';
+import { Plus_Jakarta_Sans, Playfair_Display } from 'next/font/google';
 import { AppProviders } from "@/core/providers";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-jakarta',
+  variable: '--font-sans',
+});
+
+const serif = Playfair_Display({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-serif',
 });
 
 export const metadata: Metadata = {
@@ -15,27 +21,16 @@ export const metadata: Metadata = {
     template: '%s | Mind-steps'
   },
   description: 'Сэтгэлзүйн туслах платформ',
-  manifest: '/manifest.json',
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/logo.png',
-  },
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: 'black-translucent',
-    title: 'Mind-steps',
-  },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${jakarta.variable} antialiased`}>
+    <html lang="mn" suppressHydrationWarning>
+      <body className={`${jakarta.variable} ${serif.variable} antialiased`}>
         <AppProviders>
           {children}
         </AppProviders>
