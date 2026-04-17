@@ -1,115 +1,61 @@
 'use client';
 
-// app/(dashboard)/entries/[entry_id]/page.tsx
-// ─────────────────────────────────────────────────────────────────────────────
-// Entry detail + Seed Insight
-//
-// CHANGES from original:
-//  • Seed Insight нь page mount-д автоматаар дуудагдана (товч устгагдсан)
-//  • Entry ачаалж дууссаны дараа л insight дуудна (entry байх баталгаа)
-//  • Refresh товч үлдсэн — дахин татах боломж хэрэгтэй
-//  • SkeletonCard shared component ашиглана
-//  • summary key нэмэгдсэн — API-с ирдэг ч харагддаггүй байсан
-// ─────────────────────────────────────────────────────────────────────────────
-
-import { use, useState, useEffect } from 'react';
+import { use, useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { InsightCards } from '@/shared/components/InsightCard';
-import {
-  ArrowLeft,
-  Loader2,
-  AlertCircle,
-  Lock,
-  FileText,
-  RefreshCw,
+import { motion, AnimatePresence } from 'framer-motion'; // Анимаци нэмэв
+import { 
+  ArrowLeft, 
+  Loader2, 
+  AlertCircle, 
+  Lock, 
+  FileText, 
+  RefreshCcw 
 } from 'lucide-react';
 
-import { useAuth }          from '@/core/auth/AuthContext';
-import { useEntry }         from '@/features/journal';
-import { getSeedInsight }   from '@/core/api';
-import { Button }           from '@/shared/ui/button';
-import { cn }               from '@/shared/lib/utils';
+import { useAuth } from '@/core/auth/AuthContext';
+import { useEntry } from '@/features/journal';
+import { getSeedInsight, type SeedInsight } from '@/core/api';
+import { Button } from '@/shared/ui/button';
+import { cn } from '@/shared/lib/utils';
 import { formatDatetimeMn } from '@/shared/lib/date';
-import { SkeletonCard }     from '@/shared/components/SkeletonCard';
-import type { SeedInsight } from '@/core/api';
-
-// ─── Insight card config ───────────────────────────────────────────────────────
-
-const INSIGHT_CARDS = [
-  {
-    key:   'mirror'  as const,
-    label: 'Mirror',
-    sub:   'Чиний хэлснийг тусгавал',
-    dot:   'bg-[color:var(--color-insight-mirror,theme(colors.blue.400))]',
-    bg:    'bg-blue-50/60 dark:bg-blue-950/15',
-  },
-  {
-    key:   'reframe' as const,
-    label: 'Reframe',
-    sub:   'Өнцгийг эргүүлэвэл',
-    dot:   'bg-[color:var(--color-insight-reframe,theme(colors.violet.400))]',
-    bg:    'bg-violet-50/60 dark:bg-violet-950/15',
-  },
-  {
-    key:   'relief'  as const,
-    label: 'Relief',
-    sub:   'Ачааг хөнгөлөвөл',
-    dot:   'bg-[color:var(--color-insight-relief,theme(colors.emerald.400))]',
-    bg:    'bg-emerald-50/60 dark:bg-emerald-950/15',
-  },
-  {
-    key:   'summary' as const,
-    label: 'Summary',
-    sub:   'Хураангуй',
-    dot:   'bg-amber-400',
-    bg:    'bg-amber-50/60 dark:bg-amber-950/15',
-  },
-] as const;
-
-type InsightKey = (typeof INSIGHT_CARDS)[number]['key'];
+import { InsightCards } from '@/shared/components/InsightCard';
+import { SkeletonCard } from '@/shared/components/SkeletonCard';
 
 // ─── Sub-components ────────────────────────────────────────────────────────────
 
-function ReflectionBlock({
-  label,
-  content,
-}: {
-  label: string;
-  content: string | null;
-}) {
+function ReflectionBlock({ label, content, delay = 0 }: { label: string; content: string | null; delay?: number }) {
   if (!content) return null;
 
   return (
-    <div className="space-y-1.5">
-      {/* subtle label */}
-      {/* <p className="text-[11px] text-muted-foreground/40">
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay }}
+      className="group space-y-2"
+    >
+      <h3 className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground/50 transition-colors group-hover:text-muted-foreground/80">
         {label}
-      </p> */}
-
-      {/* main text */}
-      <p className="text-[15px] leading-7 text-foreground/85 whitespace-pre-wrap">
+      </h3>
+      <p className="text-[16px] leading-relaxed text-foreground/90 whitespace-pre-wrap font-serif">
         {content}
       </p>
-    </div>
+    </motion.div>
   );
 }
-// ─── Page ──────────────────────────────────────────────────────────────────────
 
-export default function EntryDetailPage({
-  params,
-}: {
-  params: Promise<{ entry_id: string }>;
-}) {
+// ─── Main Page ─────────────────────────────────────────────────────────────────
+
+export default function EntryDetailPage({ params }: { params: Promise<{ entry_id: string }> }) {
   const { entry_id } = use(params);
-  const { token }    = useAuth();
-
+  const { token } = useAuth();
   const { entry, loading, error } = useEntry(token, entry_id);
 
-  const [insight, setInsight]               = useState<(SeedInsight & { summary?: string }) | null>(null);
+  const [insight, setInsight] = useState<(SeedInsight & { summary?: string }) | null>(null);
   const [insightLoading, setInsightLoading] = useState(false);
-  const [insightError, setInsightError]     = useState<string | null>(null);
+  const [insightError, setInsightError] = useState<string | null>(null);
 
-  const loadInsight = async () => {
+  // useCallback ашиглан функцыг тогтворжуулах
+  const loadInsight = useCallback(async () => {
     if (!token || !entry_id) return;
     setInsightLoading(true);
     setInsightError(null);
@@ -117,106 +63,134 @@ export default function EntryDetailPage({
       const data = await getSeedInsight(token, entry_id);
       setInsight(data);
     } catch (err) {
-      setInsightError(err instanceof Error ? err.message : 'Алдаа гарлаа');
+      setInsightError(err instanceof Error ? err.message : 'Insight татахад алдаа гарлаа');
     } finally {
       setInsightLoading(false);
     }
-  };
+  }, [token, entry_id]);
 
-  // Entry ирмэгц автоматаар insight дуудна — товч дарахгүй
   useEffect(() => {
-    if (entry && token) {
+    if (entry && token && !insight) {
       loadInsight();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entry?.id, token]);
+  }, [entry, token, insight, loadInsight]);
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-8 space-y-8">
+    <div className="max-w-2xl mx-auto px-6 py-10 space-y-10">
+      
+      {/* Navigation */}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+        <Link href="/entries" className="inline-flex items-center gap-2 text-sm font-medium text-amber-600 dark:text-amber-500 hover:opacity-70 transition-opacity">
+          <ArrowLeft size={16} />
+          Бичлэгүүд рүү буцах
+        </Link>
+      </motion.div>
 
-      {/* ── Back ────────────────────────────────────────────────────────── */}
-      <Link href="/entries">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="rounded-xl gap-2 -ml-2 text-[color:var(--color-accent,theme(colors.amber.500))]"
-        >
-          <ArrowLeft size={14} />
-          Бичлэгүүд
-        </Button>
-      </Link>
-
-      {/* ── Entry loading ─────────────────────────────────────────────── */}
+      {/* Entry Loading State */}
       {loading && (
-        <div className="flex items-center justify-center py-16">
-          <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+        <div className="space-y-6">
+          <div className="h-4 w-1/4 bg-muted animate-pulse rounded" />
+          <div className="space-y-3">
+            <div className="h-20 w-full bg-muted animate-pulse rounded-2xl" />
+            <div className="h-20 w-full bg-muted animate-pulse rounded-2xl" />
+          </div>
         </div>
       )}
 
-      {/* ── Entry error ───────────────────────────────────────────────── */}
-      {error && (
-        <div className="flex items-center gap-3 p-4 rounded-2xl bg-destructive/10 text-destructive text-sm">
-          <AlertCircle size={16} />
-          {error}
-        </div>
-      )}
-
-      {/* ── Entry content ─────────────────────────────────────────────── */}
-      {entry && (
-        <>
-          {/* Meta */}
-          <div className="space-y-1.5">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs font-bold bg-muted px-2.5 py-1 rounded-full text-muted-foreground">
-                #{entry.entry_index}
-              </span>
-              {entry.is_encrypted && (
-                <span className="flex items-center gap-1 text-[11px] text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 px-2.5 py-1 rounded-full">
-                  <Lock size={10} />
-                  Шифрлэгдсэн
+      {/* Main Content */}
+      <AnimatePresence mode="wait">
+        {entry && (
+          <motion.div 
+            key="content"
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }}
+            className="space-y-10"
+          >
+            {/* Header / Meta */}
+            <div className="space-y-4 border-b pb-6">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="text-[10px] font-bold tracking-tighter bg-foreground/5 px-2 py-0.5 rounded text-muted-foreground uppercase">
+                  Entry #{entry.entry_index}
                 </span>
-              )}
-              {!entry.is_text_saved && (
-                <span className="flex items-center gap-1 text-[11px] text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
-                  <FileText size={10} />
-                  Текст хадгалаагүй
-                </span>
-              )}
+                {entry.is_encrypted && (
+                  <span className="flex items-center gap-1 text-[11px] font-medium text-amber-600 bg-amber-50 dark:bg-amber-950/30 px-2 py-0.5 rounded-full">
+                    <Lock size={10} /> Шифрлэгдсэн
+                  </span>
+                )}
+              </div>
+              <h1 className="text-2xl font-semibold tracking-tight">
+                {formatDatetimeMn(entry.created_at)}
+              </h1>
             </div>
-            <p className="text-sm text-muted-foreground">
-              {formatDatetimeMn(entry.created_at)}
-            </p>
+
+            {/* Reflection Texts */}
+            <div className="grid gap-8">
+              <ReflectionBlock 
+                label="Болсон явдал" 
+                content={entry.surface_text} 
+                delay={0.1}
+              />
+              <ReflectionBlock 
+                label="Дотоод мэдрэмж" 
+                content={entry.inner_reaction_text} 
+                delay={0.2}
+              />
+              <ReflectionBlock 
+                label="Утга учир" 
+                content={entry.meaning_text} 
+                delay={0.3}
+              />
+            </div>
+
+            {/* Seed Insight Section */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="pt-8 border-t border-dashed"
+            >
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-widest">
+                  AI Insight
+                </h2>
+                {insight && !insightLoading && (
+                   <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    onClick={loadInsight}
+                    className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                   >
+                     <RefreshCcw size={14} className={cn(insightLoading && "animate-spin")} />
+                   </Button>
+                )}
+              </div>
+
+              <InsightCards
+                data={insight}
+                loading={insightLoading}
+                error={insightError}
+                onRefresh={loadInsight}
+                showRefresh={false} // Дээр нь custom товч нэмсэн тул энд устгав
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Global Error State */}
+      {error && (
+        <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
+          <div className="p-4 bg-destructive/10 rounded-full text-destructive">
+            <AlertCircle size={32} />
           </div>
-
-          {/* Journal sections */}
-          <div className="space-y-6">
-            <ReflectionBlock
-              label="Юу болсон бэ"
-              content={entry.surface_text}
-            />
-
-            <ReflectionBlock
-              label="Чи яаж мэдэрсэн"
-              content={entry.inner_reaction_text}
-            />
-
-            <ReflectionBlock
-              label="Энэ юу хэлж байна"
-              content={entry.meaning_text}
-            />
+          <div className="space-y-1">
+            <p className="font-medium">Алдаа гарлаа</p>
+            <p className="text-sm text-muted-foreground">{error}</p>
           </div>
-
-          {/* ── Seed Insight — автоматаар ачаалагдана ─────────────────── */}
-          <div className="pt-4 border-t">
-            <InsightCards
-              data={insight}
-              loading={insightLoading}
-              error={insightError}
-              onRefresh={loadInsight}
-              showRefresh
-            />
-          </div>
-        </>
+          <Button onClick={() => window.location.reload()} variant="outline">
+            Дахин ачаалах
+          </Button>
+        </div>
       )}
     </div>
   );

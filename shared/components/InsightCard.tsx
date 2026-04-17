@@ -47,7 +47,7 @@ export function InsightCards({
 
       {/* Header */}
       {(title || showRefresh) && (
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between ">
           {title && (
             <h2 className="font-bold text-base text-[color:var(--color-accent,theme(colors.amber.500))] ">{title}</h2>
           )}

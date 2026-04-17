@@ -1,12 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+import Link from 'next/link'; // Next.js Link
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  Loader2, 
+  AlertCircle, 
+  BookOpen, 
+  Plus, 
+  SearchIcon 
+} from 'lucide-react';
+
+// Core & Features
 import { useAuth } from '@/core/auth/AuthContext';
 import { useEntries } from '@/features/journal/hooks/useEntries';
-import { Loader2, AlertCircle, Link, BookOpen } from 'lucide-react';
-import { EntryCard, EntriesHeader, EntriesSearch, EntriesEmptyState, EntriesPagination } from '@/features/journal';
+import { 
+  EntryCard, 
+  EntriesSearch, 
+  EntriesEmptyState, 
+  EntriesPagination 
+} from '@/features/journal';
+
+// Shared UI
 import { SectionHeader } from '@/shared/components/SectionHeader';
 import { Button } from '@/shared/ui';
+import { Skeleton } from '@/shared/ui/skeleton'; // Скелетон байгаа гэж үзэв
 
 export default function EntriesPage() {
   const { token } = useAuth();
@@ -25,10 +43,12 @@ export default function EntriesPage() {
     remove,
   } = useEntries({ token, pageSize: 10 });
 
-  const totalPages = Math.ceil(total / pageSize);
+  const totalPages = useMemo(() => Math.ceil(total / pageSize), [total, pageSize]);
 
   const handleDelete = async (id: string) => {
+    // Confirm-ийг арай гоё Modal-аар сольж болох ч одоогоор хэвээр үлдээв
     if (!confirm('Энэ бичлэгийг устгах уу?')) return;
+    
     setDeletingId(id);
     try {
       await remove(id);
@@ -38,58 +58,84 @@ export default function EntriesPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
+    <div className="max-w-2xl mx-auto px-4 py-10 space-y-8">
+      
+      {/* ─── Header Section ─── */}
       <SectionHeader
-        title="Бичлэгүүд"
-        subtitle={`Нийт ${total} бичлэг`}
+        title="Миний тэмдэглэлүүд"
+        subtitle={`Нийт ${total} бичлэг олдлоо`}
         right={
-          <Link href="/home">
-            <Button size="sm" className="rounded-xl gap-2">
-              <BookOpen size={14} />
-              Шинэ
-            </Button>
-          </Link>
+          <Button asChild size="sm" className="rounded-xl gap-2 shadow-sm">
+            <Link href="/home">
+              <Plus size={16} />
+              Шинэ бичлэг
+            </Link>
+          </Button>
         }
       />
 
-      <EntriesSearch value={search} onChange={setSearch} />
+      {/* ─── Search Bar ─── */}
+      <div className="relative group">
+        <EntriesSearch value={search} onChange={setSearch} />
+      </div>
 
-      {loading && (
-        <div className="flex items-center justify-center py-16">
-          <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+      {/* ─── Main Content Area ─── */}
+      <div className="min-h-[400px]">
+        {/* Loading State with Skeletons */}
+        {loading && !entries.length ? (
+          <div className="space-y-4">
+            {[...Array(5)].map((_, i) => (
+              <Skeleton key={i} className="h-24 w-full rounded-2xl" />
+            ))}
+          </div>
+        ) : error ? (
+          /* Error State */
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }}
+            className="flex items-center gap-3 p-4 rounded-2xl bg-destructive/5 text-destructive border border-destructive/10"
+          >
+            <AlertCircle size={18} />
+            <p className="text-sm font-medium">{error}</p>
+          </motion.div>
+        ) : entries.length === 0 ? (
+          /* Empty State */
+          <EntriesEmptyState hasSearch={!!search} />
+        ) : (
+          /* List of Entries */
+          <div className="space-y-4">
+            <AnimatePresence mode="popLayout">
+              {entries.map((entry, index) => (
+                <motion.div
+                  key={entry.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <EntryCard
+                    entry={entry}
+                    onDelete={handleDelete}
+                    deleting={deletingId === entry.id}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        )}
+      </div>
+
+      {/* ─── Pagination ─── */}
+      {totalPages > 1 && (
+        <div className="pt-4 border-t border-dashed">
+          <EntriesPagination
+            page={page}
+            totalPages={totalPages}
+            loading={loading}
+            onPageChange={setPage}
+          />
         </div>
       )}
-
-      {error && (
-        <div className="flex items-center gap-3 p-4 rounded-2xl bg-destructive/10 text-destructive text-sm">
-          <AlertCircle size={16} />
-          {error}
-        </div>
-      )}
-
-      {!loading && !error && entries.length === 0 && (
-        <EntriesEmptyState hasSearch={!!search} />
-      )}
-
-      {!loading && entries.length > 0 && (
-        <div className="space-y-3">
-          {entries.map((entry) => (
-            <EntryCard
-              key={entry.id}
-              entry={entry}
-              onDelete={handleDelete}
-              deleting={deletingId === entry.id}
-            />
-          ))}
-        </div>
-      )}
-
-      <EntriesPagination
-        page={page}
-        totalPages={totalPages}
-        loading={loading}
-        onPageChange={setPage}
-      />
     </div>
   );
 }
