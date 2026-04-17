@@ -16,7 +16,7 @@ interface Props {
   initialAction: QuickActionType;
   onBack: () => void;
   onComplete: () => void;
-  onReset: () => void;   // ← Дахин: increment хийж, step 1 руу буцах
+  onReset: () => void;
   onUpgrade?: () => void;
 }
 
@@ -25,7 +25,6 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset, onUpgr
   const [visible, setVisible] = useState(true);
   const prevStep = useRef(flow.step);
 
-  // Step өөрчлөгдөхөд fade-out → fade-in хийнэ
   useEffect(() => {
     if (prevStep.current !== flow.step) {
       setVisible(false);
@@ -43,14 +42,14 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset, onUpgr
     }
   }, [initialAction, flow.selectAction]);
 
-  const cfg = STEP_CONFIG[flow.actionType || '']
+  const cfg = STEP_CONFIG[flow.actionType || ''];
 
   if (!flow.actionType || !cfg) {
     return (
       <div className="text-center py-10 text-muted-foreground">
         Алдаа гарлаа. Дахин оролдоно уу.
       </div>
-    )
+    );
   }
 
   const session = { actionType: flow.actionType, ...flow.data };
@@ -58,7 +57,7 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset, onUpgr
   // ── Step 4: Seed Insight ─────────────────────────────────────
   if (flow.step === 4) {
     return (
-      <div className="w-full max-w-md mx-auto px-4 py-4 space-y-5">
+      <div className="w-full max-w-lg mx-auto px-4 py-4 space-y-4">
         <SeedInsightStep
           session={session}
           analyzing={flow.analyzing}
@@ -66,20 +65,20 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset, onUpgr
           error={flow.error}
           onMount={flow.runAnalysis}
         />
-        <div className="flex gap-3">
+        <div className="flex gap-3 pt-1">
           <Button
             variant="outline"
-            className="flex-1 rounded-2xl"
+            className="flex-1"
             onClick={() => {
-              flow.reset();  // step 1 болгоно
-              onReset();     // increment хийнэ, нүүр рүү явахгүй
+              flow.reset();
+              onReset();
             }}
           >
             <RefreshCw size={13} className="mr-1.5" /> Дахин
           </Button>
           <Button
             variant="outline"
-            className="flex-1 rounded-2xl"
+            className="flex-1"
             onClick={onComplete}
           >
             Нүүр хуудас
@@ -91,11 +90,15 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset, onUpgr
 
   // ── Steps 1–3 ────────────────────────────────────────────────
   return (
-    <div className="w-full max-w-md mx-auto px-4 py-4 space-y-4">
-      <StepIndicator current={flow.step} />
+    <div className="w-full max-w-lg mx-auto px-4 flex flex-col min-h-[calc(100dvh-160px)]">
+      {/* Step indicator */}
+      <div className="pt-4">
+        <StepIndicator current={flow.step} />
+      </div>
 
+      {/* Step content — grows to fill space */}
       <div
-        className="min-h-[320px] transition-all duration-200"
+        className="flex-1 transition-all duration-200"
         style={{
           opacity: visible ? 1 : 0,
           transform: visible ? 'translateY(0)' : 'translateY(8px)',
@@ -124,20 +127,21 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset, onUpgr
         )}
       </div>
 
-      <div className="flex items-center gap-3 pt-2">
+      {/* Navigation — pinned to bottom */}
+      <div className="flex items-center gap-3 py-4 mt-auto">
         <Button
           variant="ghost"
           size="sm"
           onClick={flow.back}
-          className="rounded-xl text-muted-foreground"
+          className="text-muted-foreground"
         >
-          <ChevronLeft size={16} className="mr-1" /> Буцах
+          <ChevronLeft size={16} className="mr-0.5" /> Буцах
         </Button>
         <div className="flex-1" />
         <Button
           onClick={flow.next}
           disabled={!flow.canProceed}
-          className="rounded-xl px-5"
+          className="px-5"
         >
           {flow.step === 3 ? (
             <>

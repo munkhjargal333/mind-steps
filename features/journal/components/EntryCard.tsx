@@ -26,21 +26,19 @@ export function EntryCard({ entry, onDelete, deleting }: EntryCardProps) {
   const preview = entry.surface_text?.slice(0, 120) ?? null;
 
   return (
-    <div className="group relative flex gap-4 p-4 rounded-2xl border bg-card hover:border-primary/40 transition-all">
+    <div className="group relative flex gap-3.5 p-4 rounded-2xl border border-border bg-card hover:border-primary/40 hover:shadow-sm transition-all duration-150">
       {/* Index badge */}
-      <div className="shrink-0 w-9 h-9 rounded-xl bg-muted flex items-center justify-center text-xs font-bold text-muted-foreground">
+      <div className="shrink-0 w-8 h-8 rounded-xl bg-muted flex items-center justify-center text-xs font-bold text-muted-foreground">
         #{entry.entry_index}
       </div>
 
       {/* Content */}
       <div className="flex-1 min-w-0">
+        {/* Date top-right */}
         <div className="flex items-start justify-between gap-2 mb-1">
-          <p className="text-[13px] text-muted-foreground">
-            {relativeTime(entry.created_at)}
-          </p>
-          <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex items-center gap-1.5 flex-wrap">
             {entry.is_encrypted && (
-              <span className="flex items-center gap-1 text-[10px] text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 px-2 py-0.5 rounded-full">
+              <span className="flex items-center gap-1 text-[10px] text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/30 px-2 py-0.5 rounded-full font-medium">
                 <Lock size={9} />
                 Шифрлэгдсэн
               </span>
@@ -52,35 +50,38 @@ export function EntryCard({ entry, onDelete, deleting }: EntryCardProps) {
               </span>
             )}
           </div>
+          <p className="text-xs text-muted-foreground shrink-0">
+            {relativeTime(entry.created_at)}
+          </p>
         </div>
 
         {preview ? (
-          <p className="text-sm leading-relaxed text-foreground/80 line-clamp-2">{preview}</p>
+          <p className="text-sm leading-relaxed text-foreground/80 line-clamp-2 mt-1">{preview}</p>
         ) : (
-          <p className="text-sm text-muted-foreground/40 italic">
+          <p className="text-sm text-muted-foreground/40 italic mt-1">
             {entry.is_encrypted ? 'Шифрлэгдсэн бичлэг' : 'Текст хадгалаагүй'}
           </p>
         )}
       </div>
 
-      {/* Actions (appear on hover) */}
-      <div className="flex items-center gap-2 shrink-0">
+      {/* Actions */}
+      <div className="flex items-center gap-1.5 shrink-0">
         <Link href={`/entries/${entry.id}`}>
-          <Button variant="ghost" size="sm" className="rounded-xl text-xs h-8">
+          <Button variant="ghost" size="sm" className="text-xs h-8 opacity-0 group-hover:opacity-100 transition-opacity">
             Дэлгэрэнгүй
           </Button>
         </Link>
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 rounded-xl text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
+          className="h-8 w-8 text-muted-foreground hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity"
           onClick={() => onDelete(entry.id)}
           disabled={deleting}
         >
           {deleting ? (
-            <Loader2 size={14} className="animate-spin" />
+            <Loader2 size={13} className="animate-spin" />
           ) : (
-            <Trash2 size={14} />
+            <Trash2 size={13} />
           )}
         </Button>
       </div>
