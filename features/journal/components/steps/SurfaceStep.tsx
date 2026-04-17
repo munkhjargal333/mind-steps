@@ -10,22 +10,23 @@ interface Props {
 
 export function SurfaceStep({ cfg, value, onChange }: Props) {
   return (
-    <div className="space-y-4">
-      <h2 className="text-xl font-semibold leading-snug text-foreground">{cfg.q}</h2>
-      <div className="border border-border rounded-2xl p-4 bg-card focus-within:border-primary/50 transition-colors">
-        <Textarea
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={cfg.placeholder}
-          className={cn(
-            'min-h-[200px] text-base resize-none',
-            'border-0 bg-transparent p-0 shadow-none',
-            'focus-visible:ring-0 focus-visible:ring-offset-0',
-            'placeholder:text-muted-foreground/40 placeholder:italic',
-          )}
-          autoFocus
-        />
+    <div className="space-y-6">
+      <div className="space-y-1.5">
+        <h2 className="text-xl font-bold leading-snug">{cfg.q}</h2>
       </div>
+
+      <Textarea
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={cfg.placeholder}
+        className={cn(
+          'min-h-[180px] text-base resize-none',
+          'bg-muted/40 border-0 rounded-2xl p-4',
+          'focus-visible:ring-1 focus-visible:ring-foreground/20',
+          'placeholder:text-muted-foreground/40',
+        )}
+        autoFocus
+      />
     </div>
   );
 }

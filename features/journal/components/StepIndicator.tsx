@@ -6,34 +6,41 @@ interface Props {
 }
 
 export function StepIndicator({ current }: Props) {
-  const currentStep = STEPS[current - 1];
-
   return (
-    <div className="space-y-2 mb-6">
-      {/* Segmented progress bar */}
-      <div className="flex items-center gap-1.5">
-        {STEPS.map((_, i) => {
-          const done   = i < current - 1;
-          const active = i === current - 1;
-          return (
-            <div
-              key={i}
-              className={cn(
-                'flex-1 h-1 rounded-full transition-all duration-300',
-                active && 'bg-primary',
-                done   && 'bg-primary/40',
-                !active && !done && 'bg-muted',
-              )}
-            />
-          );
-        })}
-      </div>
-      {/* Step label */}
-      {currentStep && (
-        <p className="text-xs text-muted-foreground font-medium">
-          {current} / {STEPS.length} — {currentStep.label}
-        </p>
-      )}
+    <div className="flex items-center justify-center gap-0 mb-8">
+      {STEPS.map((s, i) => {
+        const done   = i < current - 1;
+        const active = i === current - 1;
+        const Icon   = s.icon;
+
+        return (
+          <div key={i} className="flex items-center">
+            <div className="flex flex-col items-center gap-1 px-3 transition-all duration-300">
+              <div className={cn(
+                'w-9 h-9 rounded-2xl flex items-center justify-center transition-all duration-300',
+                active && 'bg-foreground text-background shadow-md scale-110',
+                done   && 'bg-foreground/10 text-foreground/60',
+                !active && !done && 'bg-muted text-muted-foreground',
+              )}>
+                <Icon size={15} />
+              </div>
+              <span className={cn(
+                'text-[10px] font-semibold tracking-widest uppercase transition-all',
+                active ? 'text-foreground' : 'text-muted-foreground/50',
+              )}>
+                {s.label}
+              </span>
+            </div>
+
+            {i < STEPS.length - 1 && (
+              <div className={cn(
+                'w-10 h-px mb-5 transition-all duration-500',
+                i < current - 1 ? 'bg-foreground/30' : 'bg-muted',
+              )} />
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }
