@@ -65,63 +65,79 @@
 
   /* ── Shadow Scale ─────────────────────────────────────────────────────── */
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.08), 0 4px 6px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.08), 0 10px 10px rgba(0, 0, 0, 0.03);
 
-  /* ── Action Colors (for stress, loneliness, etc.) ─────────────────────── */
-  /* Stress - Orange */
-  --color-stress: oklch(0.65 0.22 38);
-  --color-stress-bg: oklch(0.97 0.04 38);
-  --color-stress-ring: oklch(0.85 0.1 38);
+  /* ── Action Colors — Vibrant, Saturated ───────────────────────────────── */
 
-  /* Loneliness - Sky Blue */
-  --color-loneliness: oklch(0.7 0.15 230);
-  --color-loneliness-bg: oklch(0.97 0.03 230);
-  --color-loneliness-ring: oklch(0.85 0.08 230);
+  /* Stress — Deep Orange */
+  --color-stress:      oklch(0.60 0.26 35);
+  --color-stress-bg:   oklch(0.96 0.06 40);
+  --color-stress-ring: oklch(0.80 0.14 38);
 
-  /* Self Doubt - Amber */
-  --color-self-doubt: oklch(0.7 0.18 45);
-  --color-self-doubt-bg: oklch(0.97 0.04 45);
-  --color-self-doubt-ring: oklch(0.85 0.1 45);
+  /* Loneliness — Deep Sky Blue */
+  --color-loneliness:      oklch(0.55 0.22 230);
+  --color-loneliness-bg:   oklch(0.96 0.05 228);
+  --color-loneliness-ring: oklch(0.78 0.12 230);
 
-  /* Fear - Indigo */
-  --color-fear: oklch(0.55 0.2 270);
-  --color-fear-bg: oklch(0.97 0.03 270);
-  --color-fear-ring: oklch(0.85 0.08 270);
+  /* Self Doubt — Warm Amber */
+  --color-self-doubt:      oklch(0.68 0.22 50);
+  --color-self-doubt-bg:   oklch(0.96 0.06 52);
+  --color-self-doubt-ring: oklch(0.82 0.13 50);
 
-  /* Purpose - Violet */
-  --color-purpose: oklch(0.6 0.2 290);
-  --color-purpose-bg: oklch(0.97 0.03 290);
-  --color-purpose-ring: oklch(0.85 0.08 290);
+  /* Fear — Deep Indigo */
+  --color-fear:      oklch(0.48 0.24 268);
+  --color-fear-bg:   oklch(0.96 0.05 268);
+  --color-fear-ring: oklch(0.78 0.12 268);
 
-  /* Values - Teal */
-  --color-values: oklch(0.65 0.18 180);
-  --color-values-bg: oklch(0.97 0.03 180);
-  --color-values-ring: oklch(0.85 0.08 180);
+  /* Purpose — Rich Violet */
+  --color-purpose:      oklch(0.55 0.26 290);
+  --color-purpose-bg:   oklch(0.96 0.05 290);
+  --color-purpose-ring: oklch(0.78 0.12 290);
 
-  /* Gratitude - Rose */
-  --color-gratitude: oklch(0.65 0.2 350);
-  --color-gratitude-bg: oklch(0.97 0.03 350);
-  --color-gratitude-ring: oklch(0.85 0.08 350);
+  /* Values — Deep Teal */
+  --color-values:      oklch(0.55 0.22 180);
+  --color-values-bg:   oklch(0.96 0.05 180);
+  --color-values-ring: oklch(0.78 0.12 180);
 
-  /* Joy - Yellow */
-  --color-joy: oklch(0.75 0.18 75);
-  --color-joy-bg: oklch(0.97 0.04 75);
-  --color-joy-ring: oklch(0.85 0.1 75);
+  /* Gratitude — Deep Rose */
+  --color-gratitude:      oklch(0.62 0.24 355);
+  --color-gratitude-bg:   oklch(0.96 0.05 355);
+  --color-gratitude-ring: oklch(0.80 0.12 355);
+
+  /* Joy — Golden Yellow */
+  --color-joy:      oklch(0.72 0.20 80);
+  --color-joy-bg:   oklch(0.97 0.06 82);
+  --color-joy-ring: oklch(0.84 0.12 80);
 }
 
 /* Dark mode adjustments for action colors */
 .dark {
-  --color-stress-bg: oklch(0.2 0.08 38 / 0.2);
-  --color-loneliness-bg: oklch(0.2 0.06 230 / 0.2);
-  --color-self-doubt-bg: oklch(0.2 0.08 45 / 0.2);
-  --color-fear-bg: oklch(0.2 0.06 270 / 0.2);
-  --color-purpose-bg: oklch(0.2 0.06 290 / 0.2);
-  --color-values-bg: oklch(0.2 0.06 180 / 0.2);
-  --color-gratitude-bg: oklch(0.2 0.06 350 / 0.2);
-  --color-joy-bg: oklch(0.2 0.08 75 / 0.2);
+  --color-stress:    oklch(0.72 0.22 35);
+  --color-stress-bg: oklch(0.20 0.08 35 / 0.25);
+
+  --color-loneliness:    oklch(0.70 0.18 230);
+  --color-loneliness-bg: oklch(0.20 0.08 230 / 0.25);
+
+  --color-self-doubt:    oklch(0.76 0.18 50);
+  --color-self-doubt-bg: oklch(0.20 0.08 50 / 0.25);
+
+  --color-fear:    oklch(0.70 0.20 268);
+  --color-fear-bg: oklch(0.20 0.08 268 / 0.25);
+
+  --color-purpose:    oklch(0.72 0.22 290);
+  --color-purpose-bg: oklch(0.20 0.08 290 / 0.25);
+
+  --color-values:    oklch(0.70 0.18 180);
+  --color-values-bg: oklch(0.20 0.08 180 / 0.25);
+
+  --color-gratitude:    oklch(0.72 0.20 355);
+  --color-gratitude-bg: oklch(0.20 0.08 355 / 0.25);
+
+  --color-joy:    oklch(0.80 0.18 80);
+  --color-joy-bg: oklch(0.20 0.08 80 / 0.25);
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -130,9 +146,9 @@
 
 /* Card Component Tokens */
 :root {
-  --card-padding: var(--space-4);
-  --card-border-width: 1.5px;
-  --card-hover-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  --card-padding: 1rem;
+  --card-border-width: 1px;
+  --card-hover-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   --card-transform-active: scale(0.98);
 }
 

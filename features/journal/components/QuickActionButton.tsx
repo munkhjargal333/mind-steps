@@ -32,103 +32,98 @@ export function QuickActionButton({
 }: QuickActionButtonProps) {
 
   const Icon = action.icon;
-
   const isDisabled = disabled || !onSelect;
 
-  const variants = {
-    default: {
-      button: "group relative flex flex-col items-center justify-center p-4 rounded-3xl bg-white dark:bg-zinc-900 border border-border shadow-sm transition-all text-center overflow-hidden",
-      iconContainer: `p-2.5 rounded-xl mb-3 transition-transform ${action.bg} ${action.color}`,
-      iconSize: 20,
-      label: "font-bold text-sm leading-tight",
-      sub: "text-[11px] text-muted-foreground mt-1 leading-snug"
-    },
-    compact: {
-      button: `group flex flex-col items-center justify-center p-4 rounded-3xl text-center border transition-all min-h-[140px] relative overflow-hidden ${className}`,
-      iconContainer: `p-2.5 rounded-xl mb-3 transition-transform bg-white/90 dark:bg-black/20 ${action.color} shadow-sm`,
-      iconSize: 22,
-      label: `text-sm font-bold leading-tight ${action.color}`,
-      sub: "text-[10px] text-muted-foreground/80 leading-snug font-medium"
-    }
-  };
+  // compact variant keeps old vertical layout
+  if (variant === 'compact') {
+    return (
+      <button
+        onClick={() => {
+          if (isDisabled) { onUpgrade?.(); return; }
+          onSelect?.(action.type);
+        }}
+        className={cn(
+          'group flex flex-col items-center justify-center p-4 rounded-2xl text-center border transition-all min-h-[130px] relative overflow-hidden',
+          !isDisabled && [action.bg, 'hover:border-border hover:shadow-md hover:scale-[1.02] active:scale-[0.95]'],
+          isDisabled && ['bg-muted/30 border-dashed border-border', 'opacity-60 grayscale', 'cursor-not-allowed'],
+          className
+        )}
+      >
+        {isDisabled && (
+          <div className="absolute top-2.5 right-2.5">
+            <div className="flex items-center gap-1 text-[10px] bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-300 px-2 py-1 rounded-full font-semibold border border-violet-200 dark:border-violet-800/40">
+              <Lock size={9} /> Pro
+            </div>
+          </div>
+        )}
+        <div className={cn(
+          'p-2.5 rounded-xl mb-2.5 transition-transform bg-white/90 dark:bg-black/20 shadow-sm',
+          action.color,
+          !isDisabled && 'group-hover:scale-110 group-hover:rotate-3'
+        )}>
+          <Icon size={20} />
+        </div>
+        <div className="space-y-0.5">
+          <div className={cn('text-sm font-bold leading-tight', action.color)}>{action.label}</div>
+          <div className="text-[10px] text-muted-foreground/80 leading-snug font-medium">{action.sub}</div>
+        </div>
+        <Icon size={36} className={cn('absolute -bottom-1.5 -right-1.5 opacity-5 rotate-12', action.color)} />
+      </button>
+    );
+  }
 
-  const style = variants[variant];
-
+  // default variant → horizontal list layout
   return (
     <button
       onClick={() => {
-        if (isDisabled) {
-          onUpgrade?.()
-          return
-        }
-        onSelect?.(action.type)
+        if (isDisabled) { onUpgrade?.(); return; }
+        onSelect?.(action.type);
       }}
       className={cn(
-        style.button,
-
-        // 🎨 ACTIVE
+        'group relative flex items-center gap-3.5 w-full px-4 py-3.5 rounded-2xl',
+        'bg-card border border-border',
+        'transition-all duration-150',
+        // left accent border
+        'border-l-4',
         !isDisabled && [
-          action.bg,
-          'hover:border-border hover:shadow-md hover:scale-[1.02] active:scale-[0.95]'
+          'hover:shadow-sm hover:translate-x-0.5 hover:border-primary/30',
+          'active:scale-[0.98]',
         ],
-
-        // 🔒 DISABLED
         isDisabled && [
-          'bg-muted/30 border-dashed border-border',
-          'opacity-60 grayscale',
-          'cursor-not-allowed'
-        ]
+          'opacity-55 grayscale cursor-not-allowed border-dashed',
+        ],
+        className
       )}
+      style={!isDisabled ? { borderLeftColor: `var(${action.color.replace('text-[', '').replace(']', '')})` } : undefined}
     >
-      {/* 🔒 LOCK BADGE — hover-т upgrade tooltip */}
-      {isDisabled && (
-        <div className="absolute top-3 right-3 group/lock">
-          <div className="flex items-center gap-1 text-[10px] bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-300 px-2 py-1 rounded-full font-semibold border border-violet-200 dark:border-violet-800/40 cursor-pointer hover:bg-violet-200 dark:hover:bg-violet-800/40 transition-colors">
-            <Lock size={10} />
-            Pro
-          </div>
-          {/* Upgrade tooltip */}
-          <div className="pointer-events-none absolute top-full right-0 mt-1.5 w-36 rounded-xl bg-foreground px-2.5 py-2 text-[10px] leading-snug text-background opacity-0 group-hover/lock:opacity-100 transition-opacity duration-150 shadow-lg z-50">
-            <p className="font-semibold mb-0.5">Pro онцлог</p>
-            <p className="opacity-70">Нэвтрэх боломжийг нээхийн тулд дарна уу</p>
-          </div>
-        </div>
-      )}
-
-      <div className={cn(
-        style.iconContainer,
-        !isDisabled && 'group-hover:scale-110 group-hover:rotate-3'
-      )}>
-        <Icon size={style.iconSize} />
-      </div>
-      
-      <div className="space-y-1">
-        <div className={style.label}>
-          {action.label}
-        </div>
-        <div className={style.sub}>
-          {action.sub}
-        </div>
+      {/* Icon container */}
+      <div
+        className={cn(
+          'shrink-0 w-11 h-11 rounded-xl flex items-center justify-center transition-transform',
+          action.bg, action.color,
+          !isDisabled && 'group-hover:scale-105'
+        )}
+      >
+        <Icon size={20} />
       </div>
 
-      {/* 👉 Arrow зөвхөн active үед */}
-      {showArrow && !isDisabled && (
+      {/* Text */}
+      <div className="flex-1 min-w-0 text-left">
+        <p className="text-sm font-semibold leading-tight text-foreground">{action.label}</p>
+        <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{action.sub}</p>
+      </div>
+
+      {/* Right side */}
+      {isDisabled ? (
+        <div className="shrink-0 flex items-center gap-1 text-[10px] bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-300 px-2 py-1 rounded-full font-semibold border border-violet-200 dark:border-violet-800/40">
+          <Lock size={9} /> Pro
+        </div>
+      ) : showArrow ? (
         <ArrowRight
-          size={14}
-          className="absolute bottom-5 right-5 text-muted-foreground/30 group-hover:text-foreground group-hover:translate-x-1 transition-all"
+          size={15}
+          className="shrink-0 text-muted-foreground/30 group-hover:text-muted-foreground/60 group-hover:translate-x-0.5 transition-all"
         />
-      )}
-
-      {/* background icon */}
-      {variant === 'compact' && (
-        <Icon
-          size={40}
-          className={cn(
-            "absolute -bottom-2 -right-2 opacity-5 rotate-12",
-            action.color
-          )}
-        />
-      )}
+      ) : null}
     </button>
   );
 }
