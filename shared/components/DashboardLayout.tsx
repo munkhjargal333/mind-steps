@@ -17,6 +17,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
   const userTier = getUserTier(tier);
 
+  // Drawer нээлттэй үед scroll хаах
   useEffect(() => {
     if (drawerOpen) {
       document.body.style.overflow = 'hidden';
@@ -27,21 +28,23 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   }, [drawerOpen]);
 
   return (
-    <div className="flex min-h-screen bg-background pb-16 md:pb-0">
+    <div className="flex min-h-screen bg-background pb-20 md:pb-0">
       {/* Desktop Sidebar */}
       <DesktopSidebar navItems={NAV_ITEMS} userTier={userTier} />
 
       {/* Main Content */}
       <main className="flex-1 min-w-0 overflow-y-auto">
         {/* Mobile topbar */}
-        <div className="md:hidden flex items-center justify-between px-4 h-12 border-b border-border/60 bg-card/80 backdrop-blur-sm sticky top-0 z-30">
+        <div className="md:hidden flex items-center justify-between px-4 h-14 border-b bg-background/80 backdrop-blur-sm sticky top-0 z-30">
           <div className="flex items-center gap-2">
-            <Sunrise className="w-4 h-4 text-orange-500" />
-            <span className="font-bold text-sm">MindSteps</span>
+            <Sunrise className="w-5 h-5 text-orange-500" />
+            <span className="font-bold text-base">MindSteps</span>
           </div>
+
+          {/* Avatar button — open drawer */}
           <button
             onClick={() => setDrawerOpen(true)}
-            className="w-8 h-8 rounded-full overflow-hidden ring-2 ring-border active:opacity-70 transition-opacity shrink-0"
+            className="w-9 h-9 rounded-full overflow-hidden ring-2 ring-border active:opacity-70 transition-opacity shrink-0"
             aria-label="Цэс нээх"
           >
             <DrawerAvatar user={user} />
