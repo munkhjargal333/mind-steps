@@ -63,17 +63,6 @@ export function InsightCards({
       {error && !loading && (
         <div className="flex items-center justify-between p-4 rounded-2xl bg-destructive/10">
           <p className="text-sm text-destructive">{error}</p>
-
-          {onRefresh && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="rounded-xl text-xs"
-              onClick={onRefresh}
-            >
-              Дахин оролдох
-            </Button>
-          )}
         </div>
       )}
 

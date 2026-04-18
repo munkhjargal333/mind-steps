@@ -451,7 +451,7 @@ export const INSIGHT_CARDS = [
   {
     key: 'mirror',
     label: 'Mirror',
-    sub: '🫂 Чи дангаараа биш',
+    sub: '🫂 Чи ганцаараа биш',
     dot: 'bg-[color:var(--color-insight-mirror,theme(colors.blue.400))]',
     bg: 'bg-blue-50/60 dark:bg-blue-950/15',
   },
