@@ -8,7 +8,7 @@ import { useTierContext } from '@/core/providers';
 import { useState, useEffect } from 'react';
 import { NAV_ITEMS } from '@/shared/constants/navItems';
 import { getUserTier } from '@/shared/utils/userHelpers';
-import { Sunrise } from 'lucide-react';
+import { AppLogo } from './AppLogo';
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { logout, user } = useAuth();
@@ -52,12 +52,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
       {/* Desktop Sidebar */}
       <DesktopSidebar navItems={NAV_ITEMS} userTier={userTier} />
 
-      {/* Main Content */}
+      {/* Main Content Area */}
       <main
         className="flex-1 min-w-0 overflow-y-auto relative"
         style={{ zIndex: 1 }}
       >
-        {/* Mobile topbar */}
+        {/* --- Mobile Topbar --- */}
         <div
           className="md:hidden flex items-center justify-between px-4 sticky top-0 z-30"
           style={{
@@ -68,6 +68,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             WebkitBackdropFilter: 'blur(16px) saturate(1.4)',
           }}
         >
+          {/* Logo Section */}
           <div className="flex items-center gap-2.5">
             <div
               className="flex items-center justify-center rounded-xl"
@@ -78,24 +79,17 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 boxShadow: '0 2px 6px oklch(0.55 0.18 50 / 0.28)',
               }}
             >
-              <Sunrise style={{ width: '15px', height: '15px', color: 'white' }} />
+              <AppLogo variant="icon" size="sm" />
             </div>
-            <span
-              style={{
-                fontWeight: 700,
-                fontSize: '1rem',
-                letterSpacing: '-0.02em',
-                color: 'var(--foreground)',
-              }}
-            >
+            <span className="font-bold text-[1.05rem] tracking-tight" style={{ color: 'var(--foreground)' }}>
               MindSteps
             </span>
           </div>
 
-          {/* Avatar button */}
+          {/* Avatar / Drawer Trigger */}
           <button
             onClick={() => setDrawerOpen(true)}
-            className="active:opacity-70 transition-opacity"
+            className="active:opacity-70 transition-opacity focus:outline-none"
             aria-label="Цэс нээх"
             style={{
               width: '36px',
@@ -109,14 +103,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <DrawerAvatar user={user} />
           </button>
         </div>
+        {/* --- End of Mobile Topbar --- */}
 
+        {/* Page Content */}
         {children}
       </main>
 
-      {/* Mobile Bottom Nav */}
+      {/* Mobile Navigation & Overlays */}
       <MobileBottomNav navItems={NAV_ITEMS} userTier={userTier} />
-
-      {/* Mobile Side Drawer */}
       <MobileDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
     </div>
   );

@@ -23,6 +23,11 @@
   --color-border: var(--border);
   --color-ring: var(--ring);
 
+  /* Surface variants */
+  --color-sidebar: var(--sidebar);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
   /* Fonts */
   --font-sans: var(--font-geist-sans);
   --font-display: var(--font-display);
@@ -51,6 +56,15 @@
   --color-brand-amber: var(--brand-amber);
   --color-brand-terracotta: var(--brand-terracotta);
   --color-brand-stone: var(--brand-stone);
+
+  /* Semantic */
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
+
+  /* Surface tints */
+  --color-surface-tint-primary: var(--surface-tint-primary);
+  --color-surface-tint-hover: var(--surface-tint-hover);
 }
 
 /* ───────────────────────────────────────
@@ -72,4 +86,49 @@
     font-family: var(--font-sans), system-ui, sans-serif;
     line-height: 1.65;
   }
+}
+
+/* ───────────────────────────────────────
+   HIGHLIGHTER UTILITIES
+   Applied like a notebook marker — works
+   correctly in both light & dark modes.
+   ─────────────────────────────────────── */
+@layer utilities {
+  .highlight {
+    position: relative;
+    display: inline;
+  }
+
+  /* Generic highlight wrapper — wraps inline text */
+  .highlight::before {
+    content: '';
+    position: absolute;
+    inset: -1px -3px;
+    border-radius: 2px;
+    z-index: 0;
+    mix-blend-mode: var(--highlight-blend, multiply);
+    pointer-events: none;
+  }
+
+  .highlight > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .highlight-mirror::before  { background: var(--highlight-mirror); }
+  .highlight-reframe::before { background: var(--highlight-reframe); }
+  .highlight-relief::before  { background: var(--highlight-relief); }
+
+  /* Stand-alone block highlight (for card backgrounds) */
+  .highlight-block-mirror  { background: var(--highlight-mirror);  mix-blend-mode: var(--highlight-blend, multiply); }
+  .highlight-block-reframe { background: var(--highlight-reframe); mix-blend-mode: var(--highlight-blend, multiply); }
+  .highlight-block-relief  { background: var(--highlight-relief);  mix-blend-mode: var(--highlight-blend, multiply); }
+}
+
+/* ───────────────────────────────────────
+   KEYFRAMES
+   ─────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

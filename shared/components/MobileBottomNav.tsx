@@ -6,126 +6,78 @@ import Link from 'next/link';
 import type { NavItem } from '@/core/api/types';
 import { Lock } from 'lucide-react';
 
-interface MobileBottomNavProps {
-  navItems: NavItem[];
-  userTier: 'free' | 'pro';
-}
-
-export function MobileBottomNav({ navItems, userTier }: MobileBottomNavProps) {
+export function MobileBottomNav({ navItems, userTier }: { navItems: NavItem[]; userTier: string }) {
   const pathname = usePathname();
 
   return (
     <nav
-      className="md:hidden fixed bottom-0 inset-x-0 z-50 flex items-center justify-around"
+      className="md:hidden fixed bottom-0 inset-x-0 z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.4)]"
       style={{
-        height: 'var(--nav-height-mobile, 64px)',
+        height: 'var(--nav-height-mobile, 68px)', // Өндрийг бага зэрэг хаслаа
         paddingBottom: 'env(safe-area-inset-bottom)',
-        borderTop: '1px solid var(--border)',
-        /* Warm glass effect */
-        background: 'oklch(from var(--background) l c h / 0.88)',
-        backdropFilter: 'blur(20px) saturate(1.4)',
-        WebkitBackdropFilter: 'blur(20px) saturate(1.4)',
+        backgroundColor: 'oklch(0.12 0.02 65)', 
+        borderTop: '1px solid oklch(0.20 0.02 65)',
       }}
     >
-      {/* Subtle top highlight line */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: '10%',
-          right: '10%',
-          height: '1px',
-          background: 'linear-gradient(90deg, transparent, oklch(from var(--primary) l c h / 0.25), transparent)',
-        }}
-      />
+      <div className="grid grid-cols-3 h-full w-full">
+        {navItems.map((item) => {
+          const active = pathname === item.href;
+          const locked = item.isPro && userTier === 'free';
 
-      {navItems.map((item) => {
-        const active = pathname === item.href;
-        const locked = item.isPro && userTier === 'free';
-
-        return (
-          <Link
-            key={item.href}
-            href={locked ? '#' : item.href}
-            className={cn(
-              'flex flex-col items-center justify-center gap-1 flex-1 h-full relative',
-              'transition-all duration-200',
-              active ? '' : 'text-muted-foreground',
-              locked && 'opacity-35',
-            )}
-            style={{ color: active ? 'var(--primary)' : undefined }}
-          >
-            {/* Active background pill */}
-            {active && (
-              <span
-                style={{
-                  position: 'absolute',
-                  top: '10px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '40px',
-                  height: '40px',
-                  borderRadius: '14px',
-                  background: 'linear-gradient(135deg, oklch(from var(--primary) l c h / 0.14), oklch(from var(--primary) l c h / 0.07))',
-                  boxShadow: 'inset 0 0 0 1px oklch(from var(--primary) l c h / 0.18)',
-                }}
-              />
-            )}
-
-            <div className="relative z-10" style={{ marginTop: active ? '0' : '2px' }}>
-              <item.icon
-                size={active ? 19 : 20}
-                strokeWidth={active ? 2.5 : 1.8}
-                style={{
-                  transition: 'all 200ms var(--ease-spring)',
-                  filter: active
-                    ? 'drop-shadow(0 1px 4px oklch(from var(--primary) l c h / 0.40))'
-                    : 'none',
-                }}
-              />
-              {locked && (
-                <div
-                  className="absolute -top-1 -right-1 rounded-full p-px"
-                  style={{ background: 'var(--background)' }}
-                >
-                  <Lock
-                    style={{ width: '9px', height: '9px', color: 'var(--muted-foreground)' }}
-                  />
-                </div>
+          return (
+            <Link
+              key={item.href}
+              href={locked ? '#' : item.href}
+              className={cn(
+                'relative flex flex-col items-center justify-center transition-all',
+                locked && 'opacity-30'
               )}
-            </div>
-
-            <span
-              className="z-10"
-              style={{
-                fontSize: '9.5px',
-                fontWeight: active ? 700 : 500,
-                letterSpacing: active ? '0.01em' : '0',
-                lineHeight: 1,
-                transition: 'all 200ms ease',
-                color: active ? 'var(--primary)' : 'var(--muted-foreground)',
-              }}
             >
-              {item.label}
-            </span>
+              {/* Active Block — Одоо арай жижигхэн (inset-2.5) */}
+              {active && (
+                <div
+                  className="absolute shadow-md"
+                  style={{
+                    inset: '6px 8px', // Дээд доороосоо 6px, хажуунаасаа 8px зайтай
+                    background: 'linear-gradient(135deg, oklch(0.70 0.16 65), oklch(0.58 0.18 42))',
+                    borderRadius: '6px', // Ирмэгийг нь маш бага зөөлрүүлэв
+                    zIndex: 0,
+                  }}
+                />
+              )}
 
-            {/* Active bottom indicator */}
-            {active && (
-              <span
-                className="absolute left-1/2 -translate-x-1/2"
-                style={{
-                  bottom: '6px',
-                  width: '18px',
-                  height: '3px',
-                  borderRadius: '999px',
-                  background: 'var(--primary)',
-                  boxShadow: '0 0 10px oklch(from var(--primary) l c h / 0.6)',
-                }}
-              />
-            )}
-          </Link>
-        );
-      })}
+              {/* Icon & Label */}
+              <div className="relative z-10 flex flex-col items-center gap-1">
+                <item.icon
+                  size={20} // Icon-ыг бага зэрэг жижиг болгов
+                  strokeWidth={active ? 2.5 : 2}
+                  style={{
+                    color: active ? 'oklch(0.12 0.02 65)' : 'oklch(0.92 0.02 65 / 0.45)',
+                    transition: 'color 0.2s ease',
+                  }}
+                />
+                
+                <span
+                  className="uppercase text-[9px] font-bold tracking-tight"
+                  style={{
+                    color: active ? 'oklch(0.12 0.02 65)' : 'oklch(0.92 0.02 65 / 0.45)',
+                  }}
+                >
+                  {item.label}
+                </span>
+
+                {locked && (
+                  <Lock 
+                    size={8} 
+                    className="absolute -top-1 -right-2 opacity-50"
+                    style={{ color: active ? 'oklch(0.12 0.02 65)' : 'white' }}
+                  />
+                )}
+              </div>
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 }

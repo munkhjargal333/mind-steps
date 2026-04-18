@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { cn } from '@/shared/lib/utils';
 import { usePathname } from 'next/navigation';
 import type { NavItem } from '@/core/api/types';
-import { Lock, Sunrise } from 'lucide-react';
+import { Lock } from 'lucide-react';
+import { AppLogo } from '@/shared/components/AppLogo'
 
 interface DesktopSidebarProps {
   navItems: NavItem[];
@@ -32,40 +33,8 @@ export function DesktopSidebar({ navItems, userTier }: DesktopSidebarProps) {
           borderBottom: '1px solid var(--border)',
         }}
       >
-        <div
-          className="flex items-center justify-center rounded-xl"
-          style={{
-            width: '34px',
-            height: '34px',
-            background: 'linear-gradient(135deg, oklch(0.70 0.18 65), oklch(0.58 0.20 42))',
-            boxShadow: '0 2px 8px oklch(0.58 0.18 50 / 0.30)',
-          }}
-        >
-          <Sunrise className="w-4.5 h-4.5 text-white" style={{ width: 25, height: 25 }} />
-        </div>
-        <div>
-          <span
-            className="font-bold"
-            style={{
-              fontSize: '1.05rem',
-              letterSpacing: '-0.02em',
-              color: 'var(--foreground)',
-            }}
-          >
-            MindSteps
-          </span>
-          <div
-            style={{
-              fontSize: '0.65rem',
-              letterSpacing: '0.08em',
-              color: 'var(--muted-foreground)',
-              textTransform: 'uppercase',
-              marginTop: '-1px',
-            }}
-          >
-            Сэтгэл зүйн туслах
-          </div>
-        </div>
+             <AppLogo />
+
       </div>
 
       {/* Nav */}

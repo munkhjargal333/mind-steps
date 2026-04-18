@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, Database, Lock, Share2, EyeOff, Sunrise } from 'lucide-react';
+import { ArrowLeft, Database, Lock, Share2, EyeOff } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
+import { AppLogo } from '@/shared/components/AppLogo';
 
 export default function PrivacyPage() {
   const sections = [
@@ -41,12 +42,12 @@ export default function PrivacyPage() {
           </Button>
           
           <Link href="/" className="flex items-center gap-2">
-            <Sunrise className="w-5 h-5 text-orange-500" />
-            <span className="font-bold text-sm">MindSteps</span>
+             <AppLogo />
+
           </Link>
         </div>
       </header>
-
+      
       <main className="container max-w-3xl mx-auto px-4 py-16 md:py-24">
         {/* Page Header */}
         <div className="mb-16">

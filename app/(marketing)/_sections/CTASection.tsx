@@ -2,41 +2,27 @@
 
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { Button } from '@/shared/ui/button'
 
 export function CTASection() {
   return (
-    <section className="border-t">
-      <div className="container max-w-3xl mx-auto px-4 py-20 md:py-32">
-        <div className="text-center space-y-6 md:space-y-8">
-          <div className="space-y-3">
-            <p className="text-lg uppercase tracking-wider text-amber-500 dark:text-amber-400 font-semibold">
-              Эхлэх цаг нь болсон
-            </p>
+    <section className="py-24 md:py-40 bg-background">
+      <div className="container max-w-4xl mx-auto px-4 text-center space-y-12">
+        <p className="font-serif font-black text-sm uppercase tracking-[0.5em] text-brand-amber italic">Эхлэх цаг нь болсон</p>
+        
+        <h2 className="font-serif text-5xl md:text-8xl font-black tracking-tighter leading-[0.85] uppercase italic">
+          Өөрийгөө ойлгоход<br />
+          <span className="relative inline-block mt-4">
+            <span className="relative z-10">90 секунд</span>
+            <div className="absolute inset-x-0 bottom-2 h-[40%] z-0 bg-brand-amber/30 -rotate-1 mix-blend-multiply" />
+          </span>
+          <br />хангалттай.
+        </h2>
 
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tight leading-tight">
-              Өөрийгөө ойлгоход
-              <br />
-              <span className="text-muted-foreground">90 секунд хангалттай.</span>
-            </h2>
-
-            <p className="text-base text-muted-foreground max-w-2xl mx-auto">
-              Өдөр бүр нэг тэмдэглэл.
-              Долоо хоногт давтагдах хэв маяг.
-              Сараар — өөрийгөө шинээр харах.
-            </p>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
-            <Button asChild size="lg" className="w-full sm:w-auto">
-              <Link href="/demo" prefetch>
-                Туршиж үзэх <ArrowRight className="w-4 h-4 ml-2" />
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
-              <Link href="/login">Нэвтрэх</Link>
-            </Button>
-          </div>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-8 pt-10">
+          <Link href="/demo" className="px-10 py-4 font-serif font-black text-lg uppercase tracking-widest border-4 border-foreground hover:bg-foreground hover:text-background transition-all">
+            Туршиж үзэх <ArrowRight className="inline-block w-5 h-5 ml-3" />
+          </Link>
+          <Link href="/login" className="font-serif font-bold uppercase text-sm border-b-2 border-foreground/20 hover:border-foreground pb-1">Нэвтрэх</Link>
         </div>
       </div>
     </section>

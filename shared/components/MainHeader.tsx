@@ -1,6 +1,6 @@
 "use client";
 
-import { User, LogOut, Sunrise } from 'lucide-react';
+import { User, LogOut } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
 import { Button } from '@/shared/ui/button';
 import { useTierContext } from '@/core/providers';
@@ -8,6 +8,7 @@ import { useAuth } from '@/core/auth/AuthContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { TierBadge } from './TierBadge';
+import { AppLogo } from '@/shared/components/AppLogo'
 
 export function MainHeader() {
   const { tier } = useTierContext();
@@ -20,8 +21,7 @@ export function MainHeader() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm">
       <div className="container max-w-2xl mx-auto h-14 flex items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2.5 transition-opacity hover:opacity-80">
-          <Sunrise className="w-6 h-6 color-brand-amber" />
-          <span className="text-[17px] font-bold tracking-tight text-foreground">MindSteps</span>
+          <AppLogo />
         </Link>
 
         <div className="flex items-center gap-3">
