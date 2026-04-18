@@ -132,3 +132,22 @@
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
+
+@keyframes page-curl {
+  0% {
+    transform: scale(1) skewX(0deg) skewY(0deg);
+    transform-origin: top right;
+  }
+  50% {
+    transform: scale(1.03) skewX(-2deg) skewY(1deg);
+    transform-origin: top right;
+  }
+  100% {
+    transform: scale(1) skewX(0deg) skewY(0deg);
+    transform-origin: top right;
+  }
+}
+
+.animate-page-curl {
+  animation: page-curl 7s ease-in-out infinite;
+}

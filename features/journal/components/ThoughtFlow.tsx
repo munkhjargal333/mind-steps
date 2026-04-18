@@ -1,37 +1,36 @@
 'use client';
 
-// ThoughtFlow.tsx — Messenger-style continuous chat thread
-// Хэрэглэгч болон систем ялгагдсан bubble, нэг thread-д урссан.
-// Step 4: SeedInsightStep нь insight-уудыг нэг нэгээр chat bubble-аар
-// харуулж, хэрэглэгч тус бүрт хариулна.
-
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { ChevronLeft, RefreshCw, Send, Sparkles } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import { cn } from '@/shared/lib/utils';
 import { useThoughtFlow } from '../hooks/useThoughtFlow';
+import { useTypeWriter } from '@/shared/hooks/useTypeWriter';
 import { SeedInsightStep } from './SeedInsightStep';
 import { STEP_CONFIG, ACTION_MAP } from '@/shared/constants';
 import type { QuickActionType } from '@/core/api/types';
 
 interface Props {
   initialAction: QuickActionType;
-  onBack:       () => void;
-  onComplete:   () => void;
-  onReset:      () => void;
-  onUpgrade?:   () => void;
+  onBack: () => void;
+  onComplete: () => void;
+  onReset: () => void;
+  onUpgrade?: () => void;
 }
 
-// ── Shared bubble primitives ───────────────────────────────────
+// ── Shared bubble primitives (Theme-compliant Vintage Style) ───
 
 function SystemBubble({ text }: { text: string }) {
+  const typed = useTypeWriter(text, 18);
+
   return (
     <div className="flex flex-col gap-0.5 items-start">
-      <span className="text-[10px] font-medium tracking-widest uppercase text-muted-foreground/60 pl-1">
-        Дэвтэр
-      </span>
-      <div className="max-w-[85%] bg-muted/60 border border-border/40 rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl px-4 py-2.5 text-sm leading-relaxed text-foreground">
-        {text}
+      {/* bg-card, border-border, text-foreground ашиглав */}
+      <div className="max-w-[85%] bg-card border border-border rounded-sm px-4 py-3 text-sm leading-relaxed text-foreground font-serif shadow-sm">
+        {typed}
+        {typed.length < text.length && (
+          <span className="inline-block w-1.5 h-3.5 bg-foreground/70 ml-1 align-middle animate-pulse" />
+        )}
       </div>
     </div>
   );
@@ -40,10 +39,8 @@ function SystemBubble({ text }: { text: string }) {
 function UserBubble({ text }: { text: string }) {
   return (
     <div className="flex flex-col gap-0.5 items-end">
-      <span className="text-[10px] font-medium tracking-widest uppercase text-muted-foreground/60 pr-1">
-        Та
-      </span>
-      <div className="max-w-[82%] bg-foreground text-background rounded-tl-2xl rounded-tr-sm rounded-br-sm rounded-bl-2xl px-4 py-2.5 text-sm leading-relaxed">
+      {/* bg-foreground, text-background ашиглав (Хар бэхэн дээрх цагаан бичиг шиг) */}
+      <div className="max-w-[82%] bg-foreground text-background rounded-sm px-4 py-3 text-sm leading-relaxed font-serif shadow-sm border border-foreground">
         {text}
       </div>
     </div>
@@ -52,12 +49,12 @@ function UserBubble({ text }: { text: string }) {
 
 function ThreadDivider({ label }: { label: string }) {
   return (
-    <div className="flex items-center gap-3 my-0.5">
-      <div className="flex-1 h-px bg-border/30" />
-      <span className="text-[10px] tracking-widest uppercase text-muted-foreground/35 font-medium shrink-0">
+    <div className="flex items-center gap-3 my-2">
+      <div className="flex-1 border-t-[3px] border-double border-border" />
+      <span className="text-[10px] tracking-widest uppercase text-muted-foreground font-serif font-bold shrink-0">
         {label}
       </span>
-      <div className="flex-1 h-px bg-border/30" />
+      <div className="flex-1 border-t-[3px] border-double border-border" />
     </div>
   );
 }
@@ -65,14 +62,11 @@ function ThreadDivider({ label }: { label: string }) {
 function TypingBubble() {
   return (
     <div className="flex flex-col gap-0.5 items-start">
-      <span className="text-[10px] font-medium tracking-widest uppercase text-muted-foreground/60 pl-1">
-        Дэвтэр
-      </span>
-      <div className="bg-muted/60 border border-border/40 rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl px-4 py-3 flex gap-1.5 items-center">
+      <div className="bg-card border border-border rounded-sm px-4 py-3 flex gap-2 items-center shadow-sm">
         {[0, 1, 2].map((i) => (
           <span
             key={i}
-            className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40 animate-bounce"
+            className="w-1.5 h-1.5 rounded-full bg-muted-foreground animate-bounce"
             style={{ animationDelay: `${i * 0.15}s`, animationDuration: '1s' }}
           />
         ))}
@@ -84,11 +78,19 @@ function TypingBubble() {
 // ── Main ───────────────────────────────────────────────────────
 
 export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Props) {
-  const flow        = useThoughtFlow(onBack);
-  const bottomRef   = useRef<HTMLDivElement>(null);
-  const [draft, setDraft]           = useState('');
+  const flow = useThoughtFlow(onBack);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [draft, setDraft] = useState('');
   const [showTyping, setShowTyping] = useState(false);
   const [insightDone, setInsightDone] = useState(false);
+
+  const autoResize = useCallback(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = 'auto';
+    el.style.height = `${el.scrollHeight}px`;
+  }, []);
 
   useEffect(() => {
     if (initialAction) flow.selectAction(initialAction);
@@ -107,6 +109,7 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
     else if (flow.step === 3) flow.updateData({ meaningText: val });
 
     setDraft('');
+    if (textareaRef.current) textareaRef.current.style.height = 'auto';
     setShowTyping(true);
     setTimeout(() => {
       setShowTyping(false);
@@ -126,32 +129,30 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
 
   const session = { actionType: flow.actionType, ...flow.data };
 
-  // Which question is active
   const currentPlaceholder =
     flow.step === 1 ? cfg.surface.placeholder
     : flow.step === 2 ? cfg.inner.placeholder
     : cfg.meaning.placeholder;
 
+  // Үндсэн контейнер: Өөрийн тань bg-background, text-foreground -г ашиглана
   return (
-    <div className="w-full max-w-md mx-auto flex flex-col min-h-0">
-
-      {/* Header */}
-      <div className="flex items-center gap-2 px-4 py-3 border-b border-border/30">
+    <div className="w-full max-w-md mx-auto flex flex-col min-h-0 bg-background text-foreground font-serif border-x border-border h-full shadow-sm">
+      {/* Header (Newspaper Masthead Style) */}
+      <div className="flex items-center gap-2 px-4 py-4 border-b-4 border-double border-border bg-card">
         <button
           onClick={onBack}
-          className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors font-medium"
         >
-          <ChevronLeft size={15} /> Буцах
+          <ChevronLeft size={16} /> Буцах
         </button>
         <div className="flex-1" />
-        <span className="text-[11px] font-semibold tracking-widest uppercase text-muted-foreground/50">
+        <span className="text-[12px] font-bold tracking-widest uppercase text-foreground">
           {ACTION_MAP[flow.actionType]?.label ?? ''}
         </span>
       </div>
 
       {/* Thread scroll area */}
-      <div className="flex flex-col gap-3 px-4 py-4 overflow-y-auto flex-1">
-
+      <div className="flex flex-col gap-4 px-5 py-5 overflow-y-auto flex-1">
         {/* ── Step 1 ── */}
         <SystemBubble text={cfg.surface.q} />
 
@@ -159,7 +160,6 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
           <>
             <UserBubble text={flow.data.surfaceText} />
 
-            {/* ── Step 2 ── */}
             {flow.step >= 2 && (
               <>
                 <ThreadDivider label="Дотоод" />
@@ -171,7 +171,6 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
               <>
                 <UserBubble text={flow.data.innerText} />
 
-                {/* ── Step 3 ── */}
                 {flow.step >= 3 && (
                   <>
                     <ThreadDivider label="Утга" />
@@ -182,7 +181,7 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
                 {flow.data.meaningText && (
                   <>
                     <UserBubble text={flow.data.meaningText} />
-                    <ThreadDivider label="Seed Insight" />
+                    <ThreadDivider label="Ойлголт" />
                   </>
                 )}
               </>
@@ -190,28 +189,26 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
           </>
         )}
 
-        {/* Typing indicator between steps */}
         {showTyping && <TypingBubble />}
 
-        {/* ── Step 4: Seed Insight cards — embedded in thread ── */}
         {flow.step === 4 && !showTyping && (
-          <SeedInsightStep
-            session={session}
-            analyzing={flow.analyzing}
-            result={flow.result}
-            error={flow.error}
-            onMount={flow.runAnalysis}
-            onDone={() => setInsightDone(true)}
-          />
+          <div className="bg-card border border-border rounded-sm p-4 shadow-sm">
+            <SeedInsightStep
+              session={session}
+              analyzing={flow.analyzing}
+              result={flow.result}
+              error={flow.error}
+              onMount={flow.runAnalysis}
+              onDone={() => setInsightDone(true)}
+            />
+          </div>
         )}
 
-        {/* Finish buttons — only after all insight cards answered */}
         {insightDone && (
-          <div className="flex gap-2 mt-1 animate-in fade-in slide-in-from-bottom-1 duration-200">
+          <div className="flex gap-3 mt-2 animate-in fade-in slide-in-from-bottom-1 duration-200">
             <Button
               variant="outline"
-              size="sm"
-              className="flex-1 rounded-2xl text-xs"
+              className="flex-1 rounded-sm text-sm font-serif border-border text-foreground hover:bg-muted"
               onClick={() => {
                 flow.reset();
                 setDraft('');
@@ -219,11 +216,10 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
                 onReset();
               }}
             >
-              <RefreshCw size={12} className="mr-1" /> Дахин
+              <RefreshCw size={14} className="mr-2" /> Дахин
             </Button>
             <Button
-              size="sm"
-              className="flex-1 rounded-2xl text-xs"
+              className="flex-1 rounded-sm text-sm font-serif bg-foreground text-background hover:bg-foreground/90"
               onClick={onComplete}
             >
               Нүүр хуудас
@@ -236,19 +232,20 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
 
       {/* Input — steps 1–3 only */}
       {flow.step <= 3 && !showTyping && (
-        <div className="px-4 pb-4 pt-2 border-t border-border/30">
+        <div className="px-5 pb-5 pt-4 border-t border-border bg-card">
           <div className="flex gap-2 items-end">
             <textarea
+              ref={textareaRef}
               value={draft}
-              onChange={(e) => setDraft(e.target.value)}
+              onChange={(e) => { setDraft(e.target.value); autoResize(); }}
               onKeyDown={handleKeyDown}
               placeholder={currentPlaceholder}
-              rows={2}
+              rows={1}
               className={cn(
-                'flex-1 resize-none text-sm leading-relaxed',
-                'bg-muted/40 border border-border/50 rounded-2xl px-4 py-2.5',
-                'placeholder:text-muted-foreground/40',
-                'focus:outline-none focus:ring-1 focus:ring-ring/30',
+                'flex-1 resize-none overflow-hidden text-sm leading-relaxed font-serif',
+                'bg-background border border-border rounded-sm px-4 py-3',
+                'placeholder:text-muted-foreground/60 text-foreground',
+                'focus:outline-none focus:ring-1 focus:ring-ring transition-shadow shadow-inner',
               )}
               autoFocus
             />
@@ -256,26 +253,26 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
               onClick={handleSend}
               disabled={!draft.trim()}
               className={cn(
-                'shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-150',
+                'shrink-0 w-11 h-11 rounded-sm flex items-center justify-center transition-all duration-150 border',
                 draft.trim()
-                  ? 'bg-foreground text-background hover:opacity-80 active:scale-95'
-                  : 'bg-muted text-muted-foreground/30 cursor-not-allowed',
+                  ? 'bg-foreground border-foreground text-background hover:bg-foreground/90 active:scale-95 shadow-sm'
+                  : 'bg-muted border-border text-muted-foreground/40 cursor-not-allowed',
               )}
             >
-              {flow.step === 3 ? <Sparkles size={15} /> : <Send size={15} />}
+              {flow.step === 3 ? <Sparkles size={18} /> : <Send size={18} />}
             </button>
           </div>
 
-          {/* Step progress pills */}
-          <div className="flex gap-1.5 justify-center mt-2.5">
+          {/* Step progress (Typewriter keys style dots) */}
+          <div className="flex gap-2 justify-center mt-4">
             {[1, 2, 3].map((s) => (
               <div
                 key={s}
                 className={cn(
-                  'h-1 rounded-full transition-all duration-300',
-                  s < flow.step  ? 'w-4 bg-foreground/40'
-                  : s === flow.step ? 'w-6 bg-foreground'
-                  : 'w-1.5 bg-border',
+                  'w-2 h-2 rounded-full transition-all duration-300 border border-foreground',
+                  s < flow.step  ? 'bg-muted-foreground border-muted-foreground'
+                  : s === flow.step ? 'bg-foreground'
+                  : 'bg-transparent border-border',
                 )}
               />
             ))}

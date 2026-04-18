@@ -19,7 +19,6 @@ import { Button } from '@/shared/ui/button';
 import { cn } from '@/shared/lib/utils';
 import { formatDatetimeMn } from '@/shared/lib/date';
 import { InsightCards } from '@/shared/components/InsightCard';
-import { SkeletonCard } from '@/shared/components/SkeletonCard';
 
 // ─── Sub-components ────────────────────────────────────────────────────────────
 
@@ -149,21 +148,6 @@ export default function EntryDetailPage({ params }: { params: Promise<{ entry_id
               transition={{ delay: 0.5 }}
               className="pt-8 border-t border-dashed"
             >
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-widest">
-                  AI Insight
-                </h2>
-                {insight && !insightLoading && (
-                   <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    onClick={loadInsight}
-                    className="h-8 w-8 text-muted-foreground hover:text-foreground"
-                   >
-                     <RefreshCcw size={14} className={cn(insightLoading && "animate-spin")} />
-                   </Button>
-                )}
-              </div>
 
               <InsightCards
                 data={insight}
