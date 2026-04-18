@@ -1,29 +1,25 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, HeartPulse, Copyright, UserCircle, ShieldCheck } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import { AppLogo } from '@/shared/components/AppLogo';
 
 export default function TermsPage() {
   const sections = [
     {
-      icon: HeartPulse,
       title: "1. Үйлчилгээний мөн чанар",
       content: "MindSteps нь танин мэдэхүй, хувийн хөгжлийн мэдээлэл түгээх зорилготой платформ юм. Бид мэргэжлийн сэтгэл засалч, анагаах ухааны оношилгоо, эмчилгээний үйлчилгээ үзүүлэгч биш болно. Хэрэв танд сэтгэл зүйн хүндрэлтэй асуудал тулгарсан бол мэргэжлийн эмчид хандахыг зөвлөж байна."
     },
     {
-      icon: Copyright,
       title: "2. Оюуны өмч ба Зохиогчийн эрх",
       content: "Апп доторх бүх эх бичвэр, график, код болон дизайн нь MindSteps-ийн өмч бөгөөд зохиогчийн эрхээр хамгаалагдсан. Таны бичсэн тэмдэглэл, бодол болон хувийн өгөгдөл нь зөвхөн 'Таны өмч' байна. Бид таны зөвшөөрөлгүйгээр таны хувийн тэмдэглэлийг ашиглахгүй."
     },
     {
-      icon: UserCircle,
       title: "3. Хэрэглэгчийн хариуцлага",
       content: "Та өөрийн бүртгэл болон нууц үгийн аюулгүй байдлыг хариуцна. Өөрийн бүртгэлийг бусдад дамжуулахгүй байх, хууль бус зорилгоор апп-ыг ашиглахгүй байх үүргийг хэрэглэгч хүлээнэ."
     },
     {
-      icon: ShieldCheck,
       title: "4. Үйлчилгээний өөрчлөлт",
       content: "Бид үйлчилгээгээ сайжруулах зорилгоор апп-ын зарим функцийг хэдийд ч өөрчлөх, шинэчлэх эрхтэй. Нөхцөлд томоохон өөрчлөлт орсон тохиолдолд танд и-мэйлээр мэдэгдэх болно."
     }
@@ -42,7 +38,7 @@ export default function TermsPage() {
           </Button>
           
           <Link href="/" className="flex items-center gap-2">
-                <AppLogo />
+            <AppLogo />
           </Link>
         </div>
       </header>
@@ -66,15 +62,11 @@ export default function TermsPage() {
         <div className="space-y-12">
           {sections.map((section, index) => (
             <section key={index} className="space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                  <section.icon className="w-5 h-5 text-primary" />
-                </div>
-                <h2 className="text-lg font-semibold">
-                  {section.title}
-                </h2>
-              </div>
-              <p className="text-muted-foreground leading-relaxed pl-13">
+              {/* Highlight классыг энд ашиглав */}
+              <h2 className="text-xl font-bold highlight highlight-indigo-600 highlight-variant-1">
+                {section.title}
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
                 {section.content}
               </p>
             </section>

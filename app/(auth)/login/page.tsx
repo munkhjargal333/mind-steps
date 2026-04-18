@@ -10,6 +10,8 @@ import { SocialLogin } from './components/SocialLogin'
 import { DemoLogin } from './components/DemoLogin'
 import { LoginErrorAlert } from './components/LoginErrorAlert'
 
+const HL_BOLD = 'highlight highlight-variant-20'
+
 function LoginPageContent() {
   const [displayError, setDisplayError] = useState<string | null>(null)
   const searchParams = useSearchParams()
@@ -30,64 +32,63 @@ function LoginPageContent() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground font-serif relative selection:bg-brand-amber/30">
+    <div className="min-h-screen flex flex-col bg-background text-foreground font-serif relative selection:bg-amber-500/20">
       
-      {/* Header хэсэг */}
-      <div className="border-b-4 border-double border-foreground py-2 z-10 bg-background relative">
+      <div className="border-b border-foreground/10 py-1 z-10 bg-background/80 backdrop-blur-sm sticky top-0">
         <MainHeader />
       </div>
 
-      <div className="flex-1 flex items-center justify-center px-4 py-12 relative z-10">
-        <div className="w-full max-w-md bg-card/40 border-4 border-double border-foreground p-8 md:p-10 relative">
+      <main className="flex-1 flex items-center justify-center px-6 py-8 relative z-10">
+        {/* CONTAINER: Хайрцагны өргөн болон padding-ийг багасгасан */}
+        <div className="w-full max-w-[360px] bg-background border-[3px] border-double border-foreground/20 p-6 md:p-8 shadow-sm relative">
           
-          {/* Маягтын толгой */}
-          <div className="text-center border-b-2 border-foreground pb-6 mb-8 space-y-3">
-            <h1 className="font-serif text-4xl font-black uppercase italic tracking-tighter">
-              Нэвтрэх
+          {/* Header хэсэг - Текст жижигэрсэн */}
+          <div className="text-center border-b border-foreground/10 pb-5 mb-6">
+            <h1 className="font-serif text-lg md:text-xl font-black uppercase italic tracking-tighter">
+              <span className={`${HL_BOLD} highlight-amber-400/30 px-2`}>Нэвтрэх</span>
             </h1>
           </div>
 
-          <div className="space-y-8">
+          {/* Хоорондын зай space-y-5 */}
+          <div className="space-y-5">
             {displayError && (
               <LoginErrorAlert error={displayError} onDismiss={handleErrorDismiss} />
             )}
 
+            {/* LoginForm доторх input болон button-г жижигсгэхийн тулд 
+                тухайн component-ийнх нь py- болон text- хэмжээг шалгаарай */}
             <LoginForm onError={setDisplayError} />
 
-            {/* Editorial Separator */}
-            <div className="relative py-2">
+            <div className="relative py-1">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-dashed border-foreground/30" />
+                <div className="w-full border-t border-dashed border-foreground/15" />
               </div>
               <div className="relative flex justify-center">
-                <span className="bg-background px-4 font-serif text-[10px] font-bold uppercase tracking-widest text-muted-foreground italic">
-                  Эсвэл өөр замаар
+                <span className="bg-background px-3 font-serif text-[8px] font-bold uppercase tracking-widest text-foreground/40 italic">
+                  Эсвэл
                 </span>
               </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-2.5">
               <SocialLogin onError={setDisplayError} />
               <DemoLogin />
             </div>
           </div>
 
-          {/* Footer Terms */}
-          <div className="mt-10 pt-6 border-t border-foreground/10 text-center">
-            <p className="font-serif text-[10px] text-muted-foreground uppercase tracking-widest leading-relaxed opacity-60">
-              Нэвтрэх товчийг дарснаар та манай{' '}
-              <Link href="/terms" className="text-foreground underline decoration-1 underline-offset-4 hover:bg-foreground hover:text-background transition-colors">Үйлчилгээний нөхцөл</Link>
+          <div className="mt-8 pt-5 border-t border-foreground/5 text-center">
+            <p className="font-serif text-[8px] text-foreground/40 uppercase tracking-[0.15em] leading-relaxed">
+              Нэвтрэх товчийг дарснаар манай{' '}
+              <Link href="/terms" className="text-foreground/70 underline decoration-foreground/20 underline-offset-4 hover:text-foreground transition-all">Нөхцөл</Link>
               {' '}болон{' '}
-              <Link href="/privacy" className="text-foreground underline decoration-1 underline-offset-4 hover:bg-foreground hover:text-background transition-colors">Нууцлалын бодлого</Link>
-              -ийг зөвшөөрч буйд тооцно.
+              <Link href="/privacy" className="text-foreground/70 underline decoration-foreground/20 underline-offset-4 hover:text-foreground transition-all">Бодлого</Link>
+              -ийг зөвшөөрнө.
             </p>
           </div>
-
         </div>
-      </div>
+      </main>
 
-      {/* Global Paper Texture */}
-      <div className="fixed inset-0 pointer-events-none mix-blend-multiply opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] z-0" />
+      <div className="fixed inset-0 pointer-events-none mix-blend-multiply opacity-[0.012] bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] z-0" />
     </div>
   )
 }
@@ -97,10 +98,7 @@ export default function LoginPage() {
     <Suspense
       fallback={
         <div className="min-h-screen flex items-center justify-center bg-background font-serif">
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-6 h-6 border-2 border-foreground border-t-transparent rounded-none animate-spin" />
-            <p className="text-xs uppercase tracking-widest font-bold">Хуудсыг бэлтгэж байна...</p>
-          </div>
+          <div className="w-4 h-4 border-2 border-foreground/20 border-t-foreground rounded-full animate-spin" />
         </div>
       }
     >

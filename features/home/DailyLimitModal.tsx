@@ -9,11 +9,11 @@ import {
   DialogTitle,
 } from '@/shared/ui'
 import { Button } from '@/shared/ui'
-import { useRouter } from 'next/navigation'
 
 interface DailyLimitModalProps {
   isOpen: boolean
   onClose: () => void
+  onUpgrade?: () => void  // байхгүй бол router.push('/upgrade') ашиглана
   userTier: 'free' | 'demo' | 'pro'
   usageCount: number
   limit: number
@@ -22,17 +22,21 @@ interface DailyLimitModalProps {
 export function DailyLimitModal({
   isOpen,
   onClose,
+  onUpgrade,
   userTier,
   usageCount,
   limit,
 }: DailyLimitModalProps) {
-  const router = useRouter()
-
   const isDemo = userTier === 'demo'
 
   const handleUpgrade = () => {
     onClose()
-    router.push('/upgrade')
+    if (onUpgrade) {
+      onUpgrade()
+    } else {
+      // fallback — onUpgrade prop дамжаагүй үед
+      window.location.href = '/upgrade'
+    }
   }
 
   return (
