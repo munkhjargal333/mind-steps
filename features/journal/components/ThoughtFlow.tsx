@@ -25,7 +25,6 @@ function SystemBubble({ text }: { text: string }) {
 
   return (
     <div className="flex flex-col gap-0.5 items-start">
-      {/* bg-card, border-border, text-foreground ашиглав */}
       <div className="max-w-[85%] bg-card border border-border rounded-sm px-4 py-3 text-sm leading-relaxed text-foreground font-serif shadow-sm">
         {typed}
         {typed.length < text.length && (
@@ -39,7 +38,6 @@ function SystemBubble({ text }: { text: string }) {
 function UserBubble({ text }: { text: string }) {
   return (
     <div className="flex flex-col gap-0.5 items-end">
-      {/* bg-foreground, text-background ашиглав (Хар бэхэн дээрх цагаан бичиг шиг) */}
       <div className="max-w-[82%] bg-foreground text-background rounded-sm px-4 py-3 text-sm leading-relaxed font-serif shadow-sm border border-foreground">
         {text}
       </div>
@@ -84,6 +82,7 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
   const [draft, setDraft] = useState('');
   const [showTyping, setShowTyping] = useState(false);
   const [insightDone, setInsightDone] = useState(false);
+  const [showExtendedOptions, setShowExtendedOptions] = useState(false);
 
   const autoResize = useCallback(() => {
     const el = textareaRef.current;
@@ -98,7 +97,7 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [flow.step, showTyping, flow.result, insightDone]);
+  }, [flow.step, showTyping, flow.result, insightDone, showExtendedOptions]);
 
   const handleSend = useCallback(() => {
     const val = draft.trim();
@@ -134,10 +133,9 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
     : flow.step === 2 ? cfg.inner.placeholder
     : cfg.meaning.placeholder;
 
-  // Үндсэн контейнер: Өөрийн тань bg-background, text-foreground -г ашиглана
   return (
     <div className="w-full max-w-md mx-auto flex flex-col min-h-0 bg-background text-foreground font-serif border-x border-border h-full shadow-sm">
-      {/* Header (Newspaper Masthead Style) */}
+      {/* Header */}
       <div className="flex items-center gap-2 px-4 py-4 border-b-4 border-double border-border bg-card">
         <button
           onClick={onBack}
@@ -205,25 +203,48 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
         )}
 
         {insightDone && (
-          <div className="flex gap-3 mt-2 animate-in fade-in slide-in-from-bottom-1 duration-200">
-            <Button
-              variant="outline"
-              className="flex-1 rounded-sm text-sm font-serif border-border text-foreground hover:bg-muted"
-              onClick={() => {
-                flow.reset();
-                setDraft('');
-                setInsightDone(false);
-                onReset();
-              }}
-            >
-              <RefreshCw size={14} className="mr-2" /> Дахин
-            </Button>
-            <Button
-              className="flex-1 rounded-sm text-sm font-serif bg-foreground text-background hover:bg-foreground/90"
-              onClick={onComplete}
-            >
-              Нүүр хуудас
-            </Button>
+          <div className="flex flex-col gap-3 mt-2 animate-in fade-in slide-in-from-bottom-1 duration-200">
+            {!showExtendedOptions ? (
+              /* Эхний шат: Дэлгэрэнгүй авах / Дуусгах */
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  className="flex-1 rounded-sm text-sm font-serif border-border text-foreground hover:bg-muted"
+                  onClick={() => setShowExtendedOptions(true)}
+                >
+                  <Sparkles size={14} className="mr-2" /> Дэлгэрэнгүй авах
+                </Button>
+                <Button
+                  className="flex-1 rounded-sm text-sm font-serif bg-foreground text-background hover:bg-foreground/90"
+                  onClick={onComplete}
+                >
+                  Дуусгах
+                </Button>
+              </div>
+            ) : (
+              /* Хоёрдахь шат: Дахин / Нүүр хуудас */
+              <div className="flex gap-3 animate-in fade-in slide-in-from-bottom-1 duration-200">
+                <Button
+                  variant="outline"
+                  className="flex-1 rounded-sm text-sm font-serif border-border text-foreground hover:bg-muted"
+                  onClick={() => {
+                    flow.reset();
+                    setDraft('');
+                    setInsightDone(false);
+                    setShowExtendedOptions(false);
+                    onReset();
+                  }}
+                >
+                  <RefreshCw size={14} className="mr-2" /> Дахин
+                </Button>
+                <Button
+                  className="flex-1 rounded-sm text-sm font-serif bg-foreground text-background hover:bg-foreground/90"
+                  onClick={onComplete}
+                >
+                  Нүүр хуудас
+                </Button>
+              </div>
+            )}
           </div>
         )}
 
@@ -263,7 +284,7 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
             </button>
           </div>
 
-          {/* Step progress (Typewriter keys style dots) */}
+          {/* Step progress */}
           <div className="flex gap-2 justify-center mt-4">
             {[1, 2, 3].map((s) => (
               <div

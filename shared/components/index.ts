@@ -10,6 +10,7 @@ export { MainHeader }         from './MainHeader';
 // Dashboard page
 export { HomePage }           from './HomePage';
 
+
 // Dashboard building blocks
 export { EmotionCard, EMOTION_MAP, hawkinsInfo } from './EmotionCard';
 export { HumanInsightCard,  PatternCard } from './InsightCard';
