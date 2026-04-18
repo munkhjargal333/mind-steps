@@ -310,8 +310,7 @@ export function HomePage() {
         <ThoughtFlow
           onBack={() => setView('dashboard')}
           onComplete={handleFlowComplete}
-          onReset={handleFlowReset}
-        />
+          onReset={handleFlowReset} initialAction={'values'}        />
       )}
 
       <DailyLimitModal

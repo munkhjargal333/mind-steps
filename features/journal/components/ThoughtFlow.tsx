@@ -18,11 +18,10 @@ interface Props {
   onUpgrade?: () => void;
 }
 
-// ── Shared bubble primitives (Theme-compliant Vintage Style) ───
+// ── Shared bubble primitives ───────────────────────────────────
 
 function SystemBubble({ text }: { text: string }) {
   const typed = useTypeWriter(text, 18);
-
   return (
     <div className="flex flex-col gap-0.5 items-start">
       <div className="max-w-[85%] bg-card border border-border rounded-sm px-4 py-3 text-sm leading-relaxed text-foreground font-serif shadow-sm">
@@ -151,7 +150,8 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
 
       {/* Thread scroll area */}
       <div className="flex flex-col gap-4 px-5 py-5 overflow-y-auto flex-1">
-        {/* ── Step 1 ── */}
+
+        {/* Step 1 */}
         <SystemBubble text={cfg.surface.q} />
 
         {flow.data.surfaceText && (
@@ -202,10 +202,10 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
           </div>
         )}
 
+        {/* Insight дуусмагц товчнууд */}
         {insightDone && (
           <div className="flex flex-col gap-3 mt-2 animate-in fade-in slide-in-from-bottom-1 duration-200">
             {!showExtendedOptions ? (
-              /* Эхний шат: Дэлгэрэнгүй авах / Дуусгах */
               <div className="flex gap-3">
                 <Button
                   variant="outline"
@@ -222,7 +222,6 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
                 </Button>
               </div>
             ) : (
-              /* Хоёрдахь шат: Дахин / Нүүр хуудас */
               <div className="flex gap-3 animate-in fade-in slide-in-from-bottom-1 duration-200">
                 <Button
                   variant="outline"
