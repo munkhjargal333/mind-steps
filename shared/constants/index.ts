@@ -437,11 +437,47 @@ export const STEP_CONFIG: Record<string, StepCopy> = {
 
 
 
+// ─── Growth sub-action step config ───────────────────────────
+// STEP_CONFIG-д нэмж оруулна (surface=q1, inner=q2, meaning=q3)
+Object.assign(STEP_CONFIG, {
+  g_learn: {
+    surface: { q: 'Өнөөдөр юу надад шинэ зүйл заасан бэ?',          placeholder: 'ном, яриа, туршлага, санаандгүй ажигласан зүйл...' },
+    inner:   { q: 'Энэ ойлголт миний аль итгэл үнэмшилтэй холбогдож байна?', placeholder: 'өмнөх үзэл бодол, баттай хэмээн бодож байсан зүйл...' },
+    meaning: { q: 'Үүнийг цаашид хэрхэн ашиглах вэ?',                placeholder: 'тодорхой нэг алхам, зуршил, хандлагын өөрчлөлт...' },
+  },
+  g_win: {
+    surface: { q: 'Өнөөдөр юуг хийж чадсан, эсвэл давж гарсан бэ?', placeholder: 'жижиг ч байсан хамаагүй — эхэлсэн, дуусгасан, тэсвэрлэсэн...' },
+    inner:   { q: 'Үүнд ямар чанар минь тусалсан бэ?',               placeholder: 'тэвчээр, зориг, бусдаас туслалцаа авсан, системтэй байдал...' },
+    meaning: { q: 'Энэ амжилт цаашдын аль зорилготой холбогдож байна?', placeholder: 'томоохон зорилго, хүн болох замын нэг хэсэг...' },
+  },
+  g_habit: {
+    surface: { q: 'Өнөөдөр ямар зуршлаа баримталсан, эсвэл алдсан бэ?', placeholder: 'биеийн тамир, унтах дэглэм, уншлага, тайлан бичих...' },
+    inner:   { q: 'Алдсан бол яагаад, баримталсан бол юу тусалсан бэ?', placeholder: 'гадны нөхцөл, дотоод байдал, ямар нэг шалтгаан...' },
+    meaning: { q: 'Маргааш юуг өөрчлөх эсвэл үргэлжлүүлэх вэ?',       placeholder: 'нэг л тодорхой зүйл — бага ч байсан хамаагүй...' },
+  },
+  g_vision: {
+    surface: { q: 'Нэг жилийн дараа өөрийгөө хэрхэн харахыг хүсэж байна?', placeholder: 'ажил мэргэжил, харилцаа, дотоод байдал, амьдралын хэв маяг...' },
+    inner:   { q: 'Тэр өөрт хүрэхийн тулд одоо юуг хийж эхлэх ёстой вэ?', placeholder: 'нэг алхам, нэг шийдвэр, нэг орхих зүйл...' },
+    meaning: { q: 'Хамгийн том саад нь юу бэ, тэр саадыг яаж давах вэ?',  placeholder: 'айдас, мэдлэгийн дутагдал, цаг хугацаа, эргэлзээ...' },
+  },
+});
+
 export const ACTION_LABELS: Record<string, string> = {
   stress: 'стресс', loneliness: 'ганцаардал', gratitude: 'талархал',
   self_doubt: 'өөртөө эргэлзэх', purpose: 'зорилго олох',
   values: 'үнэт зүйл', fear: 'айдас', joy: 'баяр',
+  g_learn: 'суралцсан зүйл', g_win: 'амжилт', g_habit: 'зуршил', g_vision: 'ирээдүй',
 };
+
+// ─── Growth sub-actions catalog ──────────────────────────────
+import { BookOpen, Trophy, RefreshCw, Telescope } from 'lucide-react';
+
+export const GROWTH_ACTIONS: ActionConfig[] = [
+  { type: 'g_learn', label: 'Суралцсан зүйл', sub: 'Өнөөдөр юу заасан бэ',   icon: BookOpen,  tier: 'free', color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-950/20', ring: 'ring-emerald-200' },
+  { type: 'g_win',   label: 'Амжилт',          sub: 'Юуг давж гарсан бэ',     icon: Trophy,    tier: 'free', color: 'text-amber-600 dark:text-amber-400',   bg: 'bg-amber-50 dark:bg-amber-950/20',   ring: 'ring-amber-200'   },
+  { type: 'g_habit', label: 'Зуршил',           sub: 'Баримталсан эсвэл алдсан', icon: RefreshCw, tier: 'free', color: 'text-sky-600 dark:text-sky-400',       bg: 'bg-sky-50 dark:bg-sky-950/20',       ring: 'ring-sky-200'     },
+  { type: 'g_vision',label: 'Ирээдүй',          sub: 'Хаашаа явж байна',       icon: Telescope, tier: 'free', color: 'text-violet-600 dark:text-violet-400', bg: 'bg-violet-50 dark:bg-violet-950/20', ring: 'ring-violet-200'  },
+];
 
 // ─── Seed Insight cards ───────────────────────────────────────
 // All colours use semantic insight tokens from globals.css.

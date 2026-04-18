@@ -1,33 +1,27 @@
 // shared/components/AppLogo.tsx
-// ─────────────────────────────────────────────────────────────────────────────
-
-
 import Link from 'next/link';
 import { cn } from '@/shared/lib/utils';
 
 interface AppLogoProps {
   variant?: 'icon' | 'wordmark' | 'full';
   size?: 'sm' | 'md' | 'lg';
-  href?: string | false;   // false → не ссылка
+  href?: string | false; // false өгвөл Link-гүй болно
   className?: string;
 }
 
-// ── Icon sizes ─────────────────────────────────────────────────────────────
 const ICON_SIZE = { sm: 30, md: 36, lg: 48 };
 const TEXT_SIZE = {
-  sm: { name: '1.0rem',  sub: '0.58rem' },
-  md: { name: '1.1rem',  sub: '0.65rem' },
-  lg: { name: '1.5rem',  sub: '0.75rem' },
+  sm: { name: '1.0rem', sub: '0.58rem' },
+  md: { name: '1.1rem', sub: '0.65rem' },
+  lg: { name: '1.5rem', sub: '0.75rem' },
 };
 
-// ── SVG mark — sun rays + inner circle (MindSteps) ─────────────────────────
 function LogoMark({ px }: { px: number }) {
   const r = px / 2;
   const inner = r * 0.38;
   const rayLen = r * 0.22;
   const rayStart = inner + r * 0.10;
 
-  // 8 rays at 0, 45, 90 … 315°
   const rays = Array.from({ length: 8 }, (_, i) => {
     const angle = (i * 45 * Math.PI) / 180;
     const cos = Math.cos(angle);
@@ -41,93 +35,55 @@ function LogoMark({ px }: { px: number }) {
   });
 
   return (
-    <svg
-      width={px}
-      height={px}
-      viewBox={`0 0 ${px} ${px}`}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden
-      style={{ flexShrink: 0 }}
-    >
+    <svg width={px} height={px} viewBox={`0 0 ${px} ${px}`} fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden style={{ flexShrink: 0 }}>
       <defs>
         <linearGradient id="logo-grad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%"   stopColor="var(--brand-amber)" />
-          <stop offset="100%" stopColor="var(--brand-terracotta)" />
+          <stop offset="0%" stopColor="#f59e0b" /> {/* amber-500 */}
+          <stop offset="100%" stopColor="#d97706" /> {/* amber-600 */}
         </linearGradient>
       </defs>
-
-      {/* Background pill */}
-      <rect
-        width={px}
-        height={px}
-        rx={px * 0.28}
-        fill="url(#logo-grad)"
-      />
-
-      {/* Rays */}
+      <rect width={px} height={px} rx={px * 0.28} fill="url(#logo-grad)" />
       {rays.map((ray, i) => (
-        <line
-          key={i}
-          x1={ray.x1} y1={ray.y1}
-          x2={ray.x2} y2={ray.y2}
-          stroke="white"
-          strokeWidth={px * 0.055}
-          strokeLinecap="round"
-          opacity={i % 2 === 0 ? 1 : 0.65}
-        />
+        <line key={i} x1={ray.x1} y1={ray.y1} x2={ray.x2} y2={ray.y2} stroke="white" strokeWidth={px * 0.055} strokeLinecap="round" opacity={i % 2 === 0 ? 1 : 0.65} />
       ))}
-
-      {/* Core circle */}
       <circle cx={r} cy={r} r={inner} fill="white" opacity={0.95} />
-
-      {/* Inner dot */}
       <circle cx={r} cy={r} r={inner * 0.32} fill="url(#logo-grad)" />
     </svg>
   );
 }
 
-// ── Main export ─────────────────────────────────────────────────────────────
-
-export function AppLogo({
-  variant = 'wordmark',
-  size = 'sm',
-  href = '/',
-  className,
-}: AppLogoProps) {
+export function AppLogo({ variant = 'wordmark', size = 'sm', href = '/', className }: AppLogoProps) {
   const px = ICON_SIZE[size];
   const ts = TEXT_SIZE[size];
 
-  const inner = (
-    <span className={cn('flex items-center gap-2.5', className)}>
+  // Дотор талын контент (SVG + Text)
+  const content = (
+    <div className={cn('flex items-center gap-2.5', className)}>
       <LogoMark px={px} />
-
       {variant !== 'icon' && (
         <span className="flex flex-col leading-none" style={{ gap: '2px' }}>
-          <span
-            className="font-bold tracking-tight"
-            style={{ fontSize: ts.name, color: 'var(--foreground)', letterSpacing: '-0.02em' }}
-          >
+          <span className="font-bold tracking-tight text-stone-100" style={{ fontSize: ts.name, letterSpacing: '-0.02em' }}>
             MindSteps
           </span>
           {variant === 'full' && (
-            <span
-              className="uppercase tracking-widest font-medium"
-              style={{ fontSize: ts.sub, color: 'var(--muted-foreground)', letterSpacing: '0.08em' }}
-            >
+            <span className="uppercase tracking-widest font-medium text-stone-500" style={{ fontSize: ts.sub, letterSpacing: '0.08em' }}>
               Сэтгэл зүйн туслах
             </span>
           )}
         </span>
       )}
-    </span>
+    </div>
   );
 
-  if (href === false) return inner;
+  // Хэрэв href={false} бол зүгээр л div буцаана
+  if (href === false) {
+    return content;
+  }
 
+  // Эсвэл Link-ээр ороож буцаана
   return (
     <Link href={href} className="transition-opacity hover:opacity-80 inline-flex">
-      {inner}
+      {content}
     </Link>
   );
 }

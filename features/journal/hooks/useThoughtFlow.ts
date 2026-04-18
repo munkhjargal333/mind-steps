@@ -27,11 +27,11 @@ const EMPTY_DATA: StepData = {
 
 // ─── Hook ─────────────────────────────────────────────────────
 
-export function useThoughtFlow(onBack?: () => void) { 
+export function useThoughtFlow(onBack?: () => void) {
   const ctx = useTierContext();
 
   const [state, setState] = useState<ThoughtFlowState>({
-    step:       1,
+    step:       0,
     actionType: null,
     data:       EMPTY_DATA,
     analyzing:  false,
@@ -49,6 +49,17 @@ export function useThoughtFlow(onBack?: () => void) {
       actionType: type,
       step:       1,
       data:       EMPTY_DATA,
+      result:     null,
+      error:      null,
+    }));
+  }, []);
+
+  const backToSelector = useCallback(() => {
+    setState(() => ({
+      step:       0 as FlowStep,
+      actionType: null,
+      data:       EMPTY_DATA,
+      analyzing:  false,
       result:     null,
       error:      null,
     }));
@@ -77,9 +88,19 @@ export function useThoughtFlow(onBack?: () => void) {
 
   const back = useCallback(() => {
     setState((s) => {
-      if (s.step === 1 || s.step === 4) {
-        onBack?.(); // Нүүр хуудас руу буцна
-        return s;   // State өөрчлөхгүй
+      if (s.step === 4) {
+        onBack?.();
+        return s;
+      }
+      if (s.step === 1) {
+        return {
+          step:       0 as FlowStep,
+          actionType: null,
+          data:       EMPTY_DATA,
+          analyzing:  false,
+          result:     null,
+          error:      null,
+        };
       }
       return { ...s, step: (s.step - 1) as FlowStep };
     });
@@ -88,7 +109,7 @@ export function useThoughtFlow(onBack?: () => void) {
   const reset = useCallback(() => {
     setState((s) => ({
       step:       1,
-      actionType: s.actionType, 
+      actionType: s.actionType,
       data:       EMPTY_DATA,
       analyzing:  false,
       result:     null,
@@ -110,6 +131,7 @@ export function useThoughtFlow(onBack?: () => void) {
     error:      state.error,
     canProceed,
     selectAction,
+    backToSelector,
     updateData,
     next,
     back,

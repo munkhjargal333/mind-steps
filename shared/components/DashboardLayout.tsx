@@ -54,12 +54,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
 
       {/* Main Content Area */}
       <main
-        className="flex-1 min-w-0 overflow-y-auto relative"
+        className="flex-1 min-w-0 flex flex-col relative"
         style={{ zIndex: 1 }}
       >
         {/* --- Mobile Topbar --- */}
         <div
-          className="md:hidden flex items-center justify-between px-4 sticky top-0 z-30"
+          className="md:hidden flex items-center justify-between px-4 sticky top-0 z-30 shrink-0"
           style={{
             height: '56px',
             borderBottom: '1px solid var(--border)',
@@ -105,8 +105,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         </div>
         {/* --- End of Mobile Topbar --- */}
 
-        {/* Page Content */}
-        {children}
+        {/* Page Content — flex-1 so full-height pages can use h-full */}
+        <div className="flex-1 flex flex-col overflow-y-auto">
+          {children}
+        </div>
       </main>
 
       {/* Mobile Navigation & Overlays */}

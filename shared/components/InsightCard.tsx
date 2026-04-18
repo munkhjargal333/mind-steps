@@ -13,12 +13,10 @@
 
 import Link from 'next/link';
 import { Sparkles, ChevronRight, Brain } from 'lucide-react';
-import { cn } from '@/shared/lib/utils';
-import { RefreshCw } from 'lucide-react';
-import { Button } from '@/shared/ui/button';
 import { SkeletonCard } from '@/shared/components/SkeletonCard';
 import { INSIGHT_CARDS, InsightKey } from '@/shared/constants';
 import { InsightCardItem } from './InsightCardItem';
+import { cn } from '../lib';
 
 interface Props {
   data?: Partial<Record<InsightKey, string>> | null;
@@ -33,12 +31,20 @@ interface Props {
 // ── Seed-insight card (mirror / reframe / relief) ─────────────────────────────
 
 
+const HL_BASE = 'highlight highlight-variant-1 highlight-blue-200';
+const HL_BOLD = 'highlight highlight-variant-20 highlight-amber-400';
+
+const CARD_LABELS: Record<string, string> = {
+  mirror:  'Тусгал',
+  reframe: 'Шинэ өнцөг',
+  relief:  'Тайвшрал',
+};
 export function InsightCards({
   data,
   loading,
   error,
   onRefresh,
-  showRefresh ,
+  showRefresh,
   title = 'Өөрөөр сэтгэ',
   compact = false,
 }: Props) {
@@ -47,9 +53,9 @@ export function InsightCards({
 
       {/* Header */}
       {(title || showRefresh) && (
-        <div className="flex items-center justify-between ">
+        <div className="flex items-center justify-between">
           {title && (
-            <h2 className="font-bold text-base text-[color:var(--color-accent,theme(colors.amber.500))] ">{title}</h2>
+            <h2 className={cn('font-bold text-base', HL_BOLD)}>{title}</h2>
           )}
         </div>
       )}
@@ -72,7 +78,6 @@ export function InsightCards({
           {INSIGHT_CARDS.map((card, i) => {
             const text = data[card.key as InsightKey];
             if (!text) return null;
-
             return (
               <InsightCardItem
                 key={card.key}
@@ -88,8 +93,6 @@ export function InsightCards({
     </div>
   );
 }
-
-
 
 
 // ── Human insight card (last insight from API, used in HomePage) ──────────────
