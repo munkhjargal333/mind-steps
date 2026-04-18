@@ -46,14 +46,10 @@ export type QuickActionType =
   | 'purpose'
   | 'values'
   | 'fear'
-  | 'joy'
-  | 'g_learn'
-  | 'g_win'
-  | 'g_habit'
-  | 'g_vision';
+  | 'joy';
 
 // ─── Thought Flow ─────────────────────────────────────────────────────────────
-export type FlowStep = 0 | 1 | 2 | 3 | 4;
+export type FlowStep = 1 | 2 | 3 | 4;
 
 export interface SessionData {
   actionType: QuickActionType;

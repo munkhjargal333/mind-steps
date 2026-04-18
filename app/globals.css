@@ -3,7 +3,6 @@
 
 @plugin "tailwindcss-animate";
 @custom-variant dark (&:is(.dark *));
-@plugin "tailwindcss-highlights";
 
 /* ───────────────────────────────────────
    TAILWIND BRIDGE LAYER (ONLY MAPPING)
@@ -87,6 +86,43 @@
     font-family: var(--font-sans), system-ui, sans-serif;
     line-height: 1.65;
   }
+}
+
+/* ───────────────────────────────────────
+   HIGHLIGHTER UTILITIES
+   Applied like a notebook marker — works
+   correctly in both light & dark modes.
+   ─────────────────────────────────────── */
+@layer utilities {
+  .highlight {
+    position: relative;
+    display: inline;
+  }
+
+  /* Generic highlight wrapper — wraps inline text */
+  .highlight::before {
+    content: '';
+    position: absolute;
+    inset: -1px -3px;
+    border-radius: 2px;
+    z-index: 0;
+    mix-blend-mode: var(--highlight-blend, multiply);
+    pointer-events: none;
+  }
+
+  .highlight > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .highlight-mirror::before  { background: var(--highlight-mirror); }
+  .highlight-reframe::before { background: var(--highlight-reframe); }
+  .highlight-relief::before  { background: var(--highlight-relief); }
+
+  /* Stand-alone block highlight (for card backgrounds) */
+  .highlight-block-mirror  { background: var(--highlight-mirror);  mix-blend-mode: var(--highlight-blend, multiply); }
+  .highlight-block-reframe { background: var(--highlight-reframe); mix-blend-mode: var(--highlight-blend, multiply); }
+  .highlight-block-relief  { background: var(--highlight-relief);  mix-blend-mode: var(--highlight-blend, multiply); }
 }
 
 /* ───────────────────────────────────────

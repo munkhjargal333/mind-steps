@@ -32,6 +32,9 @@ function ReflectionBlock({ label, content, delay = 0 }: { label: string; content
       transition={{ duration: 0.4, delay }}
       className="group space-y-2"
     >
+      <h3 className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground/50 transition-colors group-hover:text-muted-foreground/80">
+        {label}
+      </h3>
       <p className="text-[16px] leading-relaxed text-foreground/90 whitespace-pre-wrap font-serif">
         {content}
       </p>
