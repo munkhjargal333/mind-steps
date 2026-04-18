@@ -9,8 +9,6 @@ export { MainHeader }         from './MainHeader';
 
 // Dashboard page
 export { HomePage }           from './HomePage';
-export { ActionSelector }     from './ActionSelector';
-export { ActionContainer }    from './ActionContainer';
 
 // Dashboard building blocks
 export { EmotionCard, EMOTION_MAP, hawkinsInfo } from './EmotionCard';

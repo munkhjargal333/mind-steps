@@ -1,19 +1,19 @@
 'use client';
 
 // app/(dashboard)/write/page.tsx
+// ActionContainer-г тусдаа /write route болгосон
+// Буцах товч дарахад router.back() → /home рүү буцна
 
 import { useRouter } from 'next/navigation';
-import { ActionContainer } from '@/shared/components/ActionContainer';
+import { ActionContainer } from '@/features/journal/components/ActionContainer';
 
 export default function WritePage() {
   const router = useRouter();
 
   return (
-    <div className="flex-1 flex flex-col h-full">
-      <ActionContainer
-        mode="authed"
-        onBack={() => router.back()}
-      />
-    </div>
+    <ActionContainer
+      mode="authed"
+      onBack={() => router.back()}
+    />
   );
 }
