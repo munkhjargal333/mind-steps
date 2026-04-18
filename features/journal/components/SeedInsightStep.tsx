@@ -1,19 +1,30 @@
 'use client';
 
-import { useEffect } from 'react';
+// SeedInsightStep — AI-аас ирсэн insight-уудыг нэг нэгээр chat bubble-аар
+// харуулж, хэрэглэгч "Тайвширлаа / Өөр өнцөг авъя" гэж хариулна.
+
+import { useEffect, useState } from 'react';
 import { cn } from '@/shared/lib/utils';
-import { INSIGHT_CARDS, ACTION_MAP } from '@/shared/constants';
-import { InsightCards } from '@/shared/components/InsightCard';
-import type { SessionData } from '@/core/api/types';
-import type { AnalyzeResult } from '@/core/api/types';
+import { INSIGHT_CARDS } from '@/shared/constants';
+import type { SessionData, AnalyzeResult } from '@/core/api/types';
 
 interface Props {
-  session: SessionData;
+  session:   SessionData;
   analyzing: boolean;
-  result: AnalyzeResult | null;
-  error: string | null;
-  onMount: (session: SessionData) => void;
+  result:    AnalyzeResult | null;
+  error:     string | null;
+  onMount:   (session: SessionData) => void;
+  // callback when user finishes all cards
+  onDone?:   (saved: string[]) => void;
 }
+
+const CARD_CONFIG = {
+  mirror:  { label: 'Mirror',  action: 'Тайвширлаа',     next: 'Өөр өнцөг авъя' },
+  reframe: { label: 'Reframe', action: 'Тухтай боллоо',  next: 'Давах зүйл байна уу' },
+  relief:  { label: 'Relief',  action: 'Энийг авлаа',    next: 'Өөрөөр харъя' },
+} as const;
+
+type CardKey = keyof typeof CARD_CONFIG;
 
 export function SeedInsightStep({
   session,
@@ -21,75 +32,140 @@ export function SeedInsightStep({
   result,
   error,
   onMount,
+  onDone,
 }: Props) {
+  const [revealedIdx, setRevealedIdx] = useState(0);
+  const [saved, setSaved] = useState<string[]>([]);
+  const [choices, setChoices] = useState<Record<string, 'accept' | 'skip'>>({});
+
   useEffect(() => {
     onMount(session);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const actionCfg = ACTION_MAP[session.actionType];
-  const Icon = actionCfg.icon;
+  const cards = INSIGHT_CARDS.filter((c) => c.key );
 
-  return (
-    <div className="space-y-8">
+  function handleChoice(key: string, choice: 'accept' | 'skip') {
+    const newChoices = { ...choices, [key]: choice };
+    const newSaved   = choice === 'accept' ? [...saved, key] : saved;
+    setChoices(newChoices);
+    setSaved(newSaved);
 
-      {/* Header */}
-      <div className="relative flex flex-col items-center text-center gap-3 pt-2 pb-1">
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-24 h-24 rounded-full bg-primary/8 blur-2xl pointer-events-none" />
+    const nextIdx = revealedIdx + 1;
+    if (nextIdx < cards.length) {
+      setTimeout(() => setRevealedIdx(nextIdx), 350);
+    } else {
+      // All cards shown
+      setTimeout(() => onDone?.(newSaved), 400);
+    }
+  }
 
-        <div className="space-y-1">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-amber-500">
-            Дотоод түлхэц
-          </p>
-          <h2 className="text-xl font-bold tracking-tight text-foreground/90 leading-snug">
-            Таны туршлагаас<br />
-            <span className="text-primary/70">харагдаж буй зүйл</span>
-          </h2>
-        </div>
-
-        <div className="flex items-center gap-2 w-full max-w-[140px]">
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent to-muted-foreground/15" />
-          <div className="w-1 h-1 rounded-full bg-muted-foreground/20" />
-          <div className="flex-1 h-px bg-gradient-to-l from-transparent to-muted-foreground/15" />
+  // ── Loading ────────────────────────────────────────────────────
+  if (analyzing) {
+    return (
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-0.5 items-start">
+          <span className="text-[10px] font-medium tracking-widest uppercase text-muted-foreground/60 pl-1">
+            Дэвтэр
+          </span>
+          <div className="bg-muted/60 border border-border/40 rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl px-4 py-3 flex gap-1.5 items-center">
+            {[0, 1, 2].map((i) => (
+              <span
+                key={i}
+                className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40 animate-bounce"
+                style={{ animationDelay: `${i * 0.15}s`, animationDuration: '1s' }}
+              />
+            ))}
+          </div>
         </div>
       </div>
+    );
+  }
 
-      {/* Loading skeleton */}
-      {analyzing && (
-        <div className="space-y-4 animate-pulse">
-          {INSIGHT_CARDS.map((card) => (
-            <div key={card.key} className="p-5 rounded-2xl bg-muted/30 space-y-2.5">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-muted-foreground/20" />
-                <div className="h-3 w-20 rounded bg-muted-foreground/15" />
-              </div>
-              <div className="space-y-1.5">
-                <div className="h-3 w-full rounded bg-muted-foreground/10" />
-                <div className="h-3 w-4/5 rounded bg-muted-foreground/10" />
+  // ── Error ──────────────────────────────────────────────────────
+  if (error) {
+    return (
+      <div className="px-4 py-3 rounded-2xl bg-destructive/10 text-destructive text-sm">
+        {error}
+      </div>
+    );
+  }
+
+  if (!result) return null;
+
+  const insightTexts: Record<string, string> = {
+    mirror:  result.insight.mirror,
+    reframe: result.insight.reframe,
+    relief:  result.insight.relief,
+  };
+
+  // ── Revealed cards ─────────────────────────────────────────────
+  return (
+    <div className="flex flex-col gap-3">
+      {cards.slice(0, revealedIdx + 1).map((card, idx) => {
+        const cfg      = CARD_CONFIG[card.key as CardKey];
+        const text     = insightTexts[card.key];
+        const choice   = choices[card.key];
+        const isCurrent = idx === revealedIdx;
+
+        return (
+          <div key={card.key} className="flex flex-col gap-2">
+            {/* System insight bubble */}
+            <div className="flex flex-col gap-0.5 items-start">
+              <span className="text-[10px] font-medium tracking-widest uppercase text-muted-foreground/60 pl-1">
+                {cfg.label}
+              </span>
+              <div
+                className={cn(
+                  'max-w-[90%] border rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl px-4 py-2.5',
+                  'text-sm leading-relaxed',
+                  card.bg,
+                  'border-border/30',
+                )}
+              >
+                {text}
               </div>
             </div>
-          ))}
-          <p className="text-center text-[11px] text-muted-foreground/40 animate-pulse">
-            Уншиж байна...
-          </p>
-        </div>
-      )}
 
-      {/* Error */}
-      {error && (
-        <div className="p-4 rounded-2xl bg-destructive/10 text-destructive text-sm text-center">
-          {error}
-        </div>
-      )}
+            {/* User choice — shown after they pick */}
+            {choice && (
+              <div className="flex flex-col gap-0.5 items-end">
+                <span className="text-[10px] font-medium tracking-widest uppercase text-muted-foreground/60 pr-1">
+                  Та
+                </span>
+                <div className="bg-foreground text-background rounded-tl-2xl rounded-tr-sm rounded-br-sm rounded-bl-2xl px-4 py-2.5 text-sm">
+                  {choice === 'accept' ? cfg.action : cfg.next}
+                </div>
+              </div>
+            )}
 
-      {/* Insight cards */}
-      <InsightCards
-        data={result?.insight}
-        loading={analyzing}
-        error={error}
-        compact
-        title=""
-      />
+            {/* Choice buttons — only on current unreplied card */}
+            {isCurrent && !choice && (
+              <div className="flex gap-2 pl-1 animate-in fade-in slide-in-from-bottom-1 duration-200">
+                <button
+                  onClick={() => handleChoice(card.key, 'accept')}
+                  className={cn(
+                    'flex-1 py-2 px-3 rounded-2xl text-xs font-medium transition-all',
+                    'bg-foreground/90 text-background hover:bg-foreground active:scale-95',
+                  )}
+                >
+                  {cfg.action}
+                </button>
+                <button
+                  onClick={() => handleChoice(card.key, 'skip')}
+                  className={cn(
+                    'flex-1 py-2 px-3 rounded-2xl text-xs font-medium transition-all',
+                    'bg-muted/60 border border-border/40 text-foreground',
+                    'hover:bg-muted active:scale-95',
+                  )}
+                >
+                  {cfg.next}
+                </button>
+              </div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

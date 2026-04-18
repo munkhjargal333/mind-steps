@@ -1,6 +1,6 @@
 'use client';
 
-import { AlertCircle, X } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface LoginErrorAlertProps {
   error: string;
@@ -9,19 +9,24 @@ interface LoginErrorAlertProps {
 
 export function LoginErrorAlert({ error, onDismiss }: LoginErrorAlertProps) {
   return (
-    <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg relative">
+    <div className="p-4 border-2 border-brand-terracotta bg-background relative overflow-hidden group">
+      {/* Background texture for the alert */}
+      <div className="absolute inset-0 opacity-5 bg-[linear-gradient(45deg,#000_25%,transparent_25%,transparent_50%,#000_50%,#000_75%,transparent_75%,transparent)] bg-[length:4px_4px]" />
+      
       <button
         onClick={onDismiss}
-        className="absolute top-3 right-3 text-muted-foreground hover:text-foreground"
+        className="absolute top-2 right-2 p-1 text-foreground/50 hover:text-foreground transition-colors z-10"
       >
-        <X className="w-4 h-4" />
+        <X className="w-4 h-4" strokeWidth={2} />
       </button>
-      <div className="flex items-start gap-3 pr-8">
-        <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
-        <div>
-          <p className="text-sm font-semibold text-destructive mb-1">Алдаа гарлаа</p>
-          <p className="text-sm text-destructive/80">{error}</p>
-        </div>
+      
+      <div className="relative z-10 pr-6">
+        <p className="font-serif text-[10px] font-black text-brand-terracotta uppercase tracking-[0.2em] mb-1">
+          Анхааруулга:
+        </p>
+        <p className="font-serif text-sm italic leading-tight text-foreground/90">
+          {error}
+        </p>
       </div>
     </div>
   );

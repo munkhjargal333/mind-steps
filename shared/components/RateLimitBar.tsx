@@ -2,11 +2,11 @@
 
 // shared/components/RateLimitBar.tsx
 // ─────────────────────────────────────────────────────────────────────────────
-// Rate-limit progress dots — formerly copy-pasted in both HomePage and
-// ActionSelector.  Single source of truth now lives here.
+// Rate-limit progress dots.
 //
-// Usage:
-//   <RateLimitBar usageCount={2} limit={5} remaining={3} isLimited={false} />
+// CSS tokens used:
+//   --color-danger  (defined in design-tokens.css, bridged via @theme inline)
+//   --color-warning (same)
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { cn } from '@/shared/lib/utils';
@@ -38,14 +38,14 @@ export function RateLimitBar({
       <div className="flex justify-between items-center">
         <p className="text-[11px] text-muted-foreground">{label}</p>
         <p
-          className={cn(
-            'text-[11px] font-semibold',
-            isLimited
-              ? 'text-[color:var(--color-danger,theme(colors.red.500))]'
+          className={cn('text-[11px] font-semibold')}
+          style={{
+            color: isLimited
+              ? 'var(--color-danger)'
               : isWarning
-              ? 'text-amber-500'
-              : 'text-muted-foreground',
-          )}
+              ? 'var(--color-warning)'
+              : 'var(--muted-foreground)',
+          }}
         >
           {isLimited
             ? 'Хязгаарт хүрлээ'
@@ -60,35 +60,33 @@ export function RateLimitBar({
         {Array.from({ length: limit }).map((_, i) => (
           <div
             key={i}
-            className={cn(
-              'flex-1 h-1.5 rounded-full transition-colors duration-300',
-              i < usageCount
-                ? isLimited
-                  ? 'bg-[color:var(--color-danger,theme(colors.red.500))]'
-                  : isWarning
-                  ? 'bg-amber-400'
-                  : 'bg-orange-400'
-                : 'bg-muted',
-            )}
+            className="flex-1 h-1.5 rounded-full transition-colors duration-300"
+            style={{
+              background:
+                i < usageCount
+                  ? isLimited
+                    ? 'var(--color-danger)'
+                    : isWarning
+                    ? 'var(--color-warning)'
+                    : 'var(--brand-amber)'
+                  : 'var(--muted)',
+            }}
           />
         ))}
       </div>
 
-      {/* Upgrade CTA — зөвхөн amber болон red үед */}
+      {/* Upgrade CTA */}
       {(isLimited || isWarning) && (
         <p className="text-[10px] text-center">
           <a
             href="/upgrade"
-            className={cn(
-              'font-semibold underline underline-offset-2 transition-colors',
-              isLimited
-                ? 'text-[color:var(--color-danger,theme(colors.red.500))] hover:text-red-600'
-                : 'text-amber-500 hover:text-amber-600',
-            )}
+            className="font-semibold underline underline-offset-2 transition-colors hover:opacity-80"
+            style={{
+              color: isLimited ? 'var(--color-danger)' : 'var(--color-warning)',
+            }}
           >
             Pro руу шилжих →
-          </a>
-          {' '}
+          </a>{' '}
           <span className="text-muted-foreground">хязгаргүй болгох</span>
         </p>
       )}
