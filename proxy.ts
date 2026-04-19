@@ -5,6 +5,7 @@ import { can, type Permission, type Tier } from '@/shared/constants/index'
 
 // ── Нэвтрэхгүйгээр нээлттэй замууд ─────────────────────────
 const PUBLIC_PATHS = new Set([
+  '/manifest.webmanifest',
   '/',
   '/login',
   '/terms',
