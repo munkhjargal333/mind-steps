@@ -26,14 +26,14 @@ function EditorialDivider({ label, sideText }: { label: string; sideText?: strin
     <div className="flex items-center gap-3 my-6">
       <div className="flex-1 border-t-[3px] border-double border-border" />
       <span className={cn(
-        'text-[10px] font-bold tracking-widest uppercase font-serif shrink-0 text-muted-foreground',
+        'text-[10px] font-bold tracking-widest uppercase font-mono shrink-0 text-muted-foreground',
         HL_SECTION,
       )}>
         {label}
       </span>
       <div className="flex-1 border-t-[3px] border-double border-border" />
       {sideText && (
-        <span className="text-[9px] italic font-serif lowercase tracking-tight text-muted-foreground shrink-0">
+        <span className="text-[9px] italic font-mono lowercase tracking-tight text-muted-foreground shrink-0">
           {sideText}
         </span>
       )}
@@ -54,7 +54,7 @@ function EmotionSection({ emotions }: { emotions: DominantEmotion[] }) {
         {top.map((e) => (
           <div key={e.emotion}>
             <div className="flex items-baseline justify-between mb-1.5">
-              <span className="font-serif text-sm italic text-foreground">
+              <span className="font-mono text-sm italic text-foreground">
                 {e.label_mn ?? e.emotion}
               </span>
               <span className="font-mono text-[10px] text-muted-foreground">
@@ -119,7 +119,7 @@ function ActivitySection({
           onClick={onWrite}
           disabled={isLimited}
           className={cn(
-            'w-full flex items-center justify-center gap-1.5 py-2.5 rounded-sm border font-serif',
+            'w-full flex items-center justify-center gap-1.5 py-2.5 rounded-sm border font-mono',
             'text-xs font-bold tracking-wide transition-all duration-150',
             !isLimited
               ? 'bg-foreground text-background border-foreground hover:bg-foreground/90 active:scale-[0.98]'
@@ -142,7 +142,7 @@ function HawkinsWindow({ data }: { data: TodaySnapshot }) {
   return (
     <div>
       <EditorialDivider label="Ертөнийг харах өнцөг" sideText="Hawkins" />
-      <h2 className="font-serif text-3xl italic leading-none mb-5 text-foreground">
+      <h2 className="font-mono text-3xl italic leading-none mb-5 text-foreground">
         {current.label_mn}
       </h2>
       <div className="space-y-4">
@@ -151,7 +151,7 @@ function HawkinsWindow({ data }: { data: TodaySnapshot }) {
             <span className={cn('block text-[8px] uppercase tracking-widest font-mono mb-1', HL_LABEL)}>
               Амьдралыг үзэхүй
             </span>
-            <p className="font-serif text-sm italic leading-relaxed text-foreground">
+            <p className="font-mono text-sm italic leading-relaxed text-foreground">
               {current.view_of_life}
             </p>
           </div>
@@ -161,7 +161,7 @@ function HawkinsWindow({ data }: { data: TodaySnapshot }) {
             <span className={cn('block text-[8px] uppercase tracking-widest font-mono mb-1', HL_LABEL)}>
               Бидний мэдрэхүй
             </span>
-            <p className="font-serif text-sm italic leading-relaxed text-foreground">
+            <p className="font-mono text-sm italic leading-relaxed text-foreground">
               {current.what_we_experience}
             </p>
           </div>
@@ -171,7 +171,7 @@ function HawkinsWindow({ data }: { data: TodaySnapshot }) {
             <span className={cn('block text-[8px] uppercase tracking-widest font-mono mb-2', HL_BOLD)}>
               Даван туулах түлхүүр
             </span>
-            <p className="font-serif text-[15px] italic leading-relaxed text-foreground">
+            <p className="font-mono text-[15px] italic leading-relaxed text-foreground">
               "{current.transcend_key}"
             </p>
           </div>
@@ -216,16 +216,9 @@ export function HomePage() {
 
         {/* ── Header ── */}
         <header className="space-y-3 text-center">
-          <h1 className="text-4xl font-serif italic tracking-tighter text-foreground">
+          <h1 className="text-4xl font-mono italic tracking-tighter text-foreground">
             {greeting}
           </h1>
-          <div className="flex items-center gap-3">
-            <div className="h-px flex-1 bg-border" />
-            <span className="text-[9px] uppercase tracking-[0.4em] font-bold text-muted-foreground font-serif shrink-0">
-              Дотоод ертөнцийн архив
-            </span>
-            <div className="h-px flex-1 bg-border" />
-          </div>
         </header>
 
         {/* ── Rate limit bar ── */}

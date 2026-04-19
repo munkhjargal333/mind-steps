@@ -42,7 +42,7 @@ export function AnalyzingLoader() {
         </span>
         <span
           className={cn(
-            'text-sm text-muted-foreground font-serif text-center max-w-[200px] leading-relaxed transition-all duration-500',
+            'text-sm text-muted-foreground font-mono text-center max-w-[200px] leading-relaxed transition-all duration-500',
             visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1.5',
           )}
         >

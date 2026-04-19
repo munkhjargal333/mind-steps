@@ -28,7 +28,7 @@ function SystemBubble({ text }: { text: string }) {
   const typed = useTypeWriter(text, 18);
   return (
     <div className="flex flex-col gap-0.5 items-start">
-      <div className="max-w-[85%] bg-card border border-border rounded-sm px-4 py-3 text-sm leading-relaxed text-foreground font-serif shadow-sm">
+      <div className="max-w-[85%] bg-card border border-border rounded-sm px-4 py-3 text-sm leading-relaxed text-foreground font-mono shadow-sm">
         {typed}
         {typed.length < text.length && (
           <span className="inline-block w-1.5 h-3.5 bg-foreground/70 ml-1 align-middle animate-pulse" />
@@ -41,7 +41,7 @@ function SystemBubble({ text }: { text: string }) {
 function UserBubble({ text }: { text: string }) {
   return (
     <div className="flex flex-col gap-0.5 items-end">
-      <div className="max-w-[82%] bg-foreground text-background rounded-sm px-4 py-3 text-sm leading-relaxed font-serif shadow-sm border border-foreground">
+      <div className="max-w-[82%] bg-foreground text-background rounded-sm px-4 py-3 text-sm leading-relaxed font-mono shadow-sm border border-foreground">
         {text}
       </div>
     </div>
@@ -54,7 +54,7 @@ function ThreadDivider({ label, highlight }: { label: string; highlight?: boolea
       <div className="flex-1 border-t-[3px] border-double border-border" />
       <span
         className={cn(
-          'text-[10px] tracking-widest uppercase text-muted-foreground font-serif font-bold shrink-0',
+          'text-[10px] tracking-widest uppercase text-muted-foreground font-mono font-bold shrink-0',
           highlight && HL_INSIGHT,
         )}
       >
@@ -204,7 +204,7 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset, onApiS
     : cfg.meaning.placeholder;
 
   return (
-    <div className="w-full max-w-md mx-auto flex flex-col min-h-0 bg-background text-foreground font-serif border-x border-border h-full shadow-sm">
+    <div className="w-full max-w-md mx-auto flex flex-col min-h-0 bg-background text-foreground font-mono border-x border-border h-full shadow-sm">
       {/* Header */}
       <div className="flex items-center gap-2 px-4 py-4 border-b-4 border-double border-border bg-card">
         <button
@@ -293,13 +293,13 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset, onApiS
               <div className="flex gap-3">
                 <Button
                   variant="outline"
-                  className="flex-1 rounded-sm text-sm font-serif border-border text-foreground hover:bg-muted"
+                  className="flex-1 rounded-sm text-sm font-mono border-border text-foreground hover:bg-muted"
                   onClick={() => setExpanded(true)}
                 >
                   <Sparkles size={14} className="mr-2" /> Дэлгэрэнгүй авах
                 </Button>
                 <Button
-                  className="flex-1 rounded-sm text-sm font-serif bg-foreground text-background hover:bg-foreground/90"
+                  className="flex-1 rounded-sm text-sm font-mono bg-foreground text-background hover:bg-foreground/90"
                   onClick={() => onComplete(false)}
                 >
                   Дуусгах
@@ -309,7 +309,7 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset, onApiS
               <div className="flex gap-3 animate-in fade-in slide-in-from-bottom-1 duration-200">
                 <Button
                   variant="outline"
-                  className="flex-1 rounded-sm text-sm font-serif border-border text-foreground hover:bg-muted"
+                  className="flex-1 rounded-sm text-sm font-mono border-border text-foreground hover:bg-muted"
                   onClick={() => {
                     flow.reset();
                     setDraft('');
@@ -323,7 +323,7 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset, onApiS
                   <RefreshCw size={14} className="mr-2" /> Дахин
                 </Button>
                 <Button
-                  className="flex-1 rounded-sm text-sm font-serif bg-foreground text-background hover:bg-foreground/90"
+                  className="flex-1 rounded-sm text-sm font-mono bg-foreground text-background hover:bg-foreground/90"
                   onClick={() => onComplete(true)}
                 >
                   Нүүр хуудас
@@ -348,7 +348,7 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset, onApiS
               placeholder={currentHint ? 'Арай дэлгэрэнгүй бичиж үзнэ үү...' : currentPlaceholder}
               rows={1}
               className={cn(
-                'flex-1 resize-none overflow-hidden text-sm leading-relaxed font-serif',
+                'flex-1 resize-none overflow-hidden text-sm leading-relaxed font-mono',
                 'bg-background border rounded-sm px-4 py-3',
                 'placeholder:text-muted-foreground/60 text-foreground',
                 'focus:outline-none focus:ring-1 focus:ring-ring transition-shadow shadow-inner',

@@ -51,7 +51,7 @@ export function InsightCardItem({
         <div className="h-[1px] flex-1 border-t border-dashed border-foreground/20" />
 
         {/* Sub-label */}
-        <span className="font-serif italic text-[11px] font-bold tracking-tight text-foreground/70">
+        <span className="font-mono italic text-[11px] font-bold tracking-tight text-foreground/70">
           {card.sub}
         </span>
       </div>
@@ -59,7 +59,7 @@ export function InsightCardItem({
       {/* ── Body text ── */}
       <p
         className={cn(
-          'font-serif leading-relaxed italic text-foreground',
+          'font-mono leading-relaxed italic text-foreground',
           compact ? 'text-sm' : 'text-base',
         )}
       >

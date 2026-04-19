@@ -31,8 +31,8 @@ const FEATURES = [
 
 const SECTION = 'border-b-[3px] border-foreground'
 const INNER   = 'max-w-5xl mx-auto px-6 md:px-12 py-16 md:py-20'
-const NUM = 'font-serif font-black text-3xl text-foreground/15 shrink-0 w-10 mt-1'
-const BODY    = 'font-serif text-sm italic text-foreground/50 leading-relaxed'
+const NUM = 'font-mono font-black text-3xl text-foreground/15 shrink-0 w-10 mt-1'
+const BODY    = 'font-mono text-sm italic text-foreground/50 leading-relaxed'
 
 
 // HERO / CTA — зузаан marker, amber
@@ -59,8 +59,8 @@ function SectionBreak({ num, title }: { num: string; title: string }) {
   return (
     <div className="border-y-2 border-foreground bg-foreground/[0.02]">
       <div className="max-w-5xl mx-auto px-6 md:px-12 py-3 flex items-center justify-between">
-        <span className="font-serif font-black text-[10px] uppercase tracking-[0.4em] italic">{title}</span>
-        <span className="font-serif font-black text-[9px] uppercase tracking-[0.45em] text-foreground/30">№ {num}</span>
+        <span className="font-mono font-black text-[10px] uppercase tracking-[0.4em] italic">{title}</span>
+        <span className="font-mono font-black text-[9px] uppercase tracking-[0.45em] text-foreground/30">№ {num}</span>
       </div>
     </div>
   )
@@ -86,15 +86,15 @@ export default function LandingPage() {
             <div className="grid md:grid-cols-12 gap-8 items-center">
               <div className="md:col-span-12 space-y-10">
                 {/* HEADLINE */}
-                <h1 className="font-serif font-black leading-[0.85] tracking-[-0.03em] uppercase italic">
+                <h1 className="font-mono font-black leading-[0.85] tracking-[-0.03em] uppercase italic">
                   <span className="block text-[clamp(3rem,8vw,7rem)] text-stone-100">Ухаалаг</span>
                   <span className="block text-[clamp(3rem,8vw,7rem)]">
-                    <span className={HL_BOLD}>Тэмдэглэлийн дэвтэр</span>
+                    <span className={HL_BOLD}>Ухаалаг тэмдэглэлийн дэвтэр</span>
                   </span>
                 </h1>
 
                 {/* DESCRIPTION */}
-                <p className="max-w-xl font-serif text-sm md:text-base italic text-stone-400 leading-relaxed">
+                <p className="max-w-xl font-mono text-sm md:text-base italic text-stone-400 leading-relaxed">
                   Давтагддаг бодол, мэдрэмж, дотоод хэрэгцээгээ дижитал хуудаснаа буулгаж,{' '}
                   <span className={HL_SMALL}>өөрийгөө таних аяллаа эхлүүл.</span>
                 </p>
@@ -104,7 +104,7 @@ export default function LandingPage() {
                   <Link
                     href="/demo"
                     className={cn(
-                      'flex items-center gap-2.5 px-5 py-3.5 rounded-sm border font-serif',
+                      'flex items-center gap-2.5 px-5 py-3.5 rounded-sm border font-mono',
                       'text-xs font-bold tracking-wide transition-all duration-150',
                       'bg-foreground text-background border-foreground hover:bg-foreground/90 active:scale-[0.98]',
                     )}
@@ -114,7 +114,7 @@ export default function LandingPage() {
                   <Link
                     href="/login"
                     className={cn(
-                       'flex items-center gap-2.5 px-5 py-3.5 rounded-sm border font-serif',
+                       'flex items-center gap-2.5 px-5 py-3.5 rounded-sm border font-mono',
                       'text-xs font-bold tracking-wide transition-all duration-150',
                       'bg-transparent text-foreground border-border hover:bg-muted active:scale-[0.98]',
                     )}
@@ -133,13 +133,13 @@ export default function LandingPage() {
           <div className={INNER}>
             <div className="grid md:grid-cols-12 gap-10 md:gap-16 items-start">
               <div className="md:col-span-5 space-y-6">
-                <h2 className="font-serif text-3xl md:text-4xl font-black leading-tight uppercase italic">
+                <h2 className="font-mono text-3xl md:text-4xl font-black leading-tight uppercase italic">
                   Өнөөдрийн бодлын{' '}
                   {/* HL_STAT — нимгэн цэнхэр тоон дээр */}
                   <span className={`${HL_STAT}`}>90%</span>{' '}
                   нь өчигдрийн давталт.
                 </h2>
-                <p className="font-serif text-sm text-foreground/50 leading-relaxed italic border-l-2 border-foreground/15 pl-4">
+                <p className="font-mono text-sm text-foreground/50 leading-relaxed italic border-l-2 border-foreground/15 pl-4">
                   Ижил мэдрэмж, ижил хариу үйлдэл. Бид өөрийнхөө мэдэлгүй <span className={`${HL_SMALL}`}>автомат горимд амьдарсаар байна</span>.
                 </p>
               </div>
@@ -149,7 +149,7 @@ export default function LandingPage() {
                     <span className={NUM}>{item.num}</span>
                     <div className="space-y-1.5">
                       {/* HL_PROBLEM — ногоон problem title-уудад */}
-                      <h3 className={`font-serif font-black text-sm uppercase italic tracking-wide ${HL_PROBLEM}`}>
+                      <h3 className={`font-mono font-black text-sm uppercase italic tracking-wide ${HL_PROBLEM}`}>
                         {item.title}
                       </h3>
                       <p className={BODY}>{item.desc}</p>
@@ -167,10 +167,10 @@ export default function LandingPage() {
           <div className={INNER}>
             <div className="grid md:grid-cols-12 gap-10 md:gap-16 items-start">
               <div className="md:col-span-5 space-y-6">
-                <h2 className="font-serif text-3xl md:text-4xl font-black leading-tight uppercase italic">
+                <h2 className="font-mono text-3xl md:text-4xl font-black leading-tight uppercase italic">
                   Нийт <span className={`${HL_STAT}`}>4 алхам</span>
                 </h2>
-                <p className="font-serif text-sm text-foreground/50 leading-relaxed italic border-l-2 border-foreground/15 pl-4">
+                <p className="font-mono text-sm text-foreground/50 leading-relaxed italic border-l-2 border-foreground/15 pl-4">
                   Төвөгтэй систем биш, ердөө л өөртөө гаргах 90 секунд.
                 </p>
               </div>
@@ -180,7 +180,7 @@ export default function LandingPage() {
                     <span className={NUM}>{step.num}</span>
                     <div className="space-y-1.5">
                       {/* HL_STEPS — цэнхэр алхам title-уудад */}
-                      <h3 className={`font-serif font-black text-sm uppercase italic tracking-wide ${HL_STEPS}`}>
+                      <h3 className={`font-mono font-black text-sm uppercase italic tracking-wide ${HL_STEPS}`}>
                         {step.title}
                       </h3>
                       <p className={BODY}>{step.desc}</p>
@@ -198,10 +198,10 @@ export default function LandingPage() {
           <div className={INNER}>
             <div className="grid md:grid-cols-12 gap-10 md:gap-16 items-start">
               <div className="md:col-span-5 space-y-6">
-                <h2 className="font-serif text-3xl md:text-4xl font-black leading-tight uppercase italic">
+                <h2 className="font-mono text-3xl md:text-4xl font-black leading-tight uppercase italic">
                   Та юу ойлгож <span className={`${HL_STAT}`}>эхлэх вэ?</span>
                 </h2>
-                <p className="font-serif text-sm text-foreground/50 leading-relaxed italic border-l-2 border-foreground/15 pl-4">
+                <p className="font-mono text-sm text-foreground/50 leading-relaxed italic border-l-2 border-foreground/15 pl-4">
                   Бичвэрүүдээс тань систем автоматаар таны дотоод хэв маягийг олж харуулна.
                 </p>
               </div>
@@ -211,7 +211,7 @@ export default function LandingPage() {
                     <span className={NUM}>{feat.num}</span>
                     <div className="space-y-1.5">
                       {/* HL_FEATURES — ягаан features title-уудад */}
-                      <h3 className={`font-serif font-black text-sm uppercase italic tracking-wide ${HL_FEATURES}`}>
+                      <h3 className={`font-mono font-black text-sm uppercase italic tracking-wide ${HL_FEATURES}`}>
                         {feat.title}
                       </h3>
                       <p className={BODY}>{feat.desc}</p>
@@ -226,7 +226,7 @@ export default function LandingPage() {
         {/* ── CTA ──────────────────────────────────────────────── */}
         <section className="py-24 md:py-32 text-center">
           <div className="max-w-3xl mx-auto px-6">
-            <h2 className="font-serif font-black text-[clamp(2.5rem,7vw,5rem)] leading-[0.9] uppercase italic mb-12">
+            <h2 className="font-mono font-black text-[clamp(2.5rem,7vw,5rem)] leading-[0.9] uppercase italic mb-12">
               
               {/* HL_BOLD — thick marker on the CTA headline */}
               <span className={`${HL_BOLD} highlight-amber-400`}>Өөрийгөө ойлгоход{' '}90 секунд хангалттай.</span>{' '}
@@ -236,7 +236,7 @@ export default function LandingPage() {
               <Link
                 href="/demo"
                 className={cn(
-                  'flex items-center gap-2.5 px-6 py-3.5 rounded-sm border font-serif',
+                  'flex items-center gap-2.5 px-6 py-3.5 rounded-sm border font-mono',
                   'text-xs font-bold tracking-wide transition-all duration-150',
                   'bg-foreground text-background border-foreground hover:bg-foreground/90 active:scale-[0.98]',
                 )}

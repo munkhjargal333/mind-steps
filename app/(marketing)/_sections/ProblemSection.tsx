@@ -30,11 +30,11 @@ export function ProblemSection() {
           {/* Left — chapter intro */}
           <div className="md:col-span-4 space-y-6">
             <div className="inline-block border border-foreground/25 px-3 py-1">
-              <span className="font-serif text-[9px] font-bold uppercase tracking-[0.4em] text-foreground/50">
+              <span className="font-mono text-[9px] font-bold uppercase tracking-[0.4em] text-foreground/50">
                 Шинжилгээ — No. 90
               </span>
             </div>
-            <h2 className="font-serif text-3xl md:text-4xl font-black leading-[0.92] tracking-tighter uppercase italic">
+            <h2 className="font-mono text-3xl md:text-4xl font-black leading-[0.92] tracking-tighter uppercase italic">
               Өнөөдрийн бодлын{' '}
               <span className="relative inline-block">
                 <span className="absolute inset-0 bg-[var(--highlight-reframe)] mix-blend-multiply scale-y-[1.1] -rotate-[0.5deg]" />
@@ -42,7 +42,7 @@ export function ProblemSection() {
               </span>{' '}
               өчигдрийн давталт.
             </h2>
-            <p className="font-serif text-sm text-foreground/55 leading-relaxed italic border-l-[2px] border-foreground/20 pl-4">
+            <p className="font-mono text-sm text-foreground/55 leading-relaxed italic border-l-[2px] border-foreground/20 pl-4">
               Ижил бодол. Ижил мэдрэмж. Ижил хариу үйлдэл. Бид өөрийнхөө мэдэлгүй "автомат" горимд амьдарсаар байна.
             </p>
           </div>
@@ -54,15 +54,15 @@ export function ProblemSection() {
                 key={c.num}
                 className="group flex gap-6 py-7 border-b border-foreground/10 hover:bg-foreground/[0.02] transition-colors px-2"
               >
-                <span className="font-serif font-black text-[10px] tracking-[0.3em] text-foreground/25 mt-1 w-6 shrink-0">
+                <span className="font-mono font-black text-[10px] tracking-[0.3em] text-foreground/25 mt-1 w-6 shrink-0">
                   {c.num}
                 </span>
                 <div className="space-y-2">
-                  <h3 className="relative inline font-serif font-black text-base tracking-wide uppercase italic">
+                  <h3 className="relative inline font-mono font-black text-base tracking-wide uppercase italic">
                     <span className={`absolute inset-0 -mx-1 -my-0.5 mix-blend-multiply ${c.hl}`} />
                     <span className="relative z-10">{c.title}</span>
                   </h3>
-                  <p className="font-serif text-sm leading-relaxed text-foreground/55 italic block mt-1">
+                  <p className="font-mono text-sm leading-relaxed text-foreground/55 italic block mt-1">
                     {c.desc}
                   </p>
                 </div>
