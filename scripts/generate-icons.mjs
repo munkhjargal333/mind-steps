@@ -1,63 +1,80 @@
+// generate-icons.mjs
+// Ашиглах: node generate-icons.mjs
+// Шаардлага: npm install sharp (эсвэл: npm install canvas)
+//
+// sharp байхгүй бол: npm i -D sharp
+
 import sharp from 'sharp';
 import fs from 'fs';
 import path from 'path';
 
-const ICON_DIR = './public/icons';
-// Хэрэв public/icons хавтас байхгүй бол үүсгэнэ
-if (!fs.existsSync(ICON_DIR)) {
-    fs.mkdirSync(ICON_DIR, { recursive: true });
+const OUT = './public/icons';
+fs.mkdirSync(OUT, { recursive: true });
+
+// ── SVG template ─────────────────────────────────────────────
+// AppLogo.tsx-ийн LogoMark-тай яг адил
+function makeSVG(px) {
+  const r = px / 2;
+  const inner = r * 0.38;
+  const rayLen = r * 0.22;
+  const rayStart = inner + r * 0.10;
+  const strokeW = px * 0.055;
+  const dotR = inner * 0.32;
+
+  const rays = Array.from({ length: 8 }, (_, i) => {
+    const angle = (i * 45 * Math.PI) / 180;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    const x1 = r + cos * rayStart;
+    const y1 = r + sin * rayStart;
+    const x2 = r + cos * (rayStart + rayLen);
+    const y2 = r + sin * (rayStart + rayLen);
+    const opacity = i % 2 === 0 ? 1 : 0.65;
+    return `<line x1="${x1.toFixed(2)}" y1="${y1.toFixed(2)}" x2="${x2.toFixed(2)}" y2="${y2.toFixed(2)}" stroke="white" stroke-width="${strokeW.toFixed(2)}" stroke-linecap="round" opacity="${opacity}"/>`;
+  }).join('\n    ');
+
+  return `<svg width="${px}" height="${px}" viewBox="0 0 ${px} ${px}" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <clipPath id="clip">
+      <rect width="${px}" height="${px}" rx="${(px * 0.28).toFixed(2)}" ry="${(px * 0.28).toFixed(2)}"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="${px}" height="${px}" rx="${(px * 0.28).toFixed(2)}" fill="url(#g)"/>
+
+  <!-- Rays -->
+  <g clip-path="url(#clip)">
+    ${rays}
+  </g>
+
+  <!-- White circle -->
+  <circle cx="${r}" cy="${r}" r="${inner.toFixed(2)}" fill="white" opacity="0.95"/>
+
+  <!-- Amber dot -->
+  <circle cx="${r}" cy="${r}" r="${dotR.toFixed(2)}" fill="url(#g)"/>
+</svg>`;
 }
 
-// MindSteps-ийн үндсэн Amber Gradient өнгөнүүд
-const colors = {
-    start: '#f59e0b', // amber-500
-    end: '#d97706'    // amber-600
-};
-
-// PWA-д шаардлагатай хэмжээсүүд
-const sizes = [
-    { name: 'icon-192x192.png', size: 192 },
-    { name: 'icon-512x512.png', size: 512 },
-    { name: 'apple-touch-icon.png', size: 180 },
-    { name: 'maskable-icon.png', size: 512, padding: true }
+// ── Generate ──────────────────────────────────────────────────
+const icons = [
+  { name: 'icon-192.png',          size: 192 },
+  { name: 'icon-512.png',          size: 512 },
+  { name: 'icon-512-maskable.png', size: 512 },
+  { name: 'apple-touch-icon.png',  size: 180 },
+  { name: 'shortcut-write.png',    size: 96  },
+  { name: 'shortcut-entries.png',  size: 96  },
 ];
 
-async function generateIcons() {
-    console.log('🚀 Icon үүсгэж эхэллээ...');
-
-    // Энгийн SVG лого (Чиний AppLogo-г төлөөлөх дизайн)
-    // Энд байгаа <path> нь жишээ бөгөөд "MindSteps"-ийн лого байхаар тохируулж болно
-    const svgLogo = `
-    <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-            <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:${colors.start};stop-opacity:1" />
-                <stop offset="100%" style="stop-color:${colors.end};stop-opacity:1" />
-            </linearGradient>
-        </defs>
-        <rect width="512" height="512" rx="100" fill="url(#grad)" />
-        <path d="M150 350 L250 250 L350 350" stroke="white" stroke-width="40" fill="none" stroke-linecap="round"/>
-        <circle cx="250" cy="180" r="40" fill="white" />
-    </svg>`;
-
-    for (const item of sizes) {
-        let pipeline = sharp(Buffer.from(svgLogo));
-
-        if (item.padding) {
-            // Android Maskable icon-д зориулсан safe-zone padding
-            pipeline = pipeline.resize(item.size, item.size, {
-                fit: 'contain',
-                background: { r: 245, g: 158, b: 11, alpha: 1 }
-            });
-        } else {
-            pipeline = pipeline.resize(item.size, item.size);
-        }
-
-        await pipeline.toFile(path.join(ICON_DIR, item.name));
-        console.log(`✅ Үүслээ: ${item.name}`);
-    }
-
-    console.log('✨ Бүх icon-ууд амжилттай public/icons/ дотор хадгалагдлаа!');
+for (const { name, size } of icons) {
+  const svg = Buffer.from(makeSVG(size));
+  const outPath = path.join(OUT, name);
+  await sharp(svg).png().toFile(outPath);
+  console.log(`✅ ${outPath}`);
 }
 
-generateIcons().catch(console.error);
+console.log('\n🎉 Бүх icon үүслээ → public/icons/');

@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'MindSteps',
     short_name: 'MindSteps',
-    description: 'Сэтгэлзүйн туслах платформ — өдөр тутмын тэмдэглэл, ойлголт',
+    description: 'Ухаалаг тэмдэглэлийн дэвтэр',
     start_url: '/home',
     scope: '/',
     display: 'standalone',
