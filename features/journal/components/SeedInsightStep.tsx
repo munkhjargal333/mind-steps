@@ -1,104 +1,117 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
-import { Sparkles } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { cn } from '@/shared/lib/utils';
 import { useTypeWriter } from '@/shared/hooks/useTypeWriter';
 import type { SessionData, AnalyzeResult } from '@/core/api/types';
 
 interface Props {
-  session:   SessionData;
-  analyzing: boolean;
-  result:    AnalyzeResult | null;
-  error:     string | null;
-  onMount:   (session: SessionData) => void;
-  onDone?:   () => void;
+  session:          SessionData;
+  analyzing:        boolean;
+  result:           AnalyzeResult | null;
+  error:            string | null;
+  onMount:          (session: SessionData, onSuccess?: () => void) => void;
+  onDone?:          () => void;
+  onExpandRequest?: () => void;
 }
 
-// ── Highlight styles ──────────────────────────────────────────
-const HIGHLIGHT_STYLES = {
-  mirror:  'bg-[var(--highlight-mirror)]  mix-blend-[var(--highlight-blend)] rounded-[3px] px-0.5 -mx-0.5',
-  reframe: 'bg-[var(--highlight-reframe)] mix-blend-[var(--highlight-blend)] rounded-[3px] px-0.5 -mx-0.5',
-  relief:  'bg-[var(--highlight-relief)]  mix-blend-[var(--highlight-blend)] rounded-[3px] px-0.5 -mx-0.5',
-} as const;
+// ── Highlight classes ─────────────────────────────────────────
+const HL_BASE_1 = 'highlight highlight-variant-3 highlight-sky-300 after:opacity-40 highlight-spread-md';
+const HL_BASE_2 = 'highlight highlight-variant-3 highlight-violet-300 after:opacity-40 highlight-spread-md';
+const HL_BASE_3 = 'highlight highlight-variant-3 highlight-emerald-300 after:opacity-40 highlight-spread-md';
 
-type CardKey = keyof typeof HIGHLIGHT_STYLES;
-
-const CARD_BG: Record<CardKey, string> = {
-  mirror:  'bg-blue-50/60 dark:bg-blue-950/15',
-  reframe: 'bg-violet-50/60 dark:bg-violet-950/15',
-  relief:  'bg-emerald-50/60 dark:bg-emerald-950/15',
-};
+type CardKey = 'mirror' | 'reframe' | 'relief';
 
 const CARD_LABEL: Record<CardKey, string> = {
-  mirror:  'Mirror',
-  reframe: 'Reframe',
-  relief:  'Relief',
+  mirror:  'Өөрийгөө харвал',
+  reframe: 'Өөр өнцөгөөс харвал',
+  relief:  'Тайвшруулбал',
 };
 
-// ── Highlight phrase extractor ────────────────────────────────
-function extractHighlightPhrases(text: string): string[] {
-  const patterns = [
-    /([^.,!?।\n]{6,35}(?:байна|байгаа|болно|болсон|болдог))/g,
-    /([^.,!?।\n]{6,30}(?:чинь|минь|нь)(?:\s|$))/g,
-    /[,.][\s]*([^.,!?।\n]{8,30}(?:гэж|учраас|тул|болохоор))/g,
-  ];
-  for (const pattern of patterns) {
-    const matches = [...text.matchAll(pattern)];
-    if (matches.length > 0) {
-      const best = matches
-        .map(m => m[1].trim())
-        .filter(p => p.length >= 8 && p.length <= 40)
-        .sort((a, b) => b.length - a.length)[0];
-      if (best) return [best];
-    }
-  }
-  const segments = text.split(/[,،.!?।]/);
-  const good = segments.map(s => s.trim()).filter(s => s.length >= 10 && s.length <= 40);
-  if (good.length > 0) return [good[Math.floor(good.length / 2)]];
-  return [];
-}
+const CARD_LABEL_CLASS: Record<CardKey, string> = {
+  mirror:  HL_BASE_1,
+  reframe: HL_BASE_2,
+  relief:  HL_BASE_3,
+};
 
-function HighlightedText({ text, cardKey }: { text: string; cardKey: CardKey }) {
-  const phrases = useMemo(() => extractHighlightPhrases(text), [text]);
-  const highlightClass = HIGHLIGHT_STYLES[cardKey];
-  if (phrases.length === 0) return <span>{text}</span>;
+// ── Analyzing loader ──────────────────────────────────────────
+const ANALYZE_MESSAGES = [
+  'Таны хуваалцсан мэдрэмжийг уншиж байна…',
+  'Утга болон дотоод байдлыг задлан шинжилж байна…',
+  'Таны өнцгөөс ойлголт бэлтгэж байна…',
+];
 
-  const segments: { content: string; highlighted: boolean }[] = [];
-  let remaining = text;
-  for (const phrase of phrases) {
-    const idx = remaining.indexOf(phrase);
-    if (idx === -1) continue;
-    if (idx > 0) segments.push({ content: remaining.slice(0, idx), highlighted: false });
-    segments.push({ content: phrase, highlighted: true });
-    remaining = remaining.slice(idx + phrase.length);
-  }
-  if (remaining) segments.push({ content: remaining, highlighted: false });
+function AnalyzingLoader() {
+  const [idx, setIdx]       = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setIdx(p => (p + 1) % ANALYZE_MESSAGES.length);
+        setVisible(true);
+      }, 400);
+    }, 5000);
+    return () => clearInterval(id);
+  }, []);
 
   return (
-    <>
-      {segments.map((seg, i) =>
-        seg.highlighted ? (
-          <mark key={i} className={cn('bg-transparent inline transition-[background-color] duration-700 ease-out', highlightClass)}>
-            {seg.content}
-          </mark>
-        ) : (
-          <span key={i}>{seg.content}</span>
-        )
-      )}
-    </>
+    <div className="flex flex-col items-center gap-6 py-8">
+      {/* Wave bars */}
+      <div className="flex items-end gap-[3px] h-7">
+        {[8, 14, 20, 26, 20, 14, 8].map((h, i) => (
+          <div
+            key={i}
+            className="w-[3px] rounded-sm bg-foreground animate-[waveBar_1.2s_ease-in-out_infinite]"
+            style={{ height: h, animationDelay: `${i * 0.1}s`, opacity: 0.2 }}
+          />
+        ))}
+      </div>
+
+      {/* Message */}
+      <div className="flex flex-col items-center gap-1.5 min-h-[3.5rem]">
+        <span className="text-[10px] tracking-widest uppercase text-muted-foreground font-sans font-medium">
+          боловсруулж байна
+        </span>
+        <span
+          className={cn(
+            'text-sm text-muted-foreground font-serif text-center max-w-[200px] leading-relaxed transition-all duration-500',
+            visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1.5',
+          )}
+        >
+          {ANALYZE_MESSAGES[idx]}
+        </span>
+      </div>
+
+      {/* Orb dots */}
+      <div className="flex gap-2.5 items-center">
+        {[0, 1, 2, 3, 4].map(i => (
+          <div
+            key={i}
+            className="w-[7px] h-[7px] rounded-full bg-foreground animate-[orbPulse_1.6s_ease-in-out_infinite]"
+            style={{ animationDelay: `${i * 0.2}s`, opacity: 0.15 }}
+          />
+        ))}
+      </div>
+
+      {/* Progress bar */}
+      <div className="w-40 h-[1.5px] bg-border rounded-full overflow-hidden">
+        <div className="h-full bg-muted-foreground rounded-full animate-[progressSlow_18s_linear_forwards]" />
+      </div>
+    </div>
   );
 }
 
-// ── Insight bubble with typewriter ───────────────────────────
+// ── Insight bubble with typewriter ────────────────────────────
 function InsightBubble({
   text, cardKey, onDone,
 }: {
-  text: string;
+  text:    string;
   cardKey: CardKey;
   onDone?: () => void;
 }) {
-  const typed = useTypeWriter(text, 16);
+  const typed    = useTypeWriter(text, 16);
   const isTyping = typed.length < text.length;
 
   useEffect(() => {
@@ -109,7 +122,6 @@ function InsightBubble({
     <div className={cn(
       'max-w-[90%] border rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl px-4 py-2.5',
       'text-sm leading-relaxed border-border/30 font-serif',
-      CARD_BG[cardKey],
     )}>
       {isTyping ? (
         <>
@@ -117,42 +129,44 @@ function InsightBubble({
           <span className="inline-block w-0.5 h-3.5 bg-foreground/40 ml-0.5 align-middle animate-pulse" />
         </>
       ) : (
-        <HighlightedText text={text} cardKey={cardKey} />
+        <span>{text}</span>
       )}
     </div>
   );
 }
 
-// ── Static bubble (past cards) ────────────────────────────────
-function StaticBubble({ text, cardKey }: { text: string; cardKey: CardKey }) {
+// ── Static bubble ─────────────────────────────────────────────
+function StaticBubble({ text }: { text: string }) {
   return (
     <div className={cn(
       'max-w-[90%] border rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl px-4 py-2.5',
       'text-sm leading-relaxed border-border/30 font-serif',
-      CARD_BG[cardKey],
     )}>
-      <HighlightedText text={text} cardKey={cardKey} />
+      <span>{text}</span>
     </div>
   );
 }
 
-function CardLabel({ label }: { label: string }) {
+// ── Card label ────────────────────────────────────────────────
+function CardLabel({ label, cardKey }: { label: string; cardKey: CardKey }) {
   return (
-    <span className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground/60 pl-1 font-serif">
+    <span className={cn(
+      'text-[10px] font-bold tracking-widest uppercase pl-1 font-serif text-foreground/70',
+      CARD_LABEL_CLASS[cardKey],
+    )}>
       {label}
     </span>
   );
 }
 
 // ── Main ──────────────────────────────────────────────────────
-export function SeedInsightStep({ session, analyzing, result, error, onMount, onDone }: Props) {
-  // phase: 'reframe' → зөвхөн reframe, 'full' → mirror + relief нэмэгдэнэ
-  const [phase, setPhase]           = useState<'reframe' | 'full'>('reframe');
+export function SeedInsightStep({
+  session, analyzing, result, error, onMount, onDone, onExpandRequest,
+}: Props) {
+  const [phase, setPhase]             = useState<'reframe' | 'full'>('reframe');
   const [reframeDone, setReframeDone] = useState(false);
-  // full phase-д mirror дуусмагц relief гарна
-  const [mirrorDone, setMirrorDone] = useState(false);
-  // relief дуусмагц onDone дуудна
-  const [reliefDone, setReliefDone] = useState(false);
+  const [mirrorDone, setMirrorDone]   = useState(false);
+  const [reliefDone, setReliefDone]   = useState(false);
 
   useEffect(() => {
     onMount(session);
@@ -166,22 +180,8 @@ export function SeedInsightStep({ session, analyzing, result, error, onMount, on
     }
   }, [reliefDone, onDone]);
 
-  // ── Loading ──────────────────────────────────────────────
-  if (analyzing) {
-    return (
-      <div className="flex flex-col gap-0.5 items-start">
-        <div className="bg-muted/60 border border-border/40 rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl px-4 py-3 flex gap-1.5 items-center">
-          {[0, 1, 2].map((i) => (
-            <span
-              key={i}
-              className="w-1.5 h-1.5 rounded-full bg-muted-foreground/40 animate-bounce"
-              style={{ animationDelay: `${i * 0.15}s`, animationDuration: '1s' }}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  }
+  // ── Loading ───────────────────────────────────────────────
+  if (analyzing) return <AnalyzingLoader />;
 
   if (error) {
     return (
@@ -198,9 +198,9 @@ export function SeedInsightStep({ session, analyzing, result, error, onMount, on
   return (
     <div className="flex flex-col gap-4">
 
-      {/* ── Reframe (үргэлж харагдана) ── */}
+      {/* ── Reframe ── */}
       <div className="flex flex-col gap-1.5 items-start">
-        <CardLabel label={CARD_LABEL.reframe} />
+        <CardLabel label={CARD_LABEL.reframe} cardKey="reframe" />
         {phase === 'reframe' ? (
           <InsightBubble
             text={reframe}
@@ -208,26 +208,25 @@ export function SeedInsightStep({ session, analyzing, result, error, onMount, on
             onDone={() => setReframeDone(true)}
           />
         ) : (
-          <StaticBubble text={reframe} cardKey="reframe" />
+          <StaticBubble text={reframe} />
         )}
       </div>
 
-      {/* ── Reframe дуусмагц 2 товч ── */}
+      {/* ── Товчнууд ── */}
       {phase === 'reframe' && reframeDone && (
         <div className="flex gap-3 animate-in fade-in slide-in-from-bottom-1 duration-200">
           <button
-            onClick={() => setPhase('full')}
+            onClick={() => { setPhase('full'); onExpandRequest?.(); }}
             className={cn(
               'flex-1 py-2.5 px-3 rounded-sm text-xs font-bold uppercase tracking-widest transition-all font-serif',
               'border border-border bg-card text-foreground hover:bg-muted active:scale-95',
               'flex items-center justify-center gap-1.5',
             )}
           >
-            <Sparkles size={12} />
-            Дэлгэрэнгүй авах
+            ✦ Дэлгэрэнгүй авах
           </button>
           <button
-            onClick={onDone}
+            onClick={() => setReliefDone(true)}
             className={cn(
               'flex-1 py-2.5 px-3 rounded-sm text-xs font-bold uppercase tracking-widest transition-all font-serif',
               'bg-foreground text-background hover:bg-foreground/90 active:scale-95',
@@ -238,13 +237,12 @@ export function SeedInsightStep({ session, analyzing, result, error, onMount, on
         </div>
       )}
 
-      {/* ── Full phase: mirror + relief ── */}
+      {/* ── Full phase ── */}
       {phase === 'full' && (
         <div className="flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
 
-          {/* Mirror */}
           <div className="flex flex-col gap-1.5 items-start">
-            <CardLabel label={CARD_LABEL.mirror} />
+            <CardLabel label={CARD_LABEL.mirror} cardKey="mirror" />
             <InsightBubble
               text={mirror}
               cardKey="mirror"
@@ -252,10 +250,9 @@ export function SeedInsightStep({ session, analyzing, result, error, onMount, on
             />
           </div>
 
-          {/* Relief — mirror дуусмагц гарна */}
           {mirrorDone && (
             <div className="flex flex-col gap-1.5 items-start animate-in fade-in slide-in-from-bottom-1 duration-200">
-              <CardLabel label={CARD_LABEL.relief} />
+              <CardLabel label={CARD_LABEL.relief} cardKey="relief" />
               <InsightBubble
                 text={relief}
                 cardKey="relief"

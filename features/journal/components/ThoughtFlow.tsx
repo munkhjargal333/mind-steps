@@ -12,13 +12,17 @@ import type { QuickActionType } from '@/core/api/types';
 
 interface Props {
   initialAction: QuickActionType;
-  onBack: () => void;
-  onComplete: () => void;
-  onReset: () => void;
-  onUpgrade?: () => void;
+  onBack:         () => void;
+  onComplete:     (didExpand: boolean) => void;
+  onReset:        () => void;
+  onApiSuccess?:  () => void;
+  onUpgrade?:     () => void;
 }
 
-// ── Shared bubble primitives ───────────────────────────────────
+// ── Highlight class ───────────────────────────────────────────
+const HL_INSIGHT = 'highlight highlight-variant-3 highlight-amber-300 after:opacity-40 highlight-spread-md';
+
+// ── Shared bubble primitives ──────────────────────────────────
 
 function SystemBubble({ text }: { text: string }) {
   const typed = useTypeWriter(text, 18);
@@ -44,11 +48,16 @@ function UserBubble({ text }: { text: string }) {
   );
 }
 
-function ThreadDivider({ label }: { label: string }) {
+function ThreadDivider({ label, highlight }: { label: string; highlight?: boolean }) {
   return (
     <div className="flex items-center gap-3 my-2">
       <div className="flex-1 border-t-[3px] border-double border-border" />
-      <span className="text-[10px] tracking-widest uppercase text-muted-foreground font-serif font-bold shrink-0">
+      <span
+        className={cn(
+          'text-[10px] tracking-widest uppercase text-muted-foreground font-serif font-bold shrink-0',
+          highlight && HL_INSIGHT,
+        )}
+      >
         {label}
       </span>
       <div className="flex-1 border-t-[3px] border-double border-border" />
@@ -72,16 +81,30 @@ function TypingBubble() {
   );
 }
 
-// ── Main ───────────────────────────────────────────────────────
+// ── Word count helper ─────────────────────────────────────────
+function countWords(text: string): number {
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
 
-export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Props) {
+const SHORT_INPUT_HINTS: Record<number, string> = {
+  1: 'Бага зэрэг дэлгэрүүлж бичвэл илүү гүн ойлголт гарна. Юу болсныг тодруулж болох уу?',
+  2: 'Дотоод мэдрэмжийг нэг өгүүлбэрээр ч гэсэн илүү нээлттэй бичиж үзнэ үү.',
+  3: 'Энэ утга чухал юм шиг байна — арай дэлгэрэнгүй бичиж болох уу?',
+};
+
+// ── Main ──────────────────────────────────────────────────────
+
+export function ThoughtFlow({ initialAction, onBack, onComplete, onReset, onApiSuccess }: Props) {
   const flow = useThoughtFlow(onBack);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const bottomRef   = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [draft, setDraft] = useState('');
-  const [showTyping, setShowTyping] = useState(false);
-  const [insightDone, setInsightDone] = useState(false);
-  const [showExtendedOptions, setShowExtendedOptions] = useState(false);
+
+  const [draft, setDraft]                       = useState('');
+  const [showTyping, setShowTyping]             = useState(false);
+  const [insightDone, setInsightDone]           = useState(false);
+  const [expanded, setExpanded]                 = useState(false);
+  const [hintForStep, setHintForStep]           = useState<Record<number, string>>({});
+  const [extraBubbles, setExtraBubbles]         = useState<Record<number, string[]>>({});
 
   const autoResize = useCallback(() => {
     const el = textareaRef.current;
@@ -96,15 +119,31 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [flow.step, showTyping, flow.result, insightDone, showExtendedOptions]);
+  }, [flow.step, showTyping, flow.result, insightDone, expanded, hintForStep]);
 
   const handleSend = useCallback(() => {
     const val = draft.trim();
     if (!val) return;
 
-    if (flow.step === 1) flow.updateData({ surfaceText: val });
-    else if (flow.step === 2) flow.updateData({ innerText: val });
-    else if (flow.step === 3) flow.updateData({ meaningText: val });
+    const step = flow.step;
+
+    if (countWords(val) < 3) {
+      if (step === 1) flow.updateData({ surfaceText: val });
+      else if (step === 2) flow.updateData({ innerText: val });
+      else if (step === 3) flow.updateData({ meaningText: val });
+
+      setHintForStep(prev => ({
+        ...prev,
+        [step]: SHORT_INPUT_HINTS[step] ?? SHORT_INPUT_HINTS[1],
+      }));
+      setDraft('');
+      if (textareaRef.current) textareaRef.current.style.height = 'auto';
+      return;
+    }
+
+    if (step === 1) flow.updateData({ surfaceText: val });
+    else if (step === 2) flow.updateData({ innerText: val });
+    else if (step === 3) flow.updateData({ meaningText: val });
 
     setDraft('');
     if (textareaRef.current) textareaRef.current.style.height = 'auto';
@@ -115,17 +154,49 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
     }, 650);
   }, [draft, flow]);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleSendAfterHint = useCallback(() => {
+    const val = draft.trim();
+    if (!val) return;
+    const step = flow.step;
+
+    const prev =
+      step === 1 ? flow.data.surfaceText
+      : step === 2 ? flow.data.innerText
+      : flow.data.meaningText;
+
+    const merged = prev ? `${prev}\n${val}` : val;
+    if (step === 1) flow.updateData({ surfaceText: merged });
+    else if (step === 2) flow.updateData({ innerText: merged });
+    else if (step === 3) flow.updateData({ meaningText: merged });
+
+    setExtraBubbles(prev => ({
+      ...prev,
+      [step]: [...(prev[step] ?? []), val],
+    }));
+
+    setDraft('');
+    if (textareaRef.current) textareaRef.current.style.height = 'auto';
+    setShowTyping(true);
+    setTimeout(() => {
+      setShowTyping(false);
+      flow.next();
+    }, 650);
+  }, [draft, flow]);
+
+  const handleKeyDownWithHint = useCallback((e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSend();
+      const hasHint = !!hintForStep[flow.step];
+      if (hasHint) handleSendAfterHint();
+      else handleSend();
     }
-  }, [handleSend]);
+  }, [hintForStep, flow.step, handleSend, handleSendAfterHint]);
 
   const cfg = STEP_CONFIG[flow.actionType || ''];
   if (!flow.actionType || !cfg) return null;
 
   const session = { actionType: flow.actionType, ...flow.data };
+  const currentHint = hintForStep[flow.step];
 
   const currentPlaceholder =
     flow.step === 1 ? cfg.surface.placeholder
@@ -148,7 +219,7 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
         </span>
       </div>
 
-      {/* Thread scroll area */}
+      {/* Thread */}
       <div className="flex flex-col gap-4 px-5 py-5 overflow-y-auto flex-1">
 
         {/* Step 1 */}
@@ -156,30 +227,43 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
 
         {flow.data.surfaceText && (
           <>
-            <UserBubble text={flow.data.surfaceText} />
+            <UserBubble text={flow.data.surfaceText.split('\n')[0]} />
+            {hintForStep[1] && <SystemBubble text={hintForStep[1]} />}
+            {(extraBubbles[1] ?? []).map((t, i) => (
+              <UserBubble key={`s1-extra-${i}`} text={t} />
+            ))}
 
             {flow.step >= 2 && (
               <>
-                <ThreadDivider label="Дотоод" />
+                {/* Хуваагч шугамгүй, шууд дараагийн асуулт */}
                 <SystemBubble text={cfg.inner.q} />
               </>
             )}
 
             {flow.data.innerText && (
               <>
-                <UserBubble text={flow.data.innerText} />
+                <UserBubble text={flow.data.innerText.split('\n')[0]} />
+                {hintForStep[2] && <SystemBubble text={hintForStep[2]} />}
+                {(extraBubbles[2] ?? []).map((t, i) => (
+                  <UserBubble key={`s2-extra-${i}`} text={t} />
+                ))}
 
                 {flow.step >= 3 && (
                   <>
-                    <ThreadDivider label="Утга" />
                     <SystemBubble text={cfg.meaning.q} />
                   </>
                 )}
 
                 {flow.data.meaningText && (
                   <>
-                    <UserBubble text={flow.data.meaningText} />
-                    <ThreadDivider label="Ойлголт" />
+                    <UserBubble text={flow.data.meaningText.split('\n')[0]} />
+                    {hintForStep[3] && <SystemBubble text={hintForStep[3]} />}
+                    {(extraBubbles[3] ?? []).map((t, i) => (
+                      <UserBubble key={`s3-extra-${i}`} text={t} />
+                    ))}
+
+                    {/* Ойлголт — highlight-тай */}
+                    <ThreadDivider label="Ойлголт" highlight />
                   </>
                 )}
               </>
@@ -196,27 +280,27 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
               analyzing={flow.analyzing}
               result={flow.result}
               error={flow.error}
-              onMount={flow.runAnalysis}
+              onMount={(s) => flow.runAnalysis(s, onApiSuccess)}
               onDone={() => setInsightDone(true)}
+              onExpandRequest={() => setExpanded(true)}
             />
           </div>
         )}
 
-        {/* Insight дуусмагц товчнууд */}
         {insightDone && (
           <div className="flex flex-col gap-3 mt-2 animate-in fade-in slide-in-from-bottom-1 duration-200">
-            {!showExtendedOptions ? (
+            {!expanded ? (
               <div className="flex gap-3">
                 <Button
                   variant="outline"
                   className="flex-1 rounded-sm text-sm font-serif border-border text-foreground hover:bg-muted"
-                  onClick={() => setShowExtendedOptions(true)}
+                  onClick={() => setExpanded(true)}
                 >
                   <Sparkles size={14} className="mr-2" /> Дэлгэрэнгүй авах
                 </Button>
                 <Button
                   className="flex-1 rounded-sm text-sm font-serif bg-foreground text-background hover:bg-foreground/90"
-                  onClick={onComplete}
+                  onClick={() => onComplete(false)}
                 >
                   Дуусгах
                 </Button>
@@ -230,7 +314,9 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
                     flow.reset();
                     setDraft('');
                     setInsightDone(false);
-                    setShowExtendedOptions(false);
+                    setExpanded(false);
+                    setHintForStep({});
+                    setExtraBubbles({});
                     onReset();
                   }}
                 >
@@ -238,7 +324,7 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
                 </Button>
                 <Button
                   className="flex-1 rounded-sm text-sm font-serif bg-foreground text-background hover:bg-foreground/90"
-                  onClick={onComplete}
+                  onClick={() => onComplete(true)}
                 >
                   Нүүр хуудас
                 </Button>
@@ -250,7 +336,7 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
         <div ref={bottomRef} />
       </div>
 
-      {/* Input — steps 1–3 only */}
+      {/* Input */}
       {flow.step <= 3 && !showTyping && (
         <div className="px-5 pb-5 pt-4 border-t border-border bg-card">
           <div className="flex gap-2 items-end">
@@ -258,19 +344,20 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
               ref={textareaRef}
               value={draft}
               onChange={(e) => { setDraft(e.target.value); autoResize(); }}
-              onKeyDown={handleKeyDown}
-              placeholder={currentPlaceholder}
+              onKeyDown={handleKeyDownWithHint}
+              placeholder={currentHint ? 'Арай дэлгэрэнгүй бичиж үзнэ үү...' : currentPlaceholder}
               rows={1}
               className={cn(
                 'flex-1 resize-none overflow-hidden text-sm leading-relaxed font-serif',
-                'bg-background border border-border rounded-sm px-4 py-3',
+                'bg-background border rounded-sm px-4 py-3',
                 'placeholder:text-muted-foreground/60 text-foreground',
                 'focus:outline-none focus:ring-1 focus:ring-ring transition-shadow shadow-inner',
+                'border-border',
               )}
               autoFocus
             />
             <button
-              onClick={handleSend}
+              onClick={currentHint ? handleSendAfterHint : handleSend}
               disabled={!draft.trim()}
               className={cn(
                 'shrink-0 w-11 h-11 rounded-sm flex items-center justify-center transition-all duration-150 border',
@@ -283,14 +370,13 @@ export function ThoughtFlow({ initialAction, onBack, onComplete, onReset }: Prop
             </button>
           </div>
 
-          {/* Step progress */}
           <div className="flex gap-2 justify-center mt-4">
             {[1, 2, 3].map((s) => (
               <div
                 key={s}
                 className={cn(
                   'w-2 h-2 rounded-full transition-all duration-300 border border-foreground',
-                  s < flow.step  ? 'bg-muted-foreground border-muted-foreground'
+                  s < flow.step   ? 'bg-muted-foreground border-muted-foreground'
                   : s === flow.step ? 'bg-foreground'
                   : 'bg-transparent border-border',
                 )}

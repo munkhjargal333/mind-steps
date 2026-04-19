@@ -25,6 +25,7 @@ import {
 import { SectionHeader } from '@/shared/components/SectionHeader';
 import { Button } from '@/shared/ui';
 import { Skeleton } from '@/shared/ui/skeleton'; // Скелетон байгаа гэж үзэв
+import { cn } from '@/shared/lib';
 
 export default function EntriesPage() {
   const { token } = useAuth();
@@ -65,12 +66,18 @@ export default function EntriesPage() {
         title="Миний тэмдэглэлүүд"
         subtitle={`Нийт ${total} бичлэг олдлоо`}
         right={
-          <Button asChild size="sm" className="rounded-xl gap-2 shadow-sm">
-            <Link href="/home">
-              <Plus size={16} />
-              Шинэ бичлэг
-            </Link>
-          </Button>
+          
+        <Link
+          href="/write"
+          className={cn(
+            'flex items-center gap-1.5 px-3 py-2.5 rounded-sm border font-serif',
+            'text-xs font-bold tracking-wide transition-all duration-150',
+            'bg-foreground text-background border-foreground hover:bg-foreground/90 active:scale-[0.98]',
+          )}
+        >
+          <Plus size={13} strokeWidth={2.5} />
+          Шинэ бичлэг
+        </Link>
         }
       />
 
