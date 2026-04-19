@@ -24,7 +24,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   minimumScale: 1,
-  viewportFit: 'cover',       // iPhone notch / Dynamic Island
+  viewportFit: 'cover',
 }
 
 // ── App metadata ──────────────────────────────────────────────
@@ -40,10 +40,10 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     title: 'MindSteps',
-    statusBarStyle: 'default',   // 'black-translucent' notch-тай phone-д
+    statusBarStyle: 'default',
   },
 
-  // ── Open Graph (share preview) ────────────────────────────
+  // ── Open Graph ────────────────────────────────────────────
   openGraph: {
     type:        'website',
     siteName:    'MindSteps',
@@ -54,6 +54,7 @@ export const metadata: Metadata = {
   // ── Icons ─────────────────────────────────────────────────
   icons: {
     icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
       { url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
       { url: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
     ],

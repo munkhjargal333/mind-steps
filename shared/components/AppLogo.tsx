@@ -67,7 +67,7 @@ export function AppLogo({ variant = 'wordmark', size = 'sm', href = '/', classNa
           </span>
           {variant === 'full' && (
             <span className="uppercase tracking-widest font-medium text-stone-500" style={{ fontSize: ts.sub, letterSpacing: '0.08em' }}>
-              Сэтгэл зүйн туслах
+              Ухаалаг тэмдэглэл
             </span>
           )}
         </span>
