@@ -141,7 +141,7 @@ function HawkinsWindow({ data }: { data: TodaySnapshot }) {
 
   return (
     <div>
-      <EditorialDivider label="Ертөнийг харах цонх" sideText="Hawkins" />
+      <EditorialDivider label="Ертөнийг харах өнцөг" sideText="Hawkins" />
       <h2 className="font-serif text-3xl italic leading-none mb-5 text-foreground">
         {current.label_mn}
       </h2>
