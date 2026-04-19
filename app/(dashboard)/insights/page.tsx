@@ -77,7 +77,7 @@ function InsightRow({ insight, onAck, isExpanded, onToggle }: {
                     onClick={(e) => { e.stopPropagation(); onAck(insight.id); }} 
                     className="flex items-center gap-2 text-[10px] font-bold text-amber-600 hover:text-amber-500 uppercase tracking-widest"
                   >
-                    <Sparkles size={12} /> Ухаарлаа
+                    <Sparkles size={12} /> Уншлаа
                   </button>
                 )}
               </div>
@@ -154,7 +154,7 @@ export default function InsightsPage() {
                   </div>
                   {!heroInsight.acknowledged && (
                     <button onClick={() => handleAck(heroInsight.id)} className="flex items-center gap-2 text-[10px] font-bold text-amber-600 hover:text-amber-500 uppercase tracking-widest">
-                      <Sparkles size={12} /> Ухаарлаа
+                      <Sparkles size={12} /> Уншлаа
                     </button>
                   )}
                 </div>

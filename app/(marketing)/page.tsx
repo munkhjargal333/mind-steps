@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import { MainHeader } from '@/shared/components'
+import { cn } from '@/shared/lib'
 
 // ─── Data ────────────────────────────────────────────────────────────────────
 
@@ -99,17 +100,24 @@ export default function LandingPage() {
                 </p>
 
                 {/* BUTTONS - Энд хэмжээг стандарт болгож жижигсгэв */}
-                <div className="flex items-center gap-6">
-                  <Link 
-                    href="/demo" 
-                    className="font-bold text-[11px] uppercase tracking-[0.2em] px-6 py-3 border border-stone-100 bg-stone-100 text-stone-950 hover:bg-transparent hover:text-stone-100 transition-all"
+                <div className="flex items-center gap-4">
+                  <Link
+                    href="/demo"
+                    className={cn(
+                      'flex items-center gap-2.5 px-5 py-3.5 rounded-sm border font-serif',
+                      'text-xs font-bold tracking-wide transition-all duration-150',
+                      'bg-foreground text-background border-foreground hover:bg-foreground/90 active:scale-[0.98]',
+                    )}
                   >
                     Туршиж үзэх
                   </Link>
-                  
-                  <Link 
-                    href="/login" 
-                    className="font-bold text-[10px] uppercase tracking-[0.2em] text-stone-500 hover:text-stone-100 border-b border-transparent hover:border-stone-100 pb-0.5 transition-all"
+                  <Link
+                    href="/login"
+                    className={cn(
+                       'flex items-center gap-2.5 px-5 py-3.5 rounded-sm border font-serif',
+                      'text-xs font-bold tracking-wide transition-all duration-150',
+                      'bg-transparent text-foreground border-border hover:bg-muted active:scale-[0.98]',
+                    )}
                   >
                     Нэвтрэх
                   </Link>
@@ -224,21 +232,25 @@ export default function LandingPage() {
               <span className={`${HL_BOLD} highlight-amber-400`}>Өөрийгөө ойлгоход{' '}90 секунд хангалттай.</span>{' '}
               
             </h2>
-            <div className="flex flex-col items-center gap-6">
+            <div className="flex flex-col items-center gap-4">
               <Link
                 href="/demo"
-                className="font-bold text-[11px] uppercase tracking-[0.3em] px-10 py-4 border border-stone-100 bg-stone-100 text-stone-950 hover:bg-transparent hover:text-stone-100 transition-all"
+                className={cn(
+                  'flex items-center gap-2.5 px-6 py-3.5 rounded-sm border font-serif',
+                  'text-xs font-bold tracking-wide transition-all duration-150',
+                  'bg-foreground text-background border-foreground hover:bg-foreground/90 active:scale-[0.98]',
+                )}
               >
                 Одоо эхлэх
               </Link>
-              
-              {/* Туслах текст нэмж өгснөөр товчлуур ганцаараа том харагдахаас сэргийлнэ */}
-              <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-stone-600">
+              <p className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground">
                 Бүртгэл үнэгүй · Цаг алдахгүй
               </p>
             </div>
           </div>
         </section>
+
+
 
       </main>
 

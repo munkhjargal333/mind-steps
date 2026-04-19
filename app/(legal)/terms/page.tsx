@@ -1,86 +1,101 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Scale } from 'lucide-react';
 import { Button } from '@/shared/ui/button';
 import { AppLogo } from '@/shared/components/AppLogo';
+import { ThemeToggle } from '@/shared/components/ThemeToggle';
+
+const sections = [
+  {
+    number: '01',
+    title: 'Үйлчилгээний мөн чанар',
+    content:
+      'MindSteps нь танин мэдэхүй, хувийн хөгжлийн мэдээлэл түгээх зорилготой платформ юм. Бид мэргэжлийн сэтгэл засалч, анагаах ухааны оношилгоо, эмчилгээний үйлчилгээ үзүүлэгч биш болно. Хэрэв танд сэтгэл зүйн хүндрэлтэй асуудал тулгарсан бол мэргэжлийн эмчид хандахыг зөвлөж байна.',
+  },
+  {
+    number: '02',
+    title: 'Оюуны өмч ба Зохиогчийн эрх',
+    content:
+      'Апп доторх бүх эх бичвэр, график, код болон дизайн нь MindSteps-ийн өмч бөгөөд зохиогчийн эрхээр хамгаалагдсан. Таны бичсэн тэмдэглэл, бодол болон хувийн өгөгдөл нь зөвхөн таны өмч байна. Бид таны зөвшөөрөлгүйгээр таны хувийн тэмдэглэлийг ашиглахгүй.',
+  },
+  {
+    number: '03',
+    title: 'Хэрэглэгчийн хариуцлага',
+    content:
+      'Та өөрийн бүртгэл болон нууц үгийн аюулгүй байдлыг хариуцна. Өөрийн бүртгэлийг бусдад дамжуулахгүй байх, хууль бус зорилгоор апп-ыг ашиглахгүй байх үүргийг хэрэглэгч хүлээнэ.',
+  },
+  {
+    number: '04',
+    title: 'Үйлчилгээний өөрчлөлт',
+    content:
+      'Бид үйлчилгээгээ сайжруулах зорилгоор апп-ын зарим функцийг хэдийд ч өөрчлөх, шинэчлэх эрхтэй. Нөхцөлд томоохон өөрчлөлт орсон тохиолдолд танд и-мэйлээр мэдэгдэх болно.',
+  },
+];
 
 export default function TermsPage() {
-  const sections = [
-    {
-      title: "1. Үйлчилгээний мөн чанар",
-      content: "MindSteps нь танин мэдэхүй, хувийн хөгжлийн мэдээлэл түгээх зорилготой платформ юм. Бид мэргэжлийн сэтгэл засалч, анагаах ухааны оношилгоо, эмчилгээний үйлчилгээ үзүүлэгч биш болно. Хэрэв танд сэтгэл зүйн хүндрэлтэй асуудал тулгарсан бол мэргэжлийн эмчид хандахыг зөвлөж байна."
-    },
-    {
-      title: "2. Оюуны өмч ба Зохиогчийн эрх",
-      content: "Апп доторх бүх эх бичвэр, график, код болон дизайн нь MindSteps-ийн өмч бөгөөд зохиогчийн эрхээр хамгаалагдсан. Таны бичсэн тэмдэглэл, бодол болон хувийн өгөгдөл нь зөвхөн 'Таны өмч' байна. Бид таны зөвшөөрөлгүйгээр таны хувийн тэмдэглэлийг ашиглахгүй."
-    },
-    {
-      title: "3. Хэрэглэгчийн хариуцлага",
-      content: "Та өөрийн бүртгэл болон нууц үгийн аюулгүй байдлыг хариуцна. Өөрийн бүртгэлийг бусдад дамжуулахгүй байх, хууль бус зорилгоор апп-ыг ашиглахгүй байх үүргийг хэрэглэгч хүлээнэ."
-    },
-    {
-      title: "4. Үйлчилгээний өөрчлөлт",
-      content: "Бид үйлчилгээгээ сайжруулах зорилгоор апп-ын зарим функцийг хэдийд ч өөрчлөх, шинэчлэх эрхтэй. Нөхцөлд томоохон өөрчлөлт орсон тохиолдолд танд и-мэйлээр мэдэгдэх болно."
-    }
-  ];
-
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b">
-        <div className="container max-w-4xl mx-auto px-4 py-6 flex items-center justify-between">
-          <Button asChild variant="ghost" size="sm">
-            <Link href="/login" className="gap-2">
+    <div className="min-h-screen bg-background text-foreground">
+      {/* ── Header ── */}
+      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur-sm">
+        <div className="container max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
+          <Button asChild variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
+            <Link href="/login">
               <ArrowLeft className="w-4 h-4" />
               Буцах
             </Link>
           </Button>
-          
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/" className="transition-opacity hover:opacity-80">
             <AppLogo />
           </Link>
+          <ThemeToggle />
         </div>
       </header>
 
-      <main className="container max-w-3xl mx-auto px-4 py-16 md:py-24">
-        {/* Page Header */}
-        <div className="mb-16">
-          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-4">
-            Legal Document / 2026
-          </p>
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
+      <main className="container max-w-3xl mx-auto px-4 py-14 md:py-20">
+
+        {/* ── Hero ── */}
+        <div className="mb-14 space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border bg-muted text-muted-foreground text-xs font-medium uppercase tracking-wider">
+            <Scale className="w-3 h-3" />
+            Legal · 2026
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight">
             Үйлчилгээний нөхцөл
           </h1>
-          <p className="text-muted-foreground leading-relaxed">
-            Сүүлд шинэчилсэн: 2026 оны 1-р сарын 11. 
+          <p className="text-muted-foreground leading-relaxed max-w-xl">
+            Сүүлд шинэчилсэн: <span className="text-foreground font-medium">2026 оны 1-р сарын 11</span>.{' '}
             MindSteps платформыг ашиглахаас өмнө эдгээр нөхцөлүүдтэй анхааралтай танилцана уу.
           </p>
         </div>
 
-        {/* Sections */}
-        <div className="space-y-12">
-          {sections.map((section, index) => (
-            <section key={index} className="space-y-4">
-              {/* Highlight классыг энд ашиглав */}
-              <h2 className="text-xl font-bold highlight highlight-indigo-600 highlight-variant-1">
-                {section.title}
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                {section.content}
-              </p>
-            </section>
+        {/* ── Sections ── */}
+        <div className="divide-y divide-border">
+          {sections.map((section) => (
+            <div key={section.number} className="py-10 grid md:grid-cols-[5rem_1fr] gap-4 md:gap-8 group">
+              <div className="md:pt-1">
+                <span className="text-3xl font-black text-border group-hover:text-primary/30 transition-colors leading-none tabular-nums">
+                  {section.number}
+                </span>
+              </div>
+              <div className="space-y-3">
+                <h2 className="text-lg font-semibold">{section.title}</h2>
+                <p className="text-muted-foreground leading-relaxed">{section.content}</p>
+              </div>
+            </div>
           ))}
         </div>
 
-        {/* Footer */}
-        <div className="mt-24 pt-12 border-t text-center">
-          <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} MindSteps. Бүх эрх хуулиар хамгаалагдсан.
-            <span className="hidden sm:inline"> • </span>
-            <br className="sm:hidden" />
-            Улаанбаатар, Монгол
-          </p>
+        {/* ── Footer note ── */}
+        <div className="mt-14 pt-10 border-t flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
+          <p>© {new Date().getFullYear()} MindSteps. Бүх эрх хуулиар хамгаалагдсан.</p>
+          <div className="flex items-center gap-4">
+            <Link href="/privacy" className="hover:text-foreground transition-colors underline-offset-4 hover:underline">
+              Нууцлалын бодлого
+            </Link>
+            <span className="text-border">·</span>
+            <span>Улаанбаатар, Монгол</span>
+          </div>
         </div>
       </main>
     </div>

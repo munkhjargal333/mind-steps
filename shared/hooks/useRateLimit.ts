@@ -61,10 +61,10 @@ export function useRateLimit(userId: string, tier: Tier): UseRateLimitReturn {
 
   const limit = DAILY_LIMITS[tier]
 
-  // userId өөрчлөгдвөл дахин уншина
+  // userId эсвэл tier өөрчлөгдвөл дахин уншина
   useEffect(() => {
     setData(loadData(userId))
-  }, [userId])
+  }, [userId, tier])
 
   const increment = useCallback((): boolean => {
     // Pro tier — хязгаар байхгүй, үргэлж true

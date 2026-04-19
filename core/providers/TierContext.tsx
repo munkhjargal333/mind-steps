@@ -1,55 +1,46 @@
-// ─────────────────────────────────────────────────────────────────────────────
 // core/providers/TierContext.tsx
-// Global Context — Subscription tier state only.
-// Reads from Supabase DB + JWT. Exposes refreshTier for post-payment use.
-// ─────────────────────────────────────────────────────────────────────────────
-
 'use client';
 
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import type { Tier } from '@/core/api/types';
 import { useAuth } from '@/core/auth/AuthContext';
-import { createClient } from '@/core/supabase'
+import { createClient } from '@/core/supabase';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// ─── Types ───────────────────────────────────────────────────────────────────
 
 export interface TierContextValue {
-  tier: Tier;
-  tierExpiresAt: string | null;
-  loading: boolean;
-  token: string | null; // Exposed so services can access it via context
-  apiBase: string;
+  tier:        Tier;
+  loading:     boolean;
+  token:       string | null;
   refreshTier: () => Promise<void>;
 }
 
-// ─── Context ──────────────────────────────────────────────────────────────────
+// ─── Context ─────────────────────────────────────────────────────────────────
 
 const TierContext = createContext<TierContextValue | null>(null);
 
-// ─── Provider ─────────────────────────────────────────────────────────────────
+// ─── Provider ────────────────────────────────────────────────────────────────
 
 export function TierProvider({ children }: { children: ReactNode }) {
   const { user, token } = useAuth();
   const supabase = createClient();
 
-  const [tier, setTier] = useState<Tier>('demo');
-  const [expiresAt, setExpiresAt] = useState<string | null>(null);
+  const [tier,    setTier]    = useState<Tier>('demo');
   const [loading, setLoading] = useState(true);
 
-  const fetchSubscription = async () => {
+  const fetchTier = async () => {
     if (!user) {
       setTier('demo');
-      setExpiresAt(null);
       setLoading(false);
       return;
     }
 
     try {
-      // 1. Optimistic: read from JWT metadata (fast, no network)
-      const jwtTier = (user.app_metadata?.tier as Tier) || 'demo';
+      // 1. Optimistic: JWT-ээс шууд унших (network хэрэггүй, хурдан)
+      const jwtTier = (user.app_metadata?.tier as Tier) ?? 'free';
       setTier(jwtTier);
 
-      // 2. Authoritative: verify expiry against DB
+      // 2. Authoritative: DB-ээс expiry шалгах
       const { data, error } = await supabase
         .from('users')
         .select('tier, tier_expires_at')
@@ -57,46 +48,38 @@ export function TierProvider({ children }: { children: ReactNode }) {
         .single();
 
       if (!error && data) {
-        const dbExpire = data.tier_expires_at ? new Date(data.tier_expires_at) : null;
-        // Downgrade if subscription expired
-        setTier(dbExpire && dbExpire < new Date() ? 'free' : (data.tier as Tier));
-        setExpiresAt(data.tier_expires_at);
+        const expired =
+          data.tier_expires_at && new Date(data.tier_expires_at) < new Date();
+        setTier(expired ? 'free' : (data.tier as Tier));
       }
     } catch (err) {
-      console.error('Tier fetch error:', err);
+      console.error('[TierContext] fetch error:', err);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchSubscription();
+    fetchTier();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [user?.id]);
 
+  // QPay болон бусад төлбөрийн дараа дуудна.
+  // JWT refresh + DB re-read хийж tier-ийг шинэчилнэ.
   const refreshTier = async () => {
     setLoading(true);
     await supabase.auth.refreshSession();
-    await fetchSubscription();
+    await fetchTier();
   };
 
   return (
-    <TierContext.Provider
-      value={{
-        tier,
-        tierExpiresAt: expiresAt,
-        loading,
-        token,
-        apiBase: process.env.NEXT_PUBLIC_API_BASE ?? 'http://localhost:8000',
-        refreshTier,
-      }}
-    >
+    <TierContext.Provider value={{ tier, loading, token, refreshTier }}>
       {children}
     </TierContext.Provider>
   );
 }
 
-// ─── Hook ─────────────────────────────────────────────────────────────────────
+// ─── Hook ────────────────────────────────────────────────────────────────────
 
 export function useTierContext(): TierContextValue {
   const ctx = useContext(TierContext);

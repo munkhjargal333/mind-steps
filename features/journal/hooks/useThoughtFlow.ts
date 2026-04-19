@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import type { QuickActionType, SessionData, FlowStep } from '@/core/api/types';
 import type { AnalyzeResult } from '@/core/api/types';
 import { analyzeSession } from '@/core/api';
@@ -43,7 +43,21 @@ export function useThoughtFlow(onBack?: () => void) {
   const configRef = useRef<TierContextValue>(ctx);
   configRef.current = ctx;
 
+  // Алдаа #1: unmounted component-д setState хийхгүйн тулд
+  const isMountedRef = useRef(true);
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => { isMountedRef.current = false; };
+  }, []);
+
+  // Алдаа #2: reset() дараа selectAction давхцахаас сэргийлнэ
+  const justResetRef = useRef(false);
+
   const selectAction = useCallback((type: QuickActionType) => {
+    if (justResetRef.current) {
+      justResetRef.current = false;
+      return;
+    }
     setState((s) => ({
       ...s,
       actionType: type,
@@ -65,13 +79,19 @@ export function useThoughtFlow(onBack?: () => void) {
     });
   }, []);
 
-  const runAnalysis = useCallback(async (session: SessionData) => {
+  const runAnalysis = useCallback(async (session: SessionData, onSuccess?: () => void) => {
     try {
       const result = await analyzeSession(session, configRef.current);
-      setState((s) => ({ ...s, analyzing: false, result }));
+      // Алдаа #1: component unmount болсон байвал state шинэчлэхгүй
+      if (isMountedRef.current) {
+        setState((s) => ({ ...s, analyzing: false, result }));
+        onSuccess?.(); // API амжилттай болсон
+      }
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Алдаа гарлаа';
-      setState((s) => ({ ...s, analyzing: false, error: msg }));
+      if (isMountedRef.current) {
+        setState((s) => ({ ...s, analyzing: false, error: msg }));
+      }
     }
   }, []);
 
@@ -86,9 +106,11 @@ export function useThoughtFlow(onBack?: () => void) {
   }, [onBack]);
 
   const reset = useCallback(() => {
+    // Алдаа #2: reset дараа useEffect-ийн selectAction давхцахаас хамгаална
+    justResetRef.current = true;
     setState((s) => ({
       step:       1,
-      actionType: s.actionType, 
+      actionType: s.actionType,
       data:       EMPTY_DATA,
       analyzing:  false,
       result:     null,

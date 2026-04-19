@@ -9,25 +9,24 @@ import { useTierContext } from '@/core/providers'
 import { DailyLimitModal } from '@/features/home'
 import type { QuickActionType, Tier } from '@/core/api/types'
 
-type View = 'home' | 'flow'
+type View = 'selector' | 'flow'
 
 interface Props {
   mode: 'demo' | 'authed'
-  onBack?: () => void  // гадна view рүү буцах (жишээ: home page)
+  onBack?: () => void
 }
 
 export function ActionContainer({ mode, onBack: onExternalBack }: Props) {
-  const [view, setView]                     = useState<View>('home')
+  const [view, setView]                     = useState<View>('selector')
   const [selectedAction, setSelectedAction] = useState<QuickActionType | null>(null)
   const [showLimitModal, setShowLimitModal] = useState(false)
 
-  // authed mode-д л context шаардлагатай
-  const { user }  = useAuth()
+  const { user }          = useAuth()
   const { tier: ctxTier } = useTierContext()
 
-  const tier: Tier   = mode === 'demo' ? 'demo' : ctxTier === 'pro' ? 'pro' : 'free'
-  const userId       = mode === 'demo' ? 'guest' : (user?.id ?? 'unknown')
-  const isPro        = tier === 'pro'
+  const tier: Tier = mode === 'demo' ? 'demo' : ctxTier === 'pro' ? 'pro' : 'free'
+  const userId     = mode === 'demo' ? 'guest' : (user?.id ?? 'unknown')
+  const isPro      = tier === 'pro'
 
   const { usageCount, limit, remaining, isLimited, increment } = useRateLimit(userId, tier)
 
@@ -40,24 +39,35 @@ export function ActionContainer({ mode, onBack: onExternalBack }: Props) {
     setView('flow')
   }
 
-  function handleFlowComplete() {
+  // API амжилттай болсон үед л тоог нэмнэ
+  function handleApiSuccess() {
     if (!isPro) increment()
-    setView('home')
+  }
+
+  // Дуусгах (complete) — dashboard-д буцна
+  function handleFlowComplete(_didExpand: boolean) {
+    setView('selector')
+    setSelectedAction(null)
+  }
+
+  // Дахин хийх (reset) — selector рүү буцна, тоо нэмэхгүй
+  function handleFlowReset() {
+    setView('selector')
     setSelectedAction(null)
   }
 
   function handleBack() {
-    if (view === 'home' && onExternalBack) {
-      onExternalBack()
+    if (view === 'selector') {
+      onExternalBack?.()
       return
     }
-    setView('home')
+    setView('selector')
     setSelectedAction(null)
   }
 
   return (
     <>
-      {view === 'home' && (
+      {view === 'selector' && (
         <ActionSelector
           tier={tier}
           onSelectAction={handleSelectAction}
@@ -65,6 +75,7 @@ export function ActionContainer({ mode, onBack: onExternalBack }: Props) {
           limit={limit}
           remaining={remaining}
           isLimited={isLimited}
+          onBack={onExternalBack}
         />
       )}
 
@@ -73,7 +84,8 @@ export function ActionContainer({ mode, onBack: onExternalBack }: Props) {
           initialAction={selectedAction}
           onBack={handleBack}
           onComplete={handleFlowComplete}
-          onReset={() => { if (!isPro) increment() }}
+          onReset={handleFlowReset}
+          onApiSuccess={handleApiSuccess}
         />
       )}
 

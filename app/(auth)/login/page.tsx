@@ -9,21 +9,19 @@ import { LoginForm } from './components/LoginForm'
 import { SocialLogin } from './components/SocialLogin'
 import { DemoLogin } from './components/DemoLogin'
 import { LoginErrorAlert } from './components/LoginErrorAlert'
+import { cn } from '@/shared/lib/utils'
 
-const HL_BOLD = 'highlight highlight-variant-20'
+const HL_SECTION = 'highlight highlight-variant-13 highlight-violet-300 after:opacity-30 highlight-spread-lg';
 
 function LoginPageContent() {
   const [displayError, setDisplayError] = useState<string | null>(null)
   const searchParams = useSearchParams()
-  const urlMessage = searchParams.get('message')
+  const urlMessage   = searchParams.get('message')
   const { error, clearError } = useAuth()
 
   useEffect(() => {
-    if (urlMessage) {
-      setDisplayError(decodeURIComponent(urlMessage))
-    } else if (error) {
-      setDisplayError(error)
-    }
+    if (urlMessage) setDisplayError(decodeURIComponent(urlMessage))
+    else if (error)  setDisplayError(error)
   }, [urlMessage, error])
 
   const handleErrorDismiss = () => {
@@ -32,39 +30,45 @@ function LoginPageContent() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground font-serif relative selection:bg-amber-500/20">
-      
-      <div className="border-b border-foreground/10 py-1 z-10 bg-background/80 backdrop-blur-sm sticky top-0">
+    <div className="min-h-screen flex flex-col bg-background text-foreground font-serif">
+
+      {/* Header */}
+      <div className="sticky top-0 z-10 bg-background border-b border-border">
         <MainHeader />
       </div>
 
-      <main className="flex-1 flex items-center justify-center px-6 py-8 relative z-10">
-        {/* CONTAINER: Хайрцагны өргөн болон padding-ийг багасгасан */}
-        <div className="w-full max-w-[360px] bg-background border-[3px] border-double border-foreground/20 p-6 md:p-8 shadow-sm relative">
-          
-          {/* Header хэсэг - Текст жижигэрсэн */}
-          <div className="text-center border-b border-foreground/10 pb-5 mb-6">
-            <h1 className="font-serif text-lg md:text-xl font-black uppercase italic tracking-tighter">
-              <span className={`${HL_BOLD} highlight-amber-400/30 px-2`}>Нэвтрэх</span>
-            </h1>
+      <main className="flex-1 flex items-center justify-center px-6 py-10">
+        <div className="w-full max-w-sm bg-card border border-border rounded-sm shadow-sm">
+
+          {/* Title */}
+          <div className="px-6 pt-6 pb-5 border-b border-border">
+            <div className="flex items-center gap-3">
+              <div className="flex-1 border-t-[3px] border-double border-border" />
+              <span className={cn(
+                'text-xl font-bold tracking-widest uppercase font-serif shrink-0 text-muted-foreground',
+                HL_SECTION,
+              )}>
+                Нэвтрэх
+              </span>
+              <div className="flex-1 border-t-[3px] border-double border-border" />
+            </div>
           </div>
 
-          {/* Хоорондын зай space-y-5 */}
-          <div className="space-y-5">
+          {/* Body */}
+          <div className="px-6 py-6 space-y-5">
             {displayError && (
               <LoginErrorAlert error={displayError} onDismiss={handleErrorDismiss} />
             )}
 
-            {/* LoginForm доторх input болон button-г жижигсгэхийн тулд 
-                тухайн component-ийнх нь py- болон text- хэмжээг шалгаарай */}
             <LoginForm onError={setDisplayError} />
 
+            {/* Divider */}
             <div className="relative py-1">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-dashed border-foreground/15" />
+                <div className="w-full border-t border-dashed border-border" />
               </div>
               <div className="relative flex justify-center">
-                <span className="bg-background px-3 font-serif text-[8px] font-bold uppercase tracking-widest text-foreground/40 italic">
+                <span className="bg-card px-3 font-serif text-[9px] font-bold uppercase tracking-widest text-muted-foreground italic">
                   Эсвэл
                 </span>
               </div>
@@ -76,19 +80,23 @@ function LoginPageContent() {
             </div>
           </div>
 
-          <div className="mt-8 pt-5 border-t border-foreground/5 text-center">
-            <p className="font-serif text-[8px] text-foreground/40 uppercase tracking-[0.15em] leading-relaxed">
+          {/* Footer */}
+          <div className="px-6 pb-6 pt-4 border-t border-border text-center">
+            <p className="font-serif text-[9px] text-muted-foreground uppercase tracking-[0.15em] leading-relaxed">
               Нэвтрэх товчийг дарснаар манай{' '}
-              <Link href="/terms" className="text-foreground/70 underline decoration-foreground/20 underline-offset-4 hover:text-foreground transition-all">Нөхцөл</Link>
+              <Link href="/terms" className="text-foreground underline decoration-border underline-offset-4 hover:text-foreground transition-colors">
+                Нөхцөл
+              </Link>
               {' '}болон{' '}
-              <Link href="/privacy" className="text-foreground/70 underline decoration-foreground/20 underline-offset-4 hover:text-foreground transition-all">Бодлого</Link>
+              <Link href="/privacy" className="text-foreground underline decoration-border underline-offset-4 hover:text-foreground transition-colors">
+                Бодлого
+              </Link>
               -ийг зөвшөөрнө.
             </p>
           </div>
+
         </div>
       </main>
-
-      <div className="fixed inset-0 pointer-events-none mix-blend-multiply opacity-[0.012] bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')] z-0" />
     </div>
   )
 }
@@ -97,8 +105,8 @@ export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center bg-background font-serif">
-          <div className="w-4 h-4 border-2 border-foreground/20 border-t-foreground rounded-full animate-spin" />
+        <div className="min-h-screen flex items-center justify-center bg-background">
+          <div className="w-4 h-4 border-2 border-border border-t-foreground rounded-full animate-spin" />
         </div>
       }
     >
