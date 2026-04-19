@@ -30,7 +30,7 @@ function LoginPageContent() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground font-serif">
+    <div className="min-h-screen flex flex-col bg-background text-foreground font-mono">
 
       {/* Header */}
       <div className="sticky top-0 z-10 bg-background border-b border-border">
@@ -45,7 +45,7 @@ function LoginPageContent() {
             <div className="flex items-center gap-3">
               <div className="flex-1 border-t-[3px] border-double border-border" />
               <span className={cn(
-                'text-xl font-bold tracking-widest uppercase font-serif shrink-0 text-muted-foreground',
+                'text-xl font-bold tracking-widest uppercase font-mono shrink-0 text-muted-foreground',
                 HL_SECTION,
               )}>
                 Нэвтрэх
@@ -68,7 +68,7 @@ function LoginPageContent() {
                 <div className="w-full border-t border-dashed border-border" />
               </div>
               <div className="relative flex justify-center">
-                <span className="bg-card px-3 font-serif text-[9px] font-bold uppercase tracking-widest text-muted-foreground italic">
+                <span className="bg-card px-3 font-mono text-[9px] font-bold uppercase tracking-widest text-muted-foreground italic">
                   Эсвэл
                 </span>
               </div>
@@ -82,7 +82,7 @@ function LoginPageContent() {
 
           {/* Footer */}
           <div className="px-6 pb-6 pt-4 border-t border-border text-center">
-            <p className="font-serif text-[9px] text-muted-foreground uppercase tracking-[0.15em] leading-relaxed">
+            <p className="font-mono text-[9px] text-muted-foreground uppercase tracking-[0.15em] leading-relaxed">
               Нэвтрэх товчийг дарснаар манай{' '}
               <Link href="/terms" className="text-foreground underline decoration-border underline-offset-4 hover:text-foreground transition-colors">
                 Нөхцөл

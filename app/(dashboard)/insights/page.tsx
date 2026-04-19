@@ -25,7 +25,7 @@ const PATTERN_LABELS: Record<string, string> = {
 };
 
 // ─── Shared Styles ───────────────────────────────────────────────────────────
-const TEXT_STYLE = "text-sm md:text-base leading-relaxed text-stone-300 font-serif italic";
+const TEXT_STYLE = "text-sm md:text-base leading-relaxed text-stone-300 font-mono italic";
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 

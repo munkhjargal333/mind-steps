@@ -15,7 +15,7 @@ interface AppProvidersProps {
 
 export function AppProviders({ children }: AppProvidersProps) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="light" disableTransitionOnChange>
+    <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
       <AuthProvider>
         <ToastProvider>
           <TierProvider>

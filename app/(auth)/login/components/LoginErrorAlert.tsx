@@ -21,10 +21,10 @@ export function LoginErrorAlert({ error, onDismiss }: LoginErrorAlertProps) {
       </button>
       
       <div className="relative z-10 pr-6">
-        <p className="font-serif text-[10px] font-black text-brand-terracotta uppercase tracking-[0.2em] mb-1">
+        <p className="font-mono text-[10px] font-black text-brand-terracotta uppercase tracking-[0.2em] mb-1">
           Анхааруулга:
         </p>
-        <p className="font-serif text-sm italic leading-tight text-foreground/90">
+        <p className="font-mono text-sm italic leading-tight text-foreground/90">
           {error}
         </p>
       </div>

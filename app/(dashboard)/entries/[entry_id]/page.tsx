@@ -2,14 +2,13 @@
 
 import { use, useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion'; // Анимаци нэмэв
-import { 
-  ArrowLeft, 
-  Loader2, 
-  AlertCircle, 
-  Lock, 
-  FileText, 
-  RefreshCcw 
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  ArrowLeft,
+  Loader2,
+  AlertCircle,
+  Lock,
+  RefreshCcw,
 } from 'lucide-react';
 
 import { useAuth } from '@/core/auth/AuthContext';
@@ -22,26 +21,44 @@ import { InsightCards } from '@/shared/components/InsightCard';
 
 // ─── Sub-components ────────────────────────────────────────────────────────────
 
-function ReflectionBlock({ label, content, delay = 0 }: { label: string; content: string | null; delay?: number }) {
+function ReflectionBlock({
+  content,
+  delay = 0,
+}: {
+  label: string;
+  content: string | null;
+  delay?: number;
+}) {
   if (!content) return null;
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay }}
-      className="group space-y-2"
+      className="space-y-2"
     >
-      <p className="text-[16px] leading-relaxed text-foreground/90 whitespace-pre-wrap font-serif">
+      <p className="text-[16px] leading-relaxed text-foreground/90 whitespace-pre-wrap font-mono">
         {content}
       </p>
     </motion.div>
   );
 }
 
+// animate-pulse-гүй skeleton блок
+function SkeletonBlock({ className }: { className?: string }) {
+  return (
+    <div className={cn('bg-muted/40 rounded-xl', className)} />
+  );
+}
+
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 
-export default function EntryDetailPage({ params }: { params: Promise<{ entry_id: string }> }) {
+export default function EntryDetailPage({
+  params,
+}: {
+  params: Promise<{ entry_id: string }>;
+}) {
   const { entry_id } = use(params);
   const { token } = useAuth();
   const { entry, loading, error } = useEntry(token, entry_id);
@@ -50,7 +67,6 @@ export default function EntryDetailPage({ params }: { params: Promise<{ entry_id
   const [insightLoading, setInsightLoading] = useState(false);
   const [insightError, setInsightError] = useState<string | null>(null);
 
-  // useCallback ашиглан функцыг тогтворжуулах
   const loadInsight = useCallback(async () => {
     if (!token || !entry_id) return;
     setInsightLoading(true);
@@ -73,22 +89,31 @@ export default function EntryDetailPage({ params }: { params: Promise<{ entry_id
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-10 space-y-10">
-      
+
       {/* Navigation */}
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-        <Link href="/entries" className="inline-flex items-center gap-2 text-sm font-medium text-amber-600 dark:text-amber-500 hover:opacity-70 transition-opacity">
+        <Link
+          href="/entries"
+          className="inline-flex items-center gap-2 text-sm font-medium text-amber-600 dark:text-amber-500 hover:opacity-70 transition-opacity"
+        >
           <ArrowLeft size={16} />
           Бичлэгүүд рүү буцах
         </Link>
       </motion.div>
 
-      {/* Entry Loading State */}
+      {/* Entry Loading State — анивчдаггүй skeleton */}
       {loading && (
-        <div className="space-y-6">
-          <div className="h-4 w-1/4 bg-muted animate-pulse rounded" />
-          <div className="space-y-3">
-            <div className="h-20 w-full bg-muted animate-pulse rounded-2xl" />
-            <div className="h-20 w-full bg-muted animate-pulse rounded-2xl" />
+        <div className="space-y-8">
+          {/* Header skeleton */}
+          <div className="space-y-3 border-b pb-6">
+            <SkeletonBlock className="h-4 w-24" />
+            <SkeletonBlock className="h-7 w-48" />
+          </div>
+          {/* Text block skeleton-ууд */}
+          <div className="space-y-6">
+            <SkeletonBlock className="h-16 w-full" />
+            <SkeletonBlock className="h-20 w-full" />
+            <SkeletonBlock className="h-14 w-3/4" />
           </div>
         </div>
       )}
@@ -96,9 +121,9 @@ export default function EntryDetailPage({ params }: { params: Promise<{ entry_id
       {/* Main Content */}
       <AnimatePresence mode="wait">
         {entry && (
-          <motion.div 
+          <motion.div
             key="content"
-            initial={{ opacity: 0 }} 
+            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="space-y-10"
           >
@@ -121,37 +146,36 @@ export default function EntryDetailPage({ params }: { params: Promise<{ entry_id
 
             {/* Reflection Texts */}
             <div className="grid gap-8">
-              <ReflectionBlock 
-                label="Болсон явдал" 
-                content={entry.surface_text} 
+              <ReflectionBlock
+                label="Болсон явдал"
+                content={entry.surface_text}
                 delay={0.1}
               />
-              <ReflectionBlock 
-                label="Дотоод мэдрэмж" 
-                content={entry.inner_reaction_text} 
+              <ReflectionBlock
+                label="Дотоод мэдрэмж"
+                content={entry.inner_reaction_text}
                 delay={0.2}
               />
-              <ReflectionBlock 
-                label="Утга учир" 
-                content={entry.meaning_text} 
+              <ReflectionBlock
+                label="Утга учир"
+                content={entry.meaning_text}
                 delay={0.3}
               />
             </div>
 
             {/* Seed Insight Section */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
               className="pt-8 border-t border-dashed"
             >
-
               <InsightCards
                 data={insight}
                 loading={insightLoading}
                 error={insightError}
                 onRefresh={loadInsight}
-                showRefresh={false} // Дээр нь custom товч нэмсэн тул энд устгав
+                showRefresh={false}
               />
             </motion.div>
           </motion.div>

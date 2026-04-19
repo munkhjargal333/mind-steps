@@ -16,10 +16,10 @@ export function HowItWorksSection() {
 
         {/* Section header */}
         <div className="flex justify-between items-baseline border-b-2 border-foreground pb-3 mb-12 gap-4">
-          <h2 className="font-serif font-black text-2xl md:text-3xl tracking-tighter uppercase italic">
+          <h2 className="font-mono font-black text-2xl md:text-3xl tracking-tighter uppercase italic">
             Ажиллах зарчим
           </h2>
-          <span className="font-serif italic text-[10px] text-foreground/40 uppercase tracking-widest whitespace-nowrap">
+          <span className="font-mono italic text-[10px] text-foreground/40 uppercase tracking-widest whitespace-nowrap">
             4 алхам — 90 сек
           </span>
         </div>
@@ -35,20 +35,20 @@ export function HowItWorksSection() {
               )}
             >
               {/* Ghost number */}
-              <span className="font-serif font-black text-[4.5rem] leading-none text-foreground/[0.04] absolute top-1 right-3 select-none group-hover:text-foreground/[0.07] transition-colors">
+              <span className="font-mono font-black text-[4.5rem] leading-none text-foreground/[0.04] absolute top-1 right-3 select-none group-hover:text-foreground/[0.07] transition-colors">
                 {step.num}
               </span>
 
               <div className="space-y-4 relative z-10">
                 <div className="inline-block border border-foreground/18 px-2 py-0.5">
-                  <span className="font-serif font-black text-[9px] tracking-[0.3em] text-foreground/30">
+                  <span className="font-mono font-black text-[9px] tracking-[0.3em] text-foreground/30">
                     {step.num}
                   </span>
                 </div>
-                <h3 className="font-serif font-black text-sm tracking-wide uppercase italic leading-tight">
+                <h3 className="font-mono font-black text-sm tracking-wide uppercase italic leading-tight">
                   {step.title}
                 </h3>
-                <p className="font-serif text-xs leading-relaxed text-foreground/50 italic">
+                <p className="font-mono text-xs leading-relaxed text-foreground/50 italic">
                   {step.desc}
                 </p>
               </div>

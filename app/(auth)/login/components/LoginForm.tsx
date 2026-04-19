@@ -36,7 +36,7 @@ export function LoginForm({ onError }: LoginFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="space-y-2 group">
-        <Label htmlFor="email" className="font-serif text-[11px] font-bold uppercase tracking-widest text-muted-foreground group-focus-within:text-foreground transition-colors">
+        <Label htmlFor="email" className="font-mono text-[11px] font-bold uppercase tracking-widest text-muted-foreground group-focus-within:text-foreground transition-colors">
           И-мэйл хаяг
         </Label>
         <Input
@@ -44,14 +44,14 @@ export function LoginForm({ onError }: LoginFormProps) {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="rounded-none border-2 border-foreground/20 focus-visible:border-foreground focus-visible:ring-0 font-serif bg-transparent h-12 text-base px-4"
+          className="rounded-none border-2 border-foreground/20 focus-visible:border-foreground focus-visible:ring-0 font-mono bg-transparent h-12 text-base px-4"
           placeholder="уншигч@газет.мн"
           required
         />
       </div>
 
       <div className="space-y-2 group">
-        <Label htmlFor="password" className="font-serif text-[11px] font-bold uppercase tracking-widest text-muted-foreground group-focus-within:text-foreground transition-colors">
+        <Label htmlFor="password" className="font-mono text-[11px] font-bold uppercase tracking-widest text-muted-foreground group-focus-within:text-foreground transition-colors">
           Нууц үг
         </Label>
         <div className="relative">
@@ -60,7 +60,7 @@ export function LoginForm({ onError }: LoginFormProps) {
             type={showPassword ? 'text' : 'password'}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="rounded-none border-2 border-foreground/20 focus-visible:border-foreground focus-visible:ring-0 font-serif bg-transparent h-12 text-base px-4 pr-12"
+            className="rounded-none border-2 border-foreground/20 focus-visible:border-foreground focus-visible:ring-0 font-mono bg-transparent h-12 text-base px-4 pr-12"
             placeholder="••••••••"
             required
           />
@@ -77,7 +77,7 @@ export function LoginForm({ onError }: LoginFormProps) {
       <Button 
         type="submit" 
         disabled={loading} 
-        className="w-full rounded-none border-2 border-foreground bg-foreground text-background hover:bg-transparent hover:text-foreground font-serif font-black uppercase tracking-widest h-14 group transition-all"
+        className="w-full rounded-none border-2 border-foreground bg-foreground text-background hover:bg-transparent hover:text-foreground font-mono font-black uppercase tracking-widest h-14 group transition-all"
       >
         {loading ? (
           <span className="flex items-center gap-2">

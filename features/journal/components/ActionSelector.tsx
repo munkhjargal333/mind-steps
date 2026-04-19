@@ -33,7 +33,7 @@ export function ActionSelector({
   const isFree = tier === 'free';
 
   return (
-    <div className="w-full max-w-md mx-auto flex flex-col min-h-full bg-background text-foreground font-serif border-x border-border shadow-sm overflow-y-auto">
+    <div className="w-full max-w-md mx-auto flex flex-col min-h-full bg-background text-foreground font-mono border-x border-border shadow-sm overflow-y-auto">
 
       {/* ── Rate limit ── */}
       {!isPro && (
@@ -56,7 +56,7 @@ export function ActionSelector({
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-3">
             <div className="flex-1 border-t-[3px] border-double border-border" />
-            <span className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground shrink-0 font-serif">
+            <span className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground shrink-0 font-mono">
               Асуудлын тэмдэглэл
             </span>
             <div className="flex-1 border-t-[3px] border-double border-border" />
@@ -81,7 +81,7 @@ export function ActionSelector({
                     <Icon size={16} className={a.color} />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-[13px] font-bold leading-tight tracking-wide font-serif">
+                    <p className="text-[13px] font-bold leading-tight tracking-wide font-mono">
                       {a.label}
                     </p>
                     <p className="text-[11px] text-muted-foreground leading-tight mt-0.5 italic">
@@ -101,7 +101,7 @@ export function ActionSelector({
               <div className="flex-1 border-t-[3px] border-double border-border" />
               <div className="flex items-center gap-1.5 shrink-0">
                 {!isPro && <Sparkles size={9} className="text-muted-foreground animate-pulse" />}
-                <span className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground font-serif">
+                <span className="text-[10px] font-bold tracking-widest uppercase text-muted-foreground font-mono">
                   Өсөлтийн тэмдэглэл
                 </span>
               </div>
@@ -129,7 +129,7 @@ export function ActionSelector({
                       <Icon size={16} className={a.color} />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-[13px] font-bold leading-tight tracking-wide font-serif">
+                      <p className="text-[13px] font-bold leading-tight tracking-wide font-mono">
                         {a.label}
                       </p>
                       <p className="text-[11px] text-muted-foreground leading-tight mt-0.5 italic">
@@ -147,7 +147,7 @@ export function ActionSelector({
                 onClick={onUpgrade}
                 className={cn(
                   'mt-1 w-full py-3 rounded-sm border border-dashed border-border',
-                  'text-[10px] font-bold uppercase tracking-widest text-muted-foreground font-serif',
+                  'text-[10px] font-bold uppercase tracking-widest text-muted-foreground font-mono',
                   'hover:bg-muted hover:text-foreground transition-all',
                 )}
               >
@@ -160,15 +160,15 @@ export function ActionSelector({
         {/* ── Demo login prompt ── */}
         {isDemo && (
           <div className="p-5 border border-border rounded-sm bg-card text-center space-y-3">
-            <p className="text-sm font-bold tracking-wide font-serif">Илүү гүнзгийрүүлэх үү?</p>
-            <p className="text-xs text-muted-foreground italic font-serif">
+            <p className="text-sm font-bold tracking-wide font-mono">Илүү гүнзгийрүүлэх үү?</p>
+            <p className="text-xs text-muted-foreground italic font-mono">
               Бүх боломжийг ашиглахын тулд нэвтэрч орно уу.
             </p>
             <Link
               href="/login"
               className={cn(
                 'inline-block px-5 py-2 bg-foreground text-background rounded-sm',
-                'text-xs font-bold tracking-widest uppercase font-serif',
+                'text-xs font-bold tracking-widest uppercase font-mono',
                 'hover:opacity-90 transition-opacity',
               )}
             >

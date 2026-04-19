@@ -76,7 +76,7 @@ function AnalyzingLoader() {
         </span>
         <span
           className={cn(
-            'text-sm text-muted-foreground font-serif text-center max-w-[200px] leading-relaxed transition-all duration-500',
+            'text-sm text-muted-foreground font-mono text-center max-w-[200px] leading-relaxed transition-all duration-500',
             visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1.5',
           )}
         >
@@ -121,7 +121,7 @@ function InsightBubble({
   return (
     <div className={cn(
       'max-w-[90%] border rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl px-4 py-2.5',
-      'text-sm leading-relaxed border-border/30 font-serif',
+      'text-sm leading-relaxed border-border/30 font-mono',
     )}>
       {isTyping ? (
         <>
@@ -140,7 +140,7 @@ function StaticBubble({ text }: { text: string }) {
   return (
     <div className={cn(
       'max-w-[90%] border rounded-tl-sm rounded-tr-2xl rounded-br-2xl rounded-bl-2xl px-4 py-2.5',
-      'text-sm leading-relaxed border-border/30 font-serif',
+      'text-sm leading-relaxed border-border/30 font-mono',
     )}>
       <span>{text}</span>
     </div>
@@ -151,7 +151,7 @@ function StaticBubble({ text }: { text: string }) {
 function CardLabel({ label, cardKey }: { label: string; cardKey: CardKey }) {
   return (
     <span className={cn(
-      'text-[10px] font-bold tracking-widest uppercase pl-1 font-serif text-foreground/70',
+      'text-[10px] font-bold tracking-widest uppercase pl-1 font-mono text-foreground/70',
       CARD_LABEL_CLASS[cardKey],
     )}>
       {label}
@@ -185,7 +185,7 @@ export function SeedInsightStep({
 
   if (error) {
     return (
-      <div className="px-4 py-3 rounded-2xl bg-destructive/10 text-destructive text-sm font-serif">
+      <div className="px-4 py-3 rounded-2xl bg-destructive/10 text-destructive text-sm font-mono">
         {error}
       </div>
     );
@@ -218,7 +218,7 @@ export function SeedInsightStep({
           <button
             onClick={() => { setPhase('full'); onExpandRequest?.(); }}
             className={cn(
-              'flex-1 py-2.5 px-3 rounded-sm text-xs font-bold uppercase tracking-widest transition-all font-serif',
+              'flex-1 py-2.5 px-3 rounded-sm text-xs font-bold uppercase tracking-widest transition-all font-mono',
               'border border-border bg-card text-foreground hover:bg-muted active:scale-95',
               'flex items-center justify-center gap-1.5',
             )}
@@ -228,7 +228,7 @@ export function SeedInsightStep({
           <button
             onClick={() => setReliefDone(true)}
             className={cn(
-              'flex-1 py-2.5 px-3 rounded-sm text-xs font-bold uppercase tracking-widest transition-all font-serif',
+              'flex-1 py-2.5 px-3 rounded-sm text-xs font-bold uppercase tracking-widest transition-all font-mono',
               'bg-foreground text-background hover:bg-foreground/90 active:scale-95',
             )}
           >

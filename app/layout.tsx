@@ -12,7 +12,7 @@ const jakarta = Plus_Jakarta_Sans({
 const serif = Playfair_Display({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-serif',
+  variable: '--font-mono',
 })
 
 // ── Viewport — theme color light/dark ────────────────────────
