@@ -19,7 +19,7 @@ const NODE_COLORS = [
 ];
 
 const MASLOW_LABELS: Record<string, string> = {
-  physiological:      'Физиологийн хэрэгцээ',
+  physiological:      'Биологийн хэрэгцээ',
   social:             'Харилцаа, нийгэм',
   safety:             'Аюулгүй байдал',
   love:               'Хайр, харьяалал',
@@ -703,7 +703,7 @@ export default function GraphPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight">Үнэт зүйлсийн граф</h1>
+          <h1 className="text-2xl font-bold tracking-tight">Үнэт зүйлийн бүтэц</h1>
           <p className="text-sm text-white/50 mt-0.5">
             Дээр нь дарж дэлгэрэнгүй мэдээллийг харна уу
           </p>
