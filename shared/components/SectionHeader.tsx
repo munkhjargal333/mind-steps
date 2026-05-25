@@ -17,19 +17,19 @@ export function SectionHeader({
   right,
 }: SectionHeaderProps) {
   return (
-    <div className="flex items-start justify-between">
-      <div>
-      {accent && (
-        <p className="text-lg font-semibold tracking-wide 
-          bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400 
-          bg-clip-text text-transparent
-          drop-shadow-[0_0_6px_rgba(251,191,36,0.6)]
-        ">
-          {accent}
-        </p>
-      )}
+    <div className="flex items-start justify-between gap-4">
+      <div className="min-w-0">
+        {accent && (
+          <p className="text-lg font-semibold tracking-wide 
+            bg-gradient-to-r from-amber-400 via-yellow-400 to-orange-400 
+            bg-clip-text text-transparent
+            drop-shadow-[0_0_6px_rgba(251,191,36,0.6)]
+          ">
+            {accent}
+          </p>
+        )}
 
-        <h1 className="text-lg font-semibold tracking-tight mt-0.5">
+        <h1 className="text-lg font-semibold tracking-tight mt-0.5 truncate">
           {title}
         </h1>
 
@@ -40,7 +40,7 @@ export function SectionHeader({
         )}
       </div>
 
-      {right && <div>{right}</div>}
+      {right && <div className="shrink-0">{right}</div>}
     </div>
   );
 }
